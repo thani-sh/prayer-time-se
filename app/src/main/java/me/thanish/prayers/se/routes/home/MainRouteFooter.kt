@@ -12,12 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MainRouteFooter() {
-    IconButton(onClick = {}) {
+fun MainRouteFooter(
+    onClickSelectDate: () -> Unit,
+    onClickPreferences: () -> Unit,
+) {
+    IconButton(onClick = onClickSelectDate) {
         Icon(imageVector = Icons.Default.DateRange, contentDescription = "Select date")
     }
     Spacer(modifier = Modifier.width(8.dp))
-    IconButton(onClick = {}) {
+    IconButton(onClick = onClickPreferences) {
         Icon(imageVector = Icons.Default.Settings, contentDescription = "Preferences")
     }
 }
