@@ -8,31 +8,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import me.thanish.prayers.se.states.getCity
+import me.thanish.prayers.se.states.setCity
 import me.thanish.prayers.se.ui.theme.PrayersTheme
 
 @Composable
 fun SettingsRoute(nav: NavController, modifier: Modifier = Modifier) {
-    val city by remember { mutableStateOf(getCity()) }
+    var city by remember { mutableStateOf(getCity()) }
 
     val onClickDone = {
         println("navigating to main route")
         nav.navigate(route = "main")
     }
 
-    SettingsRouteView(city, onClickDone, modifier)
+    val onCityChange = { selectedCity: String ->
+        println("selected city: $selectedCity")
+        city = selectedCity
+        setCity(selectedCity)
+    }
+
+    SettingsRouteView(city, onCityChange, onClickDone, modifier)
 }
 
 @Composable
-fun SettingsRouteView(city: String, onClickDone: () -> Unit, modifier: Modifier = Modifier) {
+fun SettingsRouteView(city: String, onCityChange: (String) -> Unit, onClickDone: () -> Unit, modifier: Modifier = Modifier) {
     SettingsRouteLayout(
         primaryContent = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                SettingsRouteContent(city)
+                SettingsRouteContent(city, onCityChange)
             }
         },
         bottomContent = {
@@ -49,7 +57,7 @@ fun SettingsRoutePreview() {
 
     PrayersTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            SettingsRouteView(city, {}, modifier = Modifier.padding(innerPadding))
+            SettingsRouteView(city, {}, {}, modifier = Modifier.padding(innerPadding))
         }
     }
 }
