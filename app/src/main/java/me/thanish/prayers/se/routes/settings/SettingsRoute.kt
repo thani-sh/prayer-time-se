@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import me.thanish.prayers.se.states.getCity
 import me.thanish.prayers.se.states.setCity
 import me.thanish.prayers.se.ui.theme.PrayersTheme
+import me.thanish.prayers.se.worker.SchedulerWorker
 
 @Composable
 fun SettingsRoute(nav: NavController, modifier: Modifier = Modifier) {
@@ -30,6 +31,7 @@ fun SettingsRoute(nav: NavController, modifier: Modifier = Modifier) {
         println("selected city: $selectedCity")
         city = selectedCity
         setCity(selectedCity)
+        SchedulerWorker.reschedule(nav.context)
     }
 
     SettingsRouteView(city, onCityChange, onClickDone, modifier)

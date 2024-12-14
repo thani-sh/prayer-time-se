@@ -34,11 +34,12 @@ val valueStyle = TextStyle(
 @Composable
 fun MainRouteContent(times: PrayerTimes) {
     val items = listOf(
-        Pair("Fajr", times.fajr.toString()),
-        Pair("Shuruk", times.dhohr.toString()),
-        Pair("Asr", times.asr.toString()),
-        Pair("Maghrib", times.maghrib.toString()),
-        Pair("Isha", times.isha.toString())
+        Pair("Fajr", times.fajr.time.toLocalTime().toString()),
+        Pair("Shuruk", times.shuruk.time.toLocalTime().toString()),
+        Pair("Dhohr", times.dhohr.time.toLocalTime().toString()),
+        Pair("Asr", times.asr.time.toLocalTime().toString()),
+        Pair("Maghrib", times.maghrib.time.toLocalTime().toString()),
+        Pair("Isha", times.isha.time.toLocalTime().toString())
     )
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
