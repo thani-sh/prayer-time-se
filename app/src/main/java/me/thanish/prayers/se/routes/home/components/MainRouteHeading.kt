@@ -1,4 +1,4 @@
-package me.thanish.prayers.se.routes.home
+package me.thanish.prayers.se.routes.home.components
 
 
 import androidx.compose.material3.MaterialTheme

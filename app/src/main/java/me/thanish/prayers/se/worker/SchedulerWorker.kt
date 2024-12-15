@@ -41,7 +41,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
          */
         fun initialize(context: Context) {
             val request =
-                PeriodicWorkRequestBuilder<SchedulerWorker>(repeatInterval = 1, TimeUnit.DAYS)
+                PeriodicWorkRequestBuilder<SchedulerWorker>(repeatInterval = 1, TimeUnit.HOURS)
                     .setConstraints(Constraints(requiresDeviceIdle = true))
                     .build()
             // Cancel and re-enqueue the work if it already exists

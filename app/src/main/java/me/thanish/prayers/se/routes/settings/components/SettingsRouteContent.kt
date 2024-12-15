@@ -1,4 +1,4 @@
-package me.thanish.prayers.se.routes.settings
+package me.thanish.prayers.se.routes.settings.components
 
 
 import androidx.compose.runtime.Composable

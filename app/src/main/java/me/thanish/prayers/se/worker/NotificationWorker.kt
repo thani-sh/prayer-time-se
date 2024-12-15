@@ -66,7 +66,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
                 .setUsesChronometer(true)
                 .setShowWhen(true)
                 .setWhen(timeout)
-                .setTimeoutAfter(timeout + 1000 * 60 * 10) // 10 minutes)
+                .setTimeoutAfter(timeout + 1000 * 60 * 5) // 5 minutes
                 .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
                 .setContentTitle("Det är dags för ${prayerTime.name}")
                 .setContentText("Det är dags för ${prayerTime.name}")

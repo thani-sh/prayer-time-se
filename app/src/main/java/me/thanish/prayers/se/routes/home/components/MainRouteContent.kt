@@ -1,4 +1,4 @@
-package me.thanish.prayers.se.routes.home
+package me.thanish.prayers.se.routes.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -4,10 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
 import com.tencent.mmkv.MMKV
 import me.thanish.prayers.se.ui.theme.PrayersTheme
 import me.thanish.prayers.se.worker.NotificationWorker
@@ -21,13 +17,10 @@ class MainActivity : ComponentActivity() {
         SchedulerWorker.initialize(applicationContext)
         NotificationWorker.initialize(applicationContext)
 
+
         enableEdgeToEdge()
         setContent {
-            PrayersTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Navigation(modifier = Modifier.padding(innerPadding))
-                }
-            }
+            PrayersTheme { Navigation() }
         }
     }
 }
