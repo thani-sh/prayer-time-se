@@ -3,7 +3,6 @@ package me.thanish.prayers.se.worker
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
@@ -59,15 +58,8 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
          */
         fun schedule(context: Context) {
             println("scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-
             getNextPrayerTimes(context, getCity(), PRAYERS_TO_SCHEDULE).forEach { prayerTime ->
-                println("scheduling notification for prayer time: $prayerTime")
-                // Cancel and re-enqueue the work if it already exists
-                WorkManager.getInstance(context).enqueueUniqueWork(
-                    uniqueWorkName = NotificationWorker.getNotificationWorkerName(prayerTime),
-                    existingWorkPolicy = ExistingWorkPolicy.REPLACE,
-                    request = NotificationWorker.buildRequest(prayerTime)
-                )
+                NotificationWorker.schedule(context, prayerTime)
             }
         }
 
@@ -76,10 +68,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
          */
         fun reschedule(context: Context) {
             println("rescheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-            // TODO: do not cancel the scheduler worker
-            WorkManager.getInstance(context).cancelAllWork()
-            // Initialize the cancelled SchedulerWorker
-            initialize(context)
+            // TODO: implement this. clear all scheduled notifications and reschedule them
         }
 
         /**

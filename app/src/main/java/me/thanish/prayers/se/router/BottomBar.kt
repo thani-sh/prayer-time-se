@@ -14,11 +14,12 @@ fun BottomBar(nav: NavController) {
     NavigationBar {
         routes.forEach { r ->
             val isSelected = getCurrentRoute(nav) == r.name
+            val routeIcons = r.icon()
 
             NavigationBarItem(
                 icon = {
                     Icon(
-                        if (isSelected) r.icon.first else r.icon.second,
+                        if (isSelected) routeIcons.first else routeIcons.second,
                         contentDescription = r.text
                     )
                 },

@@ -1,12 +1,10 @@
 package me.thanish.prayers.se.router
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
+import me.thanish.prayers.se.routes.compass.CompassRouteSpec
 import me.thanish.prayers.se.routes.home.MainRouteSpec
 import me.thanish.prayers.se.routes.settings.SettingsRouteSpec
 
@@ -25,14 +23,14 @@ data class RouteSpec(
     val name: String,
     val text: String = name,
     val type: RouteType = RouteType.PRIMARY,
-    val icon: Pair<ImageVector, ImageVector> = Pair(Icons.Filled.Info, Icons.Outlined.Info),
+    val icon: @Composable () -> Pair<ImageVector, ImageVector>,
     val content: @Composable (NavController, Modifier) -> Unit
 )
 
 /**
  * A list of all the routes in the app.
  */
-val routes = listOf(MainRouteSpec, SettingsRouteSpec)
+val routes = listOf(MainRouteSpec, CompassRouteSpec, SettingsRouteSpec)
 
 /**
  * The default route to use when navigating.

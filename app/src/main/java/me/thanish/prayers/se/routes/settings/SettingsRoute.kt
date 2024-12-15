@@ -35,9 +35,9 @@ import me.thanish.prayers.se.worker.SchedulerWorker
  */
 val SettingsRouteSpec = RouteSpec(
     name = "settings",
-    text = "Settings",
+    text = "Inställningar",
     type = RouteType.SECONDARY,
-    icon = Pair(Icons.Filled.Settings, Icons.Outlined.Settings),
+    icon = { Pair(Icons.Filled.Settings, Icons.Outlined.Settings) },
     content = { nav: NavController, modifier: Modifier -> SettingsRoute(nav, modifier) }
 )
 

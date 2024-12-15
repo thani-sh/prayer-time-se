@@ -40,9 +40,9 @@ import java.time.LocalDate
  */
 val MainRouteSpec = RouteSpec(
     name = "main",
-    text = "Timetable",
+    text = "Schema",
     type = RouteType.PRIMARY,
-    icon = Pair(Icons.Filled.DateRange, Icons.Outlined.DateRange),
+    icon = { Pair(Icons.Filled.DateRange, Icons.Outlined.DateRange) },
     content = { nav: NavController, modifier: Modifier -> MainRoute(nav, modifier) }
 )
 

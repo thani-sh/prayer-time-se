@@ -1,36 +1,30 @@
 package me.thanish.prayers.se.worker
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationCompat
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import me.thanish.prayers.se.times.PrayerTime
-import java.util.concurrent.TimeUnit
 
 /**
  * Worker to show a notification approximately 10 minutes before a prayer time
  * with a countdown timer to show the time remaining.
  */
 class NotificationWorker(context: Context, workerParams: WorkerParameters) :
-    Worker(context, workerParams) {
+    BroadcastReceiver() {
 
     /**
      * Runs approximately 10 minutes before the prayer time
      */
-    override fun doWork(): Result {
-        try {
-            val prayerTimeId = inputData.getString(INPUT_PRAYER_TIME_ID) ?: return Result.failure()
-            doNotify(applicationContext, PrayerTime.deserialize(prayerTimeId))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return Result.failure()
-        }
-        return Result.success()
+    override fun onReceive(context: Context?, intent: Intent?) {
+        val prayerTimeId = intent?.getStringExtra(INPUT_PRAYER_TIME_ID) ?: return
+        doNotify(context!!, PrayerTime.deserialize(prayerTimeId))
     }
 
     companion object {
@@ -54,10 +48,23 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
             manager.createNotificationChannel(channel)
         }
 
+        fun schedule(context: Context, prayerTime: PrayerTime) {
+            println("scheduling notification for prayer time: $prayerTime")
+            val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
+            val alarmIntent = buildIntent(context, prayerTime)
+
+            AlarmManagerCompat.setExactAndAllowWhileIdle(
+                alarmManager,
+                AlarmManager.RTC_WAKEUP,
+                prayerTime.toEpochMilli(),
+                alarmIntent
+            )
+        }
+
         /**
          * Create a timer notification for a specific prayer time
          */
-        fun doNotify(context: Context, prayerTime: PrayerTime) {
+        private fun doNotify(context: Context, prayerTime: PrayerTime) {
             println("creating notification for prayer time: $prayerTime")
             val manager = context.getSystemService(NotificationManager::class.java)
             val timeout = prayerTime.toEpochMilli()
@@ -77,36 +84,23 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
         /**
          * Helper function to build a notification worker for a specific prayer time
          */
-        fun buildRequest(prayerTime: PrayerTime): OneTimeWorkRequest {
-            val timeout = getNotificationTimeout(prayerTime)
-            val inputs = getNotificationInputData(prayerTime)
-            return OneTimeWorkRequestBuilder<NotificationWorker>()
-                .setInitialDelay(timeout, TimeUnit.MILLISECONDS)
-                .setInputData(inputs)
-                .build()
-        }
-
-        /**
-         * Helper function to get the name of the notification worker
-         */
-        fun getNotificationWorkerName(prayerTime: PrayerTime): String {
-            return prayerTime.serialize()
+        private fun buildIntent(context: Context, prayerTime: PrayerTime): PendingIntent {
+            val intent = Intent(context, NotificationWorker::class.java).apply {
+                putExtra(INPUT_PRAYER_TIME_ID, prayerTime.serialize())
+            }
+            return PendingIntent.getBroadcast(
+                context,
+                prayerTime.toEpochSeconds(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         }
 
         /**
          * Helper function to get the timeout for the notification worker
          */
-        private fun getNotificationTimeout(prayerTime: PrayerTime): Long {
-            return prayerTime.millisUntil() - NOTIFICATION_DELAY_MS
-        }
-
-        /**
-         * Helper function to build input data for the notification worker
-         */
-        private fun getNotificationInputData(prayerTime: PrayerTime): Data {
-            return Data.Builder()
-                .putString(INPUT_PRAYER_TIME_ID, prayerTime.serialize())
-                .build()
+        private fun getNotificationTime(prayerTime: PrayerTime): Long {
+            return prayerTime.toEpochMilli() - NOTIFICATION_DELAY_MS
         }
     }
 }
