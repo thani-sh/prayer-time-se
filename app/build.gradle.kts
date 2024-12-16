@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.gson)
     implementation(libs.mmkv)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
