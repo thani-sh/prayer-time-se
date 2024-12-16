@@ -7,6 +7,10 @@ import java.time.LocalTime
 import java.time.ZoneId
 import kotlin.math.floor
 
+/**
+ * List of prayer times in order
+ */
+val ORDERED_PRAYERS = listOf("fajr", "shuruk", "dhohr", "asr", "maghrib", "isha")
 
 /**
  * a data class to represent prayer times for a date
@@ -34,6 +38,11 @@ data class PrayerTime(
     val name: String,
     val time: LocalDateTime,
 ) {
+    fun toUniqueInt(): Int {
+        val index = ORDERED_PRAYERS.indexOf(name)
+        return "${time.year}${time.dayOfYear}${index}".toInt()
+    }
+
     fun serialize(): String {
         return "PrayerTime|$city|$name|$time"
     }

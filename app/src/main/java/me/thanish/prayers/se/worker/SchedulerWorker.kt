@@ -55,21 +55,13 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
         }
 
         /**
-         * Schedule notifications for next N prayer times
+         * Schedule or reschedule notifications for next N prayer times
          */
         fun schedule(context: Context) {
             Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
             getNextPrayerTimes(context, getCity(), PRAYERS_TO_SCHEDULE).forEach { prayerTime ->
                 NotificationWorker.schedule(context, prayerTime)
             }
-        }
-
-        /**
-         * Clear all scheduled notifications and reschedule them
-         */
-        fun reschedule(context: Context) {
-            Log.i(TAG, "Rescheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-            // TODO: implement this. clear all scheduled notifications and reschedule them
         }
 
         /**

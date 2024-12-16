@@ -48,7 +48,7 @@ fun SettingsRoute(nav: NavController, modifier: Modifier = Modifier) {
     val onCityChange = { selectedCity: String ->
         city = selectedCity
         setCity(selectedCity)
-        SchedulerWorker.reschedule(nav.context)
+        SchedulerWorker.schedule(nav.context)
     }
 
     SettingsRouteView(city, onCityChange, modifier)

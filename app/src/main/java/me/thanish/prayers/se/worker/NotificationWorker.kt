@@ -80,6 +80,9 @@ class NotificationWorker : BroadcastReceiver() {
             )
         }
 
+        /**
+         * Schedule a notification for a specific prayer time
+         */
         fun schedule(context: Context, prayerTime: PrayerTime) {
             Log.i(TAG, "Scheduling notification for prayer time: $prayerTime")
             val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
@@ -108,7 +111,7 @@ class NotificationWorker : BroadcastReceiver() {
             }
             return PendingIntent.getBroadcast(
                 context,
-                prayerTime.toEpochSeconds(),
+                prayerTime.toUniqueInt(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
