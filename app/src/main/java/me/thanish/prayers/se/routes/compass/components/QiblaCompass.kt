@@ -1,11 +1,16 @@
 package me.thanish.prayers.se.routes.compass.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,13 +27,14 @@ import androidx.compose.ui.unit.sp
 import kotlin.math.cos
 import kotlin.math.sin
 
+
 /**
  * A line in 2D space.
  */
 data class Line(val p0: Offset, val p1: Offset, val len: Float)
 
 /**
- * Number of dashes in a compass to render.
+ * Size of the dashes in the compass.
  */
 const val DASH_WIDTH = 4f
 
@@ -48,10 +54,13 @@ fun QiblaCompass(qibla: Float, heading: Float) {
         textMeasurer.measure(textContent, textStyle)
     }
 
+    // Animate the heading for a smoother rotation
+    val animatedHeading by animatedRotation(heading)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(40.dp),
+            .padding(64.dp),
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
@@ -59,7 +68,7 @@ fun QiblaCompass(qibla: Float, heading: Float) {
             val radius = size.minDimension / 2f
             val offset = -(Math.PI / 2f).toFloat()
 
-            rotateRad(radians = heading, pivot = center) {
+            rotateRad(radians = animatedHeading, pivot = center) {
                 val segmentSize = (radius * 2f * Math.PI / 60f - DASH_WIDTH).toFloat()
                 val pathEffect = PathEffect.dashPathEffect(floatArrayOf(DASH_WIDTH, segmentSize))
 
@@ -102,4 +111,18 @@ fun QiblaCompass(qibla: Float, heading: Float) {
             }
         }
     }
+}
+
+/**
+ * Animates the rotation of an angle handling wrap around.
+ */
+@Composable
+fun animatedRotation(newValue: Float): State<Float> {
+    val previous: Float by remember { mutableFloatStateOf(newValue) }
+
+    return animateFloatAsState(
+        targetValue = angleDifference(previous, newValue),
+        animationSpec = tween(durationMillis = 200),
+        label = "animated_rotation"
+    )
 }
