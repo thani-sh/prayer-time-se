@@ -48,10 +48,6 @@ data class PrayerTime(
         return time.atZone(zone).toInstant().toEpochMilli()
     }
 
-    fun millisUntil(): Long {
-        return toEpochMilli() - System.currentTimeMillis()
-    }
-
     companion object {
         fun deserialize(id: String): PrayerTime {
             val parts = id.split("|")
@@ -117,5 +113,6 @@ fun getNextPrayerTimes(
         }
         date = date.plusDays(1)
     }
+
     return list.take(count)
 }

@@ -46,7 +46,6 @@ fun SettingsRoute(nav: NavController, modifier: Modifier = Modifier) {
     var city by remember { mutableStateOf(getCity()) }
 
     val onCityChange = { selectedCity: String ->
-        println("selected city: $selectedCity")
         city = selectedCity
         setCity(selectedCity)
         SchedulerWorker.reschedule(nav.context)

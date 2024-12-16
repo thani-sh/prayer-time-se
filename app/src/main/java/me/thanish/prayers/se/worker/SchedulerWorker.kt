@@ -1,6 +1,7 @@
 package me.thanish.prayers.se.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -32,7 +33,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
     }
 
     companion object {
-        // TODO: maybe optimize this arbitrary number
+        private const val TAG = "SchedulerWorker"
         private const val PRAYERS_TO_SCHEDULE = 10
 
         /**
@@ -57,7 +58,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
          * Schedule notifications for next N prayer times
          */
         fun schedule(context: Context) {
-            println("scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
+            Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
             getNextPrayerTimes(context, getCity(), PRAYERS_TO_SCHEDULE).forEach { prayerTime ->
                 NotificationWorker.schedule(context, prayerTime)
             }
@@ -67,7 +68,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
          * Clear all scheduled notifications and reschedule them
          */
         fun reschedule(context: Context) {
-            println("rescheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
+            Log.i(TAG, "Rescheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
             // TODO: implement this. clear all scheduled notifications and reschedule them
         }
 
