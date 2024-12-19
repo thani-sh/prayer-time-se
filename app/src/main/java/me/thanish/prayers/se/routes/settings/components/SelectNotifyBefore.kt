@@ -18,20 +18,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import me.thanish.prayers.se.times.getSupportedCities
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelectCityDropdown(
-    city: String,
-    onCityChange: (String) -> Unit
+fun SelectNotifyBefore(
+    notifyBefore: Int, onNotifyBeforeChange: (Int) -> Unit
 ) {
-    val options: List<String> = getSupportedCities(LocalContext.current).toList()
+    val options: List<String> = listOf("Off", "10 min", "15 min", "20 min")
     var expanded by remember { mutableStateOf(false) }
+
+    val selected = when (notifyBefore) {
+        1000 * 60 * 10 -> options[1]
+        1000 * 60 * 15 -> options[2]
+        1000 * 60 * 20 -> options[3]
+        else -> options[0]
+    }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -41,7 +45,7 @@ fun SelectCityDropdown(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Stad",
+                text = "Aviseringar",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Right,
@@ -53,7 +57,7 @@ fun SelectCityDropdown(
                     .width(120.dp)
                     .menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true)
             ) {
-                Text(city, style = MaterialTheme.typography.bodyLarge)
+                Text(selected, style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.weight(1f))
             }
         }
@@ -63,7 +67,13 @@ fun SelectCityDropdown(
                 DropdownMenuItem(
                     text = { Text(option, style = MaterialTheme.typography.bodyLarge) },
                     onClick = {
-                        onCityChange(option)
+                        val selectedValue = when (option) {
+                            "10 min" -> 1000 * 60 * 10
+                            "15 min" -> 1000 * 60 * 15
+                            "20 min" -> 1000 * 60 * 20
+                            else -> -1
+                        }
+                        onNotifyBeforeChange(selectedValue)
                         expanded = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,

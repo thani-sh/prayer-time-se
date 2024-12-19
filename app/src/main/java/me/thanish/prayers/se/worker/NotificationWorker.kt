@@ -13,6 +13,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationCompat
+import me.thanish.prayers.se.states.Preferences
 import me.thanish.prayers.se.times.PrayerTime
 
 /**
@@ -32,6 +33,14 @@ class NotificationWorker : BroadcastReceiver() {
      * Create a timer notification for a specific prayer time
      */
     private fun doNotify(context: Context, prayerTime: PrayerTime) {
+        if (!Preferences.getNotifyEnabled()) {
+            Log.i(TAG, "Notifications are disabled")
+            return
+        }
+        if (Preferences.getCity() != prayerTime.city) {
+            Log.i(TAG, "Notifications are for a different city")
+            return
+        }
         Log.i(TAG, "Creating notification for prayer time: $prayerTime")
         val manager = context.getSystemService(NotificationManager::class.java)
         val notificationId = prayerTime.toEpochSeconds()
@@ -39,7 +48,7 @@ class NotificationWorker : BroadcastReceiver() {
             .setUsesChronometer(true)
             .setShowWhen(true)
             .setWhen(prayerTime.toEpochMilli())
-            .setTimeoutAfter(1000 * 60)
+            .setTimeoutAfter(NOTIFICATION_EXPIRE_MS)
             .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             .setContentTitle("Det är dags för ${prayerTime.name}")
             .setContentText("Det är dags för ${prayerTime.name}")
@@ -55,7 +64,7 @@ class NotificationWorker : BroadcastReceiver() {
         private const val CH_DESCRIPTION = "Notifies when it's time for prayers"
         private const val CH_IMPORTANCE = NotificationManager.IMPORTANCE_HIGH
         private const val INPUT_PRAYER_TIME_ID = "prayerTimeId"
-        private const val NOTIFICATION_DELAY_MS = 10 * 60 * 1000
+        private const val NOTIFICATION_EXPIRE_MS = (1000 * 60 * 5).toLong()
 
         /**
          * Initialize the notification channel for prayer time notifications
@@ -115,7 +124,7 @@ class NotificationWorker : BroadcastReceiver() {
          * Helper function to get the timeout for the notification worker
          */
         private fun getNotificationTime(prayerTime: PrayerTime): Long {
-            val timestamp = prayerTime.toEpochMilli() - NOTIFICATION_DELAY_MS
+            val timestamp = prayerTime.toEpochMilli() - Preferences.getNotifyBefore()
             if (timestamp < System.currentTimeMillis()) {
                 return System.currentTimeMillis() + 1000 * 5
             }

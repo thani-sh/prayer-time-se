@@ -58,6 +58,10 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
          * Schedule or reschedule notifications for next N prayer times
          */
         fun schedule(context: Context, city: String) {
+            if (!Preferences.getNotifyEnabled()) {
+                Log.i(TAG, "Notifications are disabled")
+                return
+            }
             Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
             getNextPrayerTimes(context, city, PRAYERS_TO_SCHEDULE).forEach { t ->
                 NotificationWorker.schedule(context, t)

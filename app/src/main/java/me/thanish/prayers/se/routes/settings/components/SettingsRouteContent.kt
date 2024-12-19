@@ -5,6 +5,12 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun SettingsRouteContent(city: String, onCityChange: (String) -> Unit) {
+fun SettingsRouteContent(
+    city: String,
+    onCityChange: (String) -> Unit,
+    notifyBefore: Int,
+    onNotifyBeforeChange: (Int) -> Unit
+) {
     SelectCityDropdown(city, onCityChange = onCityChange)
+    SelectNotifyBefore(notifyBefore, onNotifyBeforeChange)
 }
