@@ -5,7 +5,11 @@ import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Looper
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -18,7 +22,7 @@ import me.thanish.prayers.se.states.RequestPermission
 /**
  * The frequency of location updates in milliseconds.
  */
-private const val LOCATION_FREQUENCY = 1000 * 60 * 60
+private const val LOCATION_FREQUENCY = 1000 * 60 * 15
 
 /**
  * The default location to use if no location is available.
@@ -35,9 +39,17 @@ private val STOCKHOLM_LOCATION = Location("app").apply {
 fun CurrentLocation(onLocationResult: (Location?) -> Unit) {
     val context = LocalContext.current
     val client = remember { LocationServices.getFusedLocationProviderClient(context) }
+    var launched by remember { mutableStateOf(false) }
 
-    // emit the default location until the user grants permission
-    onLocationResult(STOCKHOLM_LOCATION)
+    // Run only the first time
+    LaunchedEffect(key1 = Unit) {
+        if (launched) {
+            return@LaunchedEffect
+        }
+        launched = true
+        // emit the default location until the user grants permission
+        onLocationResult(STOCKHOLM_LOCATION)
+    }
 
     RequestPermission(
         requestedPermissions = arrayOf(ACCESS_COARSE_LOCATION),
@@ -55,7 +67,7 @@ private fun requestLocationUpdates(
     onLocationResult: (Location?) -> Unit
 ) {
     val locationRequest = LocationRequest
-        .Builder(Priority.PRIORITY_HIGH_ACCURACY, LOCATION_FREQUENCY.toLong())
+        .Builder(Priority.PRIORITY_LOW_POWER, LOCATION_FREQUENCY.toLong())
         .build()
     val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
