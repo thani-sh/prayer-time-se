@@ -6,14 +6,22 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
+ * The location of the Qibla in Makkah, Saudi Arabia.
+ */
+private val MAKKAH_LOCATION = Location("app").apply {
+    latitude = 21.4225
+    longitude = 39.8262
+}
+
+/**
  * A helper to calculate the Qibla direction.
  */
 object CurrentQibla {
     /**
      * The coordinates of the Qibla in radians.
      */
-    private val MAKKAH_LAT = Math.toRadians(21.4225)
-    private val MAKKAH_LON = Math.toRadians(39.8262)
+    private val MAKKAH_LAT = Math.toRadians(MAKKAH_LOCATION.latitude)
+    private val MAKKAH_LON = Math.toRadians(MAKKAH_LOCATION.longitude)
 
     /**
      * Calculates the Qibla direction (angle in degrees) relative to North.

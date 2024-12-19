@@ -21,6 +21,14 @@ import me.thanish.prayers.se.states.RequestPermission
 private const val LOCATION_FREQUENCY = 1000 * 60 * 60
 
 /**
+ * The default location to use if no location is available.
+ */
+private val STOCKHOLM_LOCATION = Location("app").apply {
+    latitude = 59.3345
+    longitude = 18.0632
+}
+
+/**
  * A composable that requests the current location of the user.
  */
 @Composable
@@ -28,10 +36,13 @@ fun CurrentLocation(onLocationResult: (Location?) -> Unit) {
     val context = LocalContext.current
     val client = remember { LocationServices.getFusedLocationProviderClient(context) }
 
+    // emit the default location until the user grants permission
+    onLocationResult(STOCKHOLM_LOCATION)
+
     RequestPermission(
         requestedPermissions = arrayOf(ACCESS_COARSE_LOCATION),
         handleSuccess = { requestLocationUpdates(client, onLocationResult) },
-        handleFailure = { onLocationResult(null) }
+        handleFailure = { onLocationResult(STOCKHOLM_LOCATION) }
     )
 }
 
@@ -44,7 +55,7 @@ private fun requestLocationUpdates(
     onLocationResult: (Location?) -> Unit
 ) {
     val locationRequest = LocationRequest
-        .Builder(Priority.PRIORITY_LOW_POWER, LOCATION_FREQUENCY.toLong())
+        .Builder(Priority.PRIORITY_HIGH_ACCURACY, LOCATION_FREQUENCY.toLong())
         .build()
     val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
