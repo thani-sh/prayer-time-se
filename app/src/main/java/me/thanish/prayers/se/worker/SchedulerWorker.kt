@@ -8,7 +8,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import me.thanish.prayers.se.states.getCity
+import me.thanish.prayers.se.states.Preferences
 import me.thanish.prayers.se.times.getNextPrayerTimes
 import java.util.concurrent.TimeUnit
 
@@ -24,7 +24,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
      */
     override fun doWork(): Result {
         try {
-            schedule(applicationContext)
+            schedule(applicationContext, Preferences.getCity())
         } catch (e: Exception) {
             e.printStackTrace()
             return Result.failure()
@@ -51,16 +51,16 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
                 request = request
             )
             // Immediately schedule notifications for next N prayers
-            schedule(context)
+            schedule(context, Preferences.getCity())
         }
 
         /**
          * Schedule or reschedule notifications for next N prayer times
          */
-        fun schedule(context: Context) {
+        fun schedule(context: Context, city: String) {
             Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-            getNextPrayerTimes(context, getCity(), PRAYERS_TO_SCHEDULE).forEach { prayerTime ->
-                NotificationWorker.schedule(context, prayerTime)
+            getNextPrayerTimes(context, city, PRAYERS_TO_SCHEDULE).forEach { t ->
+                NotificationWorker.schedule(context, t)
             }
         }
 

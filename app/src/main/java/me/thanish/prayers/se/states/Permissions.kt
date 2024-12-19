@@ -1,6 +1,5 @@
 package me.thanish.prayers.se.states
 
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -8,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 @Composable
@@ -52,16 +50,6 @@ fun RequestPermission(
             }
         }
     }
-}
-
-/**
- * Checks if the user should be shown a rationale for requesting permission.
- */
-fun shouldShowRationale(context: Context, permission: String): Boolean {
-    return ActivityCompat.shouldShowRequestPermissionRationale(
-        context as Activity,
-        permission
-    )
 }
 
 /**

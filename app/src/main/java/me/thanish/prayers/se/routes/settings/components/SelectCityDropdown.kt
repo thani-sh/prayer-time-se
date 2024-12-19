@@ -8,6 +8,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -40,7 +41,13 @@ fun SelectCityDropdown(
         ) {
             Text("City", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.width(20.dp))
-            TextButton(onClick = { expanded = true }, modifier = Modifier.menuAnchor()) {
+            TextButton(
+                onClick = { expanded = true },
+                modifier = Modifier.menuAnchor(
+                    type = MenuAnchorType.PrimaryNotEditable,
+                    enabled = true
+                )
+            ) {
                 Text(city, style = MaterialTheme.typography.bodyLarge)
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             }

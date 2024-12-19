@@ -29,7 +29,7 @@ import me.thanish.prayers.se.router.RouteSpec
 import me.thanish.prayers.se.router.RouteType
 import me.thanish.prayers.se.routes.home.components.MainRouteContent
 import me.thanish.prayers.se.routes.home.components.MainRouteHeading
-import me.thanish.prayers.se.states.getCity
+import me.thanish.prayers.se.states.Preferences
 import me.thanish.prayers.se.times.PrayerTimes
 import me.thanish.prayers.se.times.getPrayerTimesForDate
 import me.thanish.prayers.se.ui.theme.PrayersTheme
@@ -51,7 +51,7 @@ val MainRouteSpec = RouteSpec(
  */
 @Composable
 fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
-    val city by remember { mutableStateOf(getCity()) }
+    val city by remember { mutableStateOf(Preferences.getCity()) }
     val date by remember { mutableStateOf(LocalDate.now()) }
     val times = getPrayerTimesForDate(LocalContext.current, city, date)
 

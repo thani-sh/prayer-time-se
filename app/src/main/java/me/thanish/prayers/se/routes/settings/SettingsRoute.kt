@@ -25,8 +25,7 @@ import androidx.navigation.NavController
 import me.thanish.prayers.se.router.RouteSpec
 import me.thanish.prayers.se.router.RouteType
 import me.thanish.prayers.se.routes.settings.components.SettingsRouteContent
-import me.thanish.prayers.se.states.getCity
-import me.thanish.prayers.se.states.setCity
+import me.thanish.prayers.se.states.Preferences
 import me.thanish.prayers.se.ui.theme.PrayersTheme
 import me.thanish.prayers.se.worker.SchedulerWorker
 
@@ -43,12 +42,12 @@ val SettingsRouteSpec = RouteSpec(
 
 @Composable
 fun SettingsRoute(nav: NavController, modifier: Modifier = Modifier) {
-    var city by remember { mutableStateOf(getCity()) }
+    var city by remember { mutableStateOf(Preferences.getCity()) }
 
     val onCityChange = { selectedCity: String ->
         city = selectedCity
-        setCity(selectedCity)
-        SchedulerWorker.schedule(nav.context)
+        Preferences.setCity(selectedCity)
+        SchedulerWorker.schedule(nav.context, selectedCity)
     }
 
     SettingsRouteView(city, onCityChange, modifier)

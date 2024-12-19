@@ -50,13 +50,10 @@ class NotificationWorker : BroadcastReceiver() {
     companion object {
         private const val TAG = "NotificationWorker"
         private const val ACTION = "me.thanish.prayers.se.NOTIFY"
-
         private const val CH_ID = "prayer_time"
         private const val CH_NAME = "Prayer time"
         private const val CH_DESCRIPTION = "Notifies when it's time for prayers"
         private const val CH_IMPORTANCE = NotificationManager.IMPORTANCE_HIGH
-
-        // Keys for input data used by the worked
         private const val INPUT_PRAYER_TIME_ID = "prayerTimeId"
         private const val NOTIFICATION_DELAY_MS = 10 * 60 * 1000
 
@@ -71,7 +68,6 @@ class NotificationWorker : BroadcastReceiver() {
                 description = CH_DESCRIPTION
             }
             manager.createNotificationChannel(channel)
-
             // Register the notification worker to receive broadcasts
             context.registerReceiver(
                 NotificationWorker(),
@@ -87,12 +83,10 @@ class NotificationWorker : BroadcastReceiver() {
             Log.i(TAG, "Scheduling notification for prayer time: $prayerTime")
             val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
             val alarmIntent = buildIntent(context, prayerTime)
-
             if (!AlarmManagerCompat.canScheduleExactAlarms(alarmManager)) {
                 Log.w(TAG, "Cannot schedule exact alarms")
                 return
             }
-
             AlarmManagerCompat.setExactAndAllowWhileIdle(
                 alarmManager,
                 AlarmManager.RTC_WAKEUP,
