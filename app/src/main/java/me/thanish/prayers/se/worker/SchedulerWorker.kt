@@ -8,8 +8,9 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import me.thanish.prayers.se.states.Preferences
-import me.thanish.prayers.se.times.getNextPrayerTimes
+import me.thanish.prayers.se.domain.NotificationOffset
+import me.thanish.prayers.se.domain.PrayerTime
+import me.thanish.prayers.se.domain.PrayerTimeCity
 import java.util.concurrent.TimeUnit
 
 /**
@@ -24,7 +25,7 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
      */
     override fun doWork(): Result {
         try {
-            schedule(applicationContext, Preferences.getCity())
+            schedule(applicationContext, PrayerTimeCity.get())
         } catch (e: Exception) {
             e.printStackTrace()
             return Result.failure()
@@ -46,33 +47,26 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
                     .build()
             // Cancel and re-enqueue the work if it already exists
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                uniqueWorkName = getNotificationWorkerName(),
+                uniqueWorkName = TAG,
                 existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
                 request = request
             )
             // Immediately schedule notifications for next N prayers
-            schedule(context, Preferences.getCity())
+            schedule(context, PrayerTimeCity.get())
         }
 
         /**
          * Schedule or reschedule notifications for next N prayer times
          */
-        fun schedule(context: Context, city: String) {
-            if (!Preferences.getNotifyEnabled()) {
+        fun schedule(context: Context, city: PrayerTimeCity) {
+            if (!NotificationOffset.isEnabled()) {
                 Log.i(TAG, "Notifications are disabled")
                 return
             }
             Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-            getNextPrayerTimes(context, city, PRAYERS_TO_SCHEDULE).forEach { t ->
+            PrayerTime.getNext(context, city, PRAYERS_TO_SCHEDULE).forEach { t ->
                 NotificationWorker.schedule(context, t)
             }
-        }
-
-        /**
-         * Helper function to get the name of the notification worker
-         */
-        private fun getNotificationWorkerName(): String {
-            return "SchedulerWorker"
         }
     }
 }

@@ -1,4 +1,4 @@
-package me.thanish.prayers.se.ui.theme
+package me.thanish.prayers.se.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

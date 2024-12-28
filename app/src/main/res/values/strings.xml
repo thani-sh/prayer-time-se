@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Bönetider</string>
+    <string name="notification_title">It\'s time for %1$s</string>
+    <string name="notification_channel_title">Prayer time</string>
+    <string name="notification_channel_description">Notifies when it\'s time for prayers</string>
+    <string name="route_compass_name">Compass</string>
+    <string name="route_home_name">Timetable</string>
+    <string name="route_settings_name">Settings</string>
+    <string name="route_settings_city">City</string>
+    <string name="route_settings_method">Method</string>
+    <string name="route_settings_notifications">Notifications</string>
+    <string name="route_settings_notifications_off">Off</string>
+    <string name="prayers_type_fajr">Fajr</string>
+    <string name="prayers_type_shuruk">Sunrise</string>
+    <string name="prayers_type_dhohr">Dhohr</string>
+    <string name="prayers_type_asr">Asr</string>
+    <string name="prayers_type_maghrib">Maghrib</string>
+    <string name="prayers_type_isha">Isha</string>
+    <string name="prayers_method_shafi">Shafi</string>
+    <string name="prayers_method_hanafi">Hanafi</string>
+    <string name="notification_offset_template">Before %d minutes</string>
+    <string name="notification_offset_disabled">Do not notify</string>
+    <string name="route_home_title">Prayer Times</string>
 </resources>

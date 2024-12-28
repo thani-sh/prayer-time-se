@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import me.thanish.prayers.se.router.BottomBar
-import me.thanish.prayers.se.router.defaultRoute
-import me.thanish.prayers.se.router.routes
+import me.thanish.prayers.se.routes.defaultRoute
+import me.thanish.prayers.se.routes.routes
+import me.thanish.prayers.se.theme.components.BottomBar
 
 @Composable
 fun Navigation() {

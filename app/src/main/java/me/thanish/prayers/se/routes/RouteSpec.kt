@@ -1,5 +1,6 @@
-package me.thanish.prayers.se.router
+package me.thanish.prayers.se.routes
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -21,11 +22,18 @@ enum class RouteType {
  */
 data class RouteSpec(
     val name: String,
-    val text: String = name,
+    val text: Int,
     val type: RouteType = RouteType.PRIMARY,
     val icon: @Composable () -> Pair<ImageVector, ImageVector>,
     val content: @Composable (NavController, Modifier) -> Unit
-)
+) {
+    /**
+     * getLabel returns the label for the route.
+     */
+    fun getLabel(context: Context): String {
+        return context.getString(text)
+    }
+}
 
 /**
  * A list of all the routes in the app.

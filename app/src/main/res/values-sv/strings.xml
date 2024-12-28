@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Bönetider</string>
+    <string name="notification_title">Det är dags för %1$s</string>
+    <string name="notification_channel_title">Bönetider</string>
+    <string name="notification_channel_description">Meddelar när det är dags för böner</string>
+    <string name="route_compass_name">Kompass</string>
+    <string name="route_home_name">Schema</string>
+    <string name="route_settings_name">Inställningar</string>
+    <string name="route_settings_city">Stad</string>
+    <string name="route_settings_method">Metod</string>
+    <string name="route_settings_notifications">Aviseringar</string>
+    <string name="route_settings_notifications_off">Av</string>
+    <string name="prayers_type_fajr">Fajr</string>
+    <string name="prayers_type_shuruk">Shuruk</string>
+    <string name="prayers_type_dhohr">Dhohr</string>
+    <string name="prayers_type_asr">Asr</string>
+    <string name="prayers_type_maghrib">Maghrib</string>
+    <string name="prayers_type_isha">Isha</string>
+    <string name="prayers_method_shafi">Shafi</string>
+    <string name="prayers_method_hanafi">Hanafi</string>
+    <string name="notification_offset_template">Före %d minuter</string>
+    <string name="notification_offset_disabled">Meddela inte</string>
+    <string name="route_home_title">Bönetider</string>
+</resources>

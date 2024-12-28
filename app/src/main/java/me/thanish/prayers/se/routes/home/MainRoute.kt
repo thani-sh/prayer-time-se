@@ -1,12 +1,10 @@
 package me.thanish.prayers.se.routes.home
 
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -19,20 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import me.thanish.prayers.se.router.RouteSpec
-import me.thanish.prayers.se.router.RouteType
+import me.thanish.prayers.se.R
+import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.routes.RouteSpec
+import me.thanish.prayers.se.routes.RouteType
 import me.thanish.prayers.se.routes.home.components.MainRouteContent
 import me.thanish.prayers.se.routes.home.components.MainRouteHeading
-import me.thanish.prayers.se.states.Preferences
-import me.thanish.prayers.se.times.PrayerTimes
-import me.thanish.prayers.se.times.getPrayerTimesForDate
-import me.thanish.prayers.se.ui.theme.PrayersTheme
+import me.thanish.prayers.se.theme.PrayersTheme
 import java.time.LocalDate
 
 /**
@@ -40,7 +37,7 @@ import java.time.LocalDate
  */
 val MainRouteSpec = RouteSpec(
     name = "main",
-    text = "Schema",
+    text = R.string.route_home_name,
     type = RouteType.PRIMARY,
     icon = { Pair(Icons.Filled.DateRange, Icons.Outlined.DateRange) },
     content = { nav: NavController, modifier: Modifier -> MainRoute(nav, modifier) }
@@ -51,11 +48,14 @@ val MainRouteSpec = RouteSpec(
  */
 @Composable
 fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
-    val city by remember { mutableStateOf(Preferences.getCity()) }
-    val date by remember { mutableStateOf(LocalDate.now()) }
-    val times = getPrayerTimesForDate(LocalContext.current, city, date)
+    val city by remember { mutableStateOf(PrayerTimeCity.get()) }
+    var date by remember { mutableStateOf(LocalDate.now()) }
 
-    MainRouteView(times, modifier)
+    val onDateChange = { selectedDate: LocalDate ->
+        date = selectedDate
+    }
+
+    MainRouteView(city, date, onDateChange, modifier)
 }
 
 /**
@@ -63,33 +63,23 @@ fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
  */
 @Composable
 fun MainRouteView(
-    times: PrayerTimes,
+    city: PrayerTimeCity,
+    date: LocalDate,
+    onDateChange: (LocalDate) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                MainRouteHeading()
-            }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            MainRouteHeading(date)
+            Spacer(modifier = Modifier.height(48.dp))
+            MainRouteContent(city, date, onDateChange)
         }
-        Spacer(modifier = Modifier.height(48.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                MainRouteContent(times)
-            }
-        }
-        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
@@ -99,13 +89,12 @@ fun MainRouteView(
 @Preview
 @Composable
 fun MainRoutePreview() {
-    val city = "Uppsala"
+    val city = PrayerTimeCity.stockholm
     val date = LocalDate.now()
-    val times = getPrayerTimesForDate(LocalContext.current, city, date)
 
     PrayersTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            MainRouteView(times, modifier = Modifier.padding(innerPadding))
+            MainRouteView(city, date, {}, modifier = Modifier.padding(innerPadding))
         }
     }
 }
