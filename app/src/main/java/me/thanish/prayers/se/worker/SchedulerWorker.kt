@@ -25,7 +25,8 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
      */
     override fun doWork(): Result {
         try {
-            schedule(applicationContext, PrayerTimeCity.get())
+            val city = PrayerTimeCity.get(applicationContext)
+            schedule(applicationContext, city)
         } catch (e: Exception) {
             e.printStackTrace()
             return Result.failure()
@@ -52,21 +53,21 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
                 request = request
             )
             // Immediately schedule notifications for next N prayers
-            schedule(context, PrayerTimeCity.get())
+            schedule(context, PrayerTimeCity.get(context))
         }
 
         /**
          * Schedule or reschedule notifications for next N prayer times
          */
         fun schedule(context: Context, city: PrayerTimeCity) {
-            if (!NotificationOffset.isEnabled()) {
+            if (!NotificationOffset.isEnabled(context)) {
                 Log.i(TAG, "Notifications are disabled")
                 return
             }
             Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-            PrayerTime.getNext(context, city, PRAYERS_TO_SCHEDULE).forEach { t ->
-                NotificationWorker.schedule(context, t)
-            }
+            PrayerTime.getNext(context, city, PRAYERS_TO_SCHEDULE)
+                .filter { t -> t.type.shouldNotify() }
+                .forEach { t -> NotificationWorker.schedule(context, t) }
         }
     }
 }

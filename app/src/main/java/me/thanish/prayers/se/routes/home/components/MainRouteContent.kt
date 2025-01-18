@@ -1,21 +1,23 @@
 package me.thanish.prayers.se.routes.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -62,30 +64,32 @@ fun MainRouteContent(
             modifier = Modifier.fillMaxWidth()
         ) {
             times.toList().forEachIndexed { index, prayerTime ->
+                val textColor = if (prayerTime.isCurrentPrayer()) {
+                    MaterialTheme.colorScheme.primary
+                } else if (prayerTime.isNextPrayer(context)) {
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                } else {
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                }
                 val labelStyle = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.5.sp
+                    letterSpacing = 0.5.sp,
+                    color = textColor
                 )
                 val valueStyle = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    letterSpacing = 0.5.sp
+                    letterSpacing = 0.5.sp,
+                    color = textColor
                 )
 
                 if (index != 0) {
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .width(180.dp)
-                            .alpha(0.1f),
-                    )
+                    FadingHorizontalDivider()
                 }
 
                 Row(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .padding(vertical = 18.dp),
+                    modifier = Modifier.padding(vertical = 18.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -109,4 +113,22 @@ fun MainRouteContent(
             }
         }
     }
+}
+
+@Composable
+fun FadingHorizontalDivider() {
+    Box(
+        modifier = Modifier
+            .width(240.dp)
+            .height(1.dp)
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0f),
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0f)
+                    )
+                )
+            )
+    )
 }

@@ -27,9 +27,9 @@ private const val LOCATION_FREQUENCY = 1000 * 60 * 15
 /**
  * The default location to use if no location is available.
  */
-private val DEFAULT_LOCATION = Location("app").apply {
-    latitude = 59.3345
-    longitude = 18.0632
+private val COLOMBO_LOCATION = Location("app").apply {
+    latitude = 6.9270
+    longitude = 79.8612
 }
 
 /**
@@ -48,13 +48,13 @@ fun CurrentLocation(onLocationResult: (Location?) -> Unit) {
         }
         launched = true
         // emit the default location until the user grants permission
-        onLocationResult(DEFAULT_LOCATION)
+        onLocationResult(COLOMBO_LOCATION)
     }
 
     RequestPermission(
         requestedPermissions = arrayOf(ACCESS_COARSE_LOCATION),
         handleSuccess = { requestLocationUpdates(client, onLocationResult) },
-        handleFailure = { onLocationResult(DEFAULT_LOCATION) }
+        handleFailure = { onLocationResult(COLOMBO_LOCATION) }
     )
 }
 

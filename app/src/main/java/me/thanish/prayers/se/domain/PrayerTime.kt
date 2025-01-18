@@ -1,6 +1,7 @@
 package me.thanish.prayers.se.domain
 
 import android.content.Context
+import me.thanish.prayers.se.R
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -50,10 +51,45 @@ data class PrayerTime(
     }
 
     /**
+     * getUntilString returns the time string for the prayer time from system time.
+     * Eg: "in 32min", "in 1h 20min", etc.
+     */
+    fun getUntilString(context: Context): String {
+        val now = LocalDateTime.now()
+        val duration = java.time.Duration.between(now, time).seconds
+        val m = (duration / 60) % 60
+        val h = duration / (60 * 60)
+        if (h > 0) {
+            return context.resources.getString(R.string.prayers_time_until_hm, h, m)
+        }
+        return context.resources.getString(R.string.prayers_time_until_m, m)
+    }
+
+    /**
+     * isCurrentPrayer returns true if the prayer time is the current prayer time.
+     */
+    fun isCurrentPrayer(): Boolean {
+        val now = LocalDateTime.now()
+        return now > time && now.plusSeconds(ACTIVE_DURATION_SECONDS) < time
+    }
+
+    /**
+     * isNextPrayer returns true if the prayer time is the next prayer time.
+     */
+    fun isNextPrayer(context: Context): Boolean {
+        return getNext(context, city, 1).firstOrNull() == this
+    }
+
+    /**
      * ✄ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      */
 
     companion object {
+        /**
+         * ACTIVE_DURATION_SECONDS is the duration to consider a prayer as current.
+         */
+        const val ACTIVE_DURATION_SECONDS: Long = 30 * 60
+
         /**
          * fromStringId creates a prayer time from a string id.
          */
@@ -66,6 +102,16 @@ data class PrayerTime(
             val type = PrayerTimeType.valueOf(parts[1])
             val time = LocalDateTime.parse(parts[2])
             return PrayerTime(city, type, time)
+        }
+
+
+        /**
+         * getNextPrayer returns the next prayer time
+         */
+        fun getNextPrayer(context: Context, city: PrayerTimeCity): PrayerTime {
+            val item = getNext(context, city, 1).firstOrNull()
+                ?: throw Exception("No prayer times found for $city")
+            return item
         }
 
         /**

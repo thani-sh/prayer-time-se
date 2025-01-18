@@ -1,7 +1,7 @@
 package me.thanish.prayers.se.domain
 
 import android.content.Context
-import com.tencent.mmkv.MMKV
+import androidx.datastore.preferences.core.intPreferencesKey
 import me.thanish.prayers.se.R
 
 /**
@@ -26,25 +26,20 @@ enum class PrayerTimeMethod(private val key: Int) {
         /**
          * STORE_KEY is the MMKV key for storing the current prayer method.
          */
-        private const val STORE_KEY = "PrayerTimeMethod"
-
-        /**
-         * store is the MMKV instance for storing the current prayer method.
-         */
-        private val store = MMKV.defaultMMKV();
+        private val STORE_KEY = intPreferencesKey("PrayerTimeMethod")
 
         /**
          * set sets the current prayer method.
          */
-        fun set(method: PrayerTimeMethod) {
-            store.putInt(STORE_KEY, method.ordinal)
+        fun set(context: Context, method: PrayerTimeMethod) {
+            setIntegerSync(context, STORE_KEY, method.ordinal)
         }
 
         /**
          * get returns the current prayer method.
          */
-        fun get(): PrayerTimeMethod {
-            val index = store.getInt(STORE_KEY, shafi.ordinal)
+        fun get(context: Context): PrayerTimeMethod {
+            val index = getIntegerSync(context, STORE_KEY, shafi.ordinal)
             return entries[index]
         }
     }

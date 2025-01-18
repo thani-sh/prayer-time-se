@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.util.Log
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationCompat
@@ -15,6 +14,8 @@ import me.thanish.prayers.se.R
 import me.thanish.prayers.se.domain.NotificationOffset
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.domain.PrayerTimeType
+import java.time.LocalDateTime
 
 /**
  * Worker to show a notification approximately 10 minutes before a prayer time
@@ -34,11 +35,11 @@ class NotificationWorker : BroadcastReceiver() {
      * Create a timer notification for a specific prayer time
      */
     private fun doNotify(context: Context, prayerTime: PrayerTime) {
-        if (!NotificationOffset.isEnabled()) {
+        if (!NotificationOffset.isEnabled(context)) {
             Log.i(TAG, "Notifications are disabled")
             return
         }
-        if (PrayerTimeCity.get() != prayerTime.city) {
+        if (PrayerTimeCity.get(context) != prayerTime.city) {
             Log.i(TAG, "Notifications are for a different city")
             return
         }
@@ -64,14 +65,10 @@ class NotificationWorker : BroadcastReceiver() {
 
     companion object {
         private const val TAG = "NotificationWorker"
-        private const val ACTION = "me.thanish.prayers.se.NOTIFY"
+        private const val ACTION = "me.thanish.se.prayers.NOTIFY"
         private const val CH_ID = "prayer_time"
         private const val INPUT_PRAYER_TIME_ID = "prayerTimeId"
 
-        /**
-         * Notification visible duration in milliseconds after the prayer time.
-         */
-        private const val NOTIFICATION_EXPIRE_MS = 1000 * 60 * 5
 
         /**
          * Initialize the notification channel for prayer time notifications.
@@ -86,12 +83,6 @@ class NotificationWorker : BroadcastReceiver() {
             }
             // Create the notification channel
             manager.createNotificationChannel(channel)
-            // Register the notification worker to receive broadcasts
-            context.registerReceiver(
-                NotificationWorker(),
-                IntentFilter(ACTION),
-                Context.RECEIVER_NOT_EXPORTED
-            )
         }
 
         /**
@@ -107,10 +98,24 @@ class NotificationWorker : BroadcastReceiver() {
             }
             AlarmManagerCompat.setAlarmClock(
                 alarmManager,
-                getNotificationTime(prayerTime),
+                getNotificationTime(context, prayerTime),
                 alarmIntent,
                 alarmIntent
             )
+        }
+
+        /**
+         * Schedule a test notification for a testing prayer time.
+         * Only used for testing scheduling notifications.
+         */
+        fun scheduleTestNotification(context: Context, delay: Long) {
+            Log.i(TAG, "Scheduling test notification with a $delay seconds delay")
+            val testPrayerTime = PrayerTime(
+                city = PrayerTimeCity.get(context),
+                type = PrayerTimeType.asr,
+                time = LocalDateTime.now().plusSeconds(delay)
+            )
+            schedule(context, testPrayerTime)
         }
 
         /**
@@ -132,8 +137,8 @@ class NotificationWorker : BroadcastReceiver() {
         /**
          * Helper function to get the timeout for the notification worker.
          */
-        private fun getNotificationTime(prayerTime: PrayerTime): Long {
-            val timestamp = prayerTime.getEpochMilli() - NotificationOffset.get().getMilli()
+        private fun getNotificationTime(context: Context, prayerTime: PrayerTime): Long {
+            val timestamp = prayerTime.getEpochMilli() - NotificationOffset.get(context).getMilli()
             if (timestamp < System.currentTimeMillis()) {
                 return System.currentTimeMillis() + 1000 * 5
             }
@@ -147,10 +152,10 @@ class NotificationWorker : BroadcastReceiver() {
         private fun getNotificationExpireTime(prayerTime: PrayerTime): Long {
             val prayerTimestamp = prayerTime.getEpochMilli()
             val currentTimestamp = System.currentTimeMillis()
-            if (prayerTimestamp + NOTIFICATION_EXPIRE_MS <= currentTimestamp) {
+            if (prayerTimestamp <= currentTimestamp) {
                 return 0
             }
-            return prayerTimestamp + NOTIFICATION_EXPIRE_MS - currentTimestamp
+            return prayerTimestamp - currentTimestamp
         }
     }
 }

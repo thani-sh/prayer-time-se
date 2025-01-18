@@ -21,4 +21,11 @@
     <string name="notification_offset_template">Före %d minuter</string>
     <string name="notification_offset_disabled">Meddela inte</string>
     <string name="route_home_title">Bönetider</string>
+    <string name="route_developer_name">Utvecklare</string>
+    <string name="route_developer_test_notification">Testa meddelar</string>
+    <string name="next_prayer_widget_name">Nästa bön</string>
+    <string name="next_prayer_widget_title">Nästa bönetid</string>
+    <string name="next_prayer_widget_refresh">Uppdatera</string>
+    <string name="prayers_time_until_hm">%1$d tim, %2$d min</string>
+    <string name="prayers_time_until_m">om %d min</string>
 </resources>

@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -48,7 +49,8 @@ val MainRouteSpec = RouteSpec(
  */
 @Composable
 fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
-    val city by remember { mutableStateOf(PrayerTimeCity.get()) }
+    val context = LocalContext.current
+    val city by remember { mutableStateOf(PrayerTimeCity.get(context)) }
     var date by remember { mutableStateOf(LocalDate.now()) }
 
     val onDateChange = { selectedDate: LocalDate ->

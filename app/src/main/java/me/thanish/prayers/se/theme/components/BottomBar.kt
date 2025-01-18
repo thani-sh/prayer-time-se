@@ -9,25 +9,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import me.thanish.prayers.se.routes.RouteType
 import me.thanish.prayers.se.routes.routes
 
 @Composable
 fun BottomBar(nav: NavController) {
     NavigationBar {
-        routes.forEach { r ->
-            val isCurrent = getCurrentRoute(nav) == r.name
-            val routeText = r.getLabel(LocalContext.current)
-            val routeIcon = r.icon().let { routeIcons ->
-                if (isCurrent) routeIcons.first else routeIcons.second
-            }
+        routes
+            .filter { it.type == RouteType.PRIMARY }
+            .forEach { r ->
+                val isCurrent = getCurrentRoute(nav) == r.name
+                val routeText = r.getLabel(LocalContext.current)
+                val routeIcon = r.icon().let { routeIcons ->
+                    if (isCurrent) routeIcons.first else routeIcons.second
+                }
 
-            NavigationBarItem(
-                icon = { Icon(routeIcon, contentDescription = routeText) },
-                label = { Text(routeText) },
-                selected = isCurrent,
-                onClick = { nav.navigate(r.name) }
-            )
-        }
+                NavigationBarItem(
+                    icon = { Icon(routeIcon, contentDescription = routeText) },
+                    label = { Text(routeText) },
+                    selected = isCurrent,
+                    onClick = { nav.navigate(r.name) }
+                )
+            }
     }
 }
 

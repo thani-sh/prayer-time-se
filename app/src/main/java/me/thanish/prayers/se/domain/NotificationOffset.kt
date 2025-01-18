@@ -1,7 +1,7 @@
 package me.thanish.prayers.se.domain
 
 import android.content.Context
-import com.tencent.mmkv.MMKV
+import androidx.datastore.preferences.core.intPreferencesKey
 import me.thanish.prayers.se.R
 
 /**
@@ -40,12 +40,7 @@ class NotificationOffset(val offset: Int) {
         /**
          * STORE_KEY is the MMKV key for storing the notification offset.
          */
-        private const val STORE_KEY = "NotificationOffset"
-
-        /**
-         * store is the MMKV instance for storing the notification offset.
-         */
-        private val store = MMKV.defaultMMKV();
+        private val STORE_KEY = intPreferencesKey("NotificationOffset")
 
         /**
          * entries is the list of notification offsets suggested by the app.
@@ -61,22 +56,24 @@ class NotificationOffset(val offset: Int) {
         /**
          * set sets the notification offset.
          */
-        fun set(offset: NotificationOffset) {
-            store.putInt(STORE_KEY, offset.offset)
+        fun set(context: Context, offset: NotificationOffset) {
+            setIntegerSync(context, STORE_KEY, offset.offset)
         }
 
         /**
          * get returns the notification offset.
          */
-        fun get(): NotificationOffset {
-            return NotificationOffset(store.getInt(STORE_KEY, DISABLED_OFFSET))
+        fun get(context: Context): NotificationOffset {
+            val offset = getIntegerSync(context, STORE_KEY, DISABLED_OFFSET)
+            return NotificationOffset(offset)
         }
 
         /**
          * isEnabled returns true if notifications are enabled.
          */
-        fun isEnabled(): Boolean {
-            return get().offset != DISABLED_OFFSET
+        fun isEnabled(context: Context): Boolean {
+            val offset = getIntegerSync(context, STORE_KEY, DISABLED_OFFSET)
+            return offset != DISABLED_OFFSET
         }
     }
 }
