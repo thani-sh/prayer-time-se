@@ -7,6 +7,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -19,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,10 +44,8 @@ fun SelectMethodDropdown(
         ) {
             Text(
                 text = stringResource(R.string.route_settings_method),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 0.5.sp,
-                textAlign = TextAlign.Right,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Left,
                 modifier = Modifier.width(160.dp)
             )
             Spacer(modifier = Modifier.width(20.dp))
@@ -58,8 +56,7 @@ fun SelectMethodDropdown(
             ) {
                 Text(
                     method.getLabel(context),
-                    fontSize = 14.sp,
-                    letterSpacing = 0.5.sp,
+                    fontSize = 16.sp,
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
@@ -72,8 +69,7 @@ fun SelectMethodDropdown(
                     text = {
                         Text(
                             option.getLabel(context),
-                            fontSize = 14.sp,
-                            letterSpacing = 0.5.sp,
+                            fontSize = 16.sp,
                         )
                     },
                     onClick = {
@@ -83,5 +79,13 @@ fun SelectMethodDropdown(
                 )
             }
         }
+    }
+
+    if (method.getDescription(LocalContext.current) != null) {
+        Text(
+            text = method.getDescription(LocalContext.current)!!,
+            fontSize = 11.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }

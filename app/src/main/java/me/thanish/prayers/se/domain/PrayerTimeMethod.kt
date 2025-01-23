@@ -7,15 +7,30 @@ import me.thanish.prayers.se.R
 /**
  * PrayerTimeMethod is the calculation method for prayer times.
  */
-enum class PrayerTimeMethod(private val key: Int) {
-    shafi(R.string.prayers_method_shafi),
-    hanafi(R.string.prayers_method_hanafi);
+enum class PrayerTimeMethod(
+    private val labelKey: Int,
+    private val descriptionKey: Int? = null
+) {
+    islamiskaforbundet(
+        R.string.prayers_method_islamiskaforbundet,
+        R.string.prayers_method_islamiskaforbundet_details
+    );
 
     /**
      * getLabel returns the name of the prayer method with i18n.
      */
     fun getLabel(context: Context): String {
-        return context.getString(key)
+        return context.getString(labelKey)
+    }
+
+    /**
+     * getDescription returns the description of the prayer method with i18n.
+     */
+    fun getDescription(context: Context): String? {
+        if (descriptionKey == null) {
+            return null
+        }
+        return context.getString(descriptionKey)
     }
 
     /**
@@ -39,7 +54,7 @@ enum class PrayerTimeMethod(private val key: Int) {
          * get returns the current prayer method.
          */
         fun get(context: Context): PrayerTimeMethod {
-            val index = getIntegerSync(context, STORE_KEY, shafi.ordinal)
+            val index = getIntegerSync(context, STORE_KEY, islamiskaforbundet.ordinal)
             return entries[index]
         }
     }

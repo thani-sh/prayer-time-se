@@ -37,10 +37,7 @@ internal class PrayerTimeData(
     /**
      * getAsr returns the asr prayer time as a LocalDateTime.
      */
-    fun getAsr(date: LocalDate, method: PrayerTimeMethod): LocalDateTime {
-        if (method == PrayerTimeMethod.hanafi) {
-            return getPrayerTime(date, INDEX_ASR_HANAFI)
-        }
+    fun getAsr(date: LocalDate): LocalDateTime {
         return getPrayerTime(date, INDEX_ASR_SHAFI)
     }
 

@@ -73,7 +73,7 @@ fun MainRouteContent(
                 }
                 val labelStyle = TextStyle(
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Medium,
                     letterSpacing = 0.5.sp,
                     color = textColor
                 )
@@ -99,7 +99,7 @@ fun MainRouteContent(
                         style = labelStyle,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 12.dp),
+                            .padding(horizontal = 16.dp),
                     )
                     Text(
                         text = prayerTime.getTimeString(),
@@ -107,7 +107,7 @@ fun MainRouteContent(
                         style = valueStyle,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 12.dp),
+                            .padding(horizontal = 16.dp),
                     )
                 }
             }
@@ -119,7 +119,7 @@ fun MainRouteContent(
 fun FadingHorizontalDivider() {
     Box(
         modifier = Modifier
-            .width(240.dp)
+            .width(320.dp)
             .height(1.dp)
             .background(
                 brush = Brush.horizontalGradient(

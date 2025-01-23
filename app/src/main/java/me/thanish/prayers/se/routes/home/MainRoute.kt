@@ -79,7 +79,7 @@ fun MainRouteView(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             MainRouteHeading(date)
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             MainRouteContent(city, date, onDateChange)
         }
     }

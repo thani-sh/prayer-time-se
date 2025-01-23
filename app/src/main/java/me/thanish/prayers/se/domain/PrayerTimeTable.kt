@@ -33,7 +33,6 @@ data class PrayerTimeTable(
          * fromAssetData creates a prayer time table from asset data.
          */
         fun forDate(context: Context, city: PrayerTimeCity, date: LocalDate): PrayerTimeTable {
-            val method = PrayerTimeMethod.get(context)
             val data = PrayerTimeData.get(context, city)
 
             return PrayerTimeTable(
@@ -42,7 +41,7 @@ data class PrayerTimeTable(
                 PrayerTime(city, PrayerTimeType.fajr, data.getFajr(date)),
                 PrayerTime(city, PrayerTimeType.shuruk, data.getShuruk(date)),
                 PrayerTime(city, PrayerTimeType.dhohr, data.getDhohr(date)),
-                PrayerTime(city, PrayerTimeType.asr, data.getAsr(date, method)),
+                PrayerTime(city, PrayerTimeType.asr, data.getAsr(date)),
                 PrayerTime(city, PrayerTimeType.maghrib, data.getMaghrib(date)),
                 PrayerTime(city, PrayerTimeType.isha, data.getIsha(date)),
             )
