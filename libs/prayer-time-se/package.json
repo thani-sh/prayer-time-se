@@ -1,7 +1,7 @@
 {
   "name": "@thani-sh/prayer-time-se",
   "type": "module",
-  "version": "2.0.2",
+  "version": "4.0.0",
   "description": "Islamic prayer times for Sweden for year 2025 as a JavaScript Module",
   "main": "index.js",
   "types": "index.d.ts",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thani-sh/prayer-time-se-lib.git"
+    "url": "git+https://github.com/thani-sh/prayer-time-se.git"
   },
   "keywords": [],
   "author": "Thanish Nizam <mnmtanish@gmail.com> (https://thanish.me/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thani-sh/prayer-time-se-lib/issues"
+    "url": "https://github.com/thani-sh/prayer-time-se/issues"
   },
-  "homepage": "https://github.com/thani-sh/prayer-time-se-lib#readme",
+  "homepage": "https://github.com/thani-sh/prayer-time-se#readme",
   "devDependencies": {
     "@types/node": "^22.5.5"
   }

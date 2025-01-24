@@ -68,7 +68,7 @@ fun IconAndTextButton(
  * openGithubRepo opens the GitHub repository in a browser
  */
 fun openGitHubRepo(context: Context) {
-    val url = "https://github.com/thani-sh/prayer-time-se-app"
+    val url = "https://github.com/thani-sh/prayer-time-se"
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     context.startActivity(intent)
 }
