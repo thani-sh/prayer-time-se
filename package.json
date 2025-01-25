@@ -1,0 +1,20 @@
+{
+  "name": "prayer-time-se",
+  "type": "module",
+  "version": "4.0.0",
+  "private": true,
+  "packageManager": "yarn@4.6.0",
+  "workspaces": [
+    "apps/api",
+    "apps/web",
+    "libs/prayer-time-se"
+  ],
+  "engines": {
+    "node": ">=23.0.0"
+  },
+  "dependenciesMeta": {
+    "puppeteer@24.1.1": {
+      "unplugged": true
+    }
+  }
+}

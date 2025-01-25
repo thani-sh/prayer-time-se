@@ -3,11 +3,27 @@
   "type": "module",
   "version": "4.0.0",
   "description": "Islamic prayer times for Sweden for year 2025 as a JavaScript Module",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "sync": "node scripts/sync.js",
-    "test": "node --test"
+    "build": "tsc",
+    "test": "vitest",
+    "lint": "prettier --write \"src/**/*.{ts}\"",
+    "sync": "node .scripts/sync-times/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "prettier": "^3.4.2",
+    "puppeteer": "^24.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.4"
   },
   "repository": {
     "type": "git",
@@ -20,7 +36,7 @@
     "url": "https://github.com/thani-sh/prayer-time-se/issues"
   },
   "homepage": "https://github.com/thani-sh/prayer-time-se#readme",
-  "devDependencies": {
-    "@types/node": "^22.5.5"
+  "engines": {
+    "node": ">=23.0.0"
   }
 }

@@ -1,6 +1,6 @@
 # prayer-time-se
 
-Islamic prayer times for Sweden for year 2025 as a JavaScript Module.
+Islamic prayer times for Sweden as a JavaScript Module.
 
 ## Getting Started
 
@@ -13,9 +13,9 @@ npm install @thani-sh/prayer-time-se
 Use exported functions to get prayer times.
 
 ```js
-import { forDate, forToday } from "@thani-sh/prayer-time-se";
+import { forToday } from "@thani-sh/prayer-time-se";
 
-const times = forToday();
+const times = await forToday();
 // {
 //   fajr: { hour: 4, minute: 46 },
 //   sunrise: { hour: 6, minute: 2 },

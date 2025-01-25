@@ -1,1 +1,8 @@
-scripts
+# Ignore everything
+*
+
+# Except the following files and directories
+!dist/
+!README.md
+!LICENSE
+!package.json
