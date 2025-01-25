@@ -13,9 +13,9 @@ npm install @thani-sh/prayer-time-se
 Use exported functions to get prayer times.
 
 ```js
-import { forToday } from "@thani-sh/prayer-time-se";
+import { getPrayerTimes } from '@thani-sh/prayer-time-se';
 
-const times = await forToday();
+const times = await getPrayerTimes();
 // {
 //   fajr: { hour: 4, minute: 46 },
 //   sunrise: { hour: 6, minute: 2 },
