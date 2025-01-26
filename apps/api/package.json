@@ -1,0 +1,23 @@
+{
+	"name": "@thani-sh/prayer-time-se-api",
+	"version": "4.0.0",
+	"description": "Islamic prayer times for Sweden as an API",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev --remote",
+		"test": "vitest",
+		"type": "wrangler types"
+	},
+	"dependencies": {
+		"@cloudflare/workers-types": "^4.20250124.3",
+		"@thani-sh/prayer-time-se": "^4.0.0",
+		"hono": "^4.6.18"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.6.4",
+		"typescript": "^5.5.2",
+		"vitest": "2.1.8",
+		"wrangler": "^3.101.0"
+	}
+}
