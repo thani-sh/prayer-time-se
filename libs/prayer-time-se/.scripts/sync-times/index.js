@@ -34,8 +34,22 @@ for (const city of cities) {
   await Promise.all([
     writeFile(`./src/data/islamiskaforbundet/${city.id}.json`, stringified),
     writeFile(`./src/data/islamiskaforbundet/${city.id}.js`, `export default ${stringified};`),
+    writeFile(
+      `./src/data/islamiskaforbundet/${city.id}.d.ts`,
+      `declare const _default: [number, number, number, number, number, number][][];\nexport default _default;`
+    ),
   ]);
 }
+
+// Add an imports map
+const imports = `
+export default {
+  islamiskaforbundet: {
+    ${cities.map((city) => `${city.id}: () => import('./islamiskaforbundet/${city.id}.js').then((m) => m.default)`).join(',\n    ')}
+  } as const
+} as const
+`;
+writeFile(`./src/data/index.ts`, imports);
 
 // Close the browser
 await browser.close();

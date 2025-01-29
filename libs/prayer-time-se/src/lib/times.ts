@@ -1,5 +1,6 @@
 import { City, DEFAULT_CITY, isValidCity } from './cities';
 import { DEFAULT_METHOD, isValidMethod, Method } from './method';
+import dataset from '../data';
 
 /**
  * The number of minutes in a day.
@@ -28,8 +29,7 @@ type DataFile = [number, number, number, number, number, number][][];
  * Get the dataset for the given city, method and month.
  */
 async function importDataset(method: Method, city: City): Promise<DataFile> {
-  const module = await import(`../data/${method}/${city}.js`);
-  return module.default;
+  return dataset[method][city]();
 }
 
 /**
