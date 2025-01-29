@@ -20,19 +20,6 @@ export interface PrayerTimes {
 }
 
 /**
- * Type for prayer times as stored in data files for a specific city.
- * Format: [month][day][fajr, sunrise, dhuhr, asr, maghrib, isha]
- */
-type DataFile = [number, number, number, number, number, number][][];
-
-/**
- * Get the dataset for the given city, method and month.
- */
-async function importDataset(method: Method, city: City): Promise<DataFile> {
-  return dataset[method][city]();
-}
-
-/**
  * Convert minutes to TimeOfDay. Throws an error if the value is not valid.
  */
 function minutesToTime(minutes: number) {
@@ -61,13 +48,13 @@ export async function getPrayerTimes(
   }
   const d = date.getDate();
   const m = date.getMonth();
-  const dataset = await importDataset(method, city);
+  const values = await dataset[method][city]();
   return {
-    fajr: minutesToTime(dataset[m][d - 1][0]),
-    sunrise: minutesToTime(dataset[m][d - 1][1]),
-    dhuhr: minutesToTime(dataset[m][d - 1][2]),
-    asr: minutesToTime(dataset[m][d - 1][3]),
-    maghrib: minutesToTime(dataset[m][d - 1][4]),
-    isha: minutesToTime(dataset[m][d - 1][5]),
+    fajr: minutesToTime(values[m][d - 1][0]),
+    sunrise: minutesToTime(values[m][d - 1][1]),
+    dhuhr: minutesToTime(values[m][d - 1][2]),
+    asr: minutesToTime(values[m][d - 1][3]),
+    maghrib: minutesToTime(values[m][d - 1][4]),
+    isha: minutesToTime(values[m][d - 1][5]),
   };
 }
