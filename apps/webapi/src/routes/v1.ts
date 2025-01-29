@@ -38,7 +38,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	/**
 	 * Middleware to check if the method is valid
 	 */
-	app.get('/v1/methods/:method', async (c, next) => {
+	app.get('/v1/method/:method', async (c, next) => {
 		const method = c.req.param('method');
 		if (METHODS.indexOf(method as any) === -1) {
 			c.status(404);
@@ -51,14 +51,14 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	/**
 	 * API endpoint to get the list of cities
 	 */
-	app.get('/v1/methods/:method/cities', (c) => {
+	app.get('/v1/method/:method/cities', (c) => {
 		return c.json(CITIES);
 	});
 
 	/**
 	 * Middleware to check if the city is valid
 	 */
-	app.get('/v1/methods/:method/city/:city', async (c, next) => {
+	app.get('/v1/method/:method/city/:city', async (c, next) => {
 		const city = c.req.param('city');
 		if (CITIES.indexOf(city as any) === -1) {
 			c.status(404);
@@ -71,7 +71,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	/**
 	 * API endpoint to get prayer times for a year
 	 */
-	app.get('/v1/methods/:method/city/:city/times', async (c) => {
+	app.get('/v1/method/:method/city/:city/times', async (c) => {
 		const method = c.req.param('method');
 		const city = c.req.param('city');
 		const object = await c.env.BUCKET.get(`${method}/${city}.json`);
@@ -86,7 +86,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	/**
 	 * API endpoint to get prayer times for a date
 	 */
-	app.get('/v1/methods/:method/city/:city/times/:date', async (c) => {
+	app.get('/v1/method/:method/city/:city/times/:date', async (c) => {
 		const method = c.req.param('method');
 		const city = c.req.param('city');
 		const date = new Date(c.req.param('date'));
