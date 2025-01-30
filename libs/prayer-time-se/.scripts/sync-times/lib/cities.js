@@ -1,16 +1,16 @@
-import { toIdentifier } from './shared.js';
-
 /**
  * List of city names expected to be under the select element.
  */
-const EXPECTED_VALUES = [
+export const CITIES = [
   'Alingsås',
+  'Åmål',
+  'Ängelholm',
   'Avesta',
   'Bengtsfors',
   'Boden',
   'Bollnäs',
-  'Borlänge',
   'Borås',
+  'Borlänge',
   'Eksjö',
   'Enköping',
   'Eskilstuna',
@@ -19,20 +19,20 @@ const EXPECTED_VALUES = [
   'Falköping',
   'Filipstad',
   'Flen',
-  'Gislaved',
-  'Gnosjö',
   'Gällivare',
   'Gävle',
+  'Gislaved',
+  'Gnosjö',
   'Göteborg',
   'Halmstad',
   'Haparanda',
-  'Helsingborg',
-  'Hudiksvall',
-  'Hultsfred',
   'Härnösand',
   'Hässleholm',
+  'Helsingborg',
   'Högsby',
   'Hörby',
+  'Hudiksvall',
+  'Hultsfred',
   'Jokkmokk',
   'Jönköping',
   'Kalmar',
@@ -42,9 +42,9 @@ const EXPECTED_VALUES = [
   'Karlstad',
   'Katrineholm',
   'Kiruna',
+  'Köping',
   'Kristianstad',
   'Kristinehamn',
-  'Köping',
   'Laholm',
   'Landskrona',
   'Lessebo',
@@ -56,36 +56,39 @@ const EXPECTED_VALUES = [
   'Lysekil',
   'Malmö',
   'Mariestad',
+  'Märsta',
   'Mellerud',
   'Mjölby',
-  'Munkedal',
-  'Märsta',
   'Mönsterås',
+  'Munkedal',
+  'Nässjö',
   'Norrköping',
   'Norrtälje',
   'Nybro',
   'Nyköping',
   'Nynäshamn',
-  'Nässjö',
+  'Örebro',
+  'Örnsköldsvik',
   'Oskarshamn',
+  'Östersund',
   'Oxelösund',
   'Pajala',
   'Piteå',
   'Ronneby',
+  'Säffle',
   'Sala',
+  'Sävsjö',
   'Simrishamn',
   'Skara',
   'Skellefteå',
   'Skövde',
+  'Söderhamn',
+  'Södertälje',
   'Sollefteå',
+  'Sölvesborg',
   'Stockholm',
   'Strängnäs',
   'Sundsvall',
-  'Säffle',
-  'Sävsjö',
-  'Söderhamn',
-  'Södertälje',
-  'Sölvesborg',
   'Tierp',
   'Tranemo',
   'Trelleborg',
@@ -94,50 +97,17 @@ const EXPECTED_VALUES = [
   'Ulricehamn',
   'Umeå',
   'Uppsala',
+  'Vänersborg',
   'Varberg',
+  'Värnamo',
+  'Västerås',
+  'Västervik',
+  'Växjö',
   'Vetlanda',
   'Vimmerby',
   'Visby',
-  'Vänersborg',
-  'Värnamo',
-  'Västervik',
-  'Västerås',
-  'Växjö',
   'Ystad',
-  'Ängelholm',
-  'Åmål',
-  'Örebro',
-  'Örnsköldsvik',
-  'Östersund',
-];
-
-/**
- * Locates the select element containing the list of cities.
- */
-export async function getCitiesSelect(page) {
-  return page.locator('#ifis_bonetider_page_cities').waitHandle();
-}
-
-/**
- * Selects a city option from the drop-down list on the page.
- */
-export async function selectCityOption(page, value) {
-  return page.select('#ifis_bonetider_page_cities', value);
-}
-
-/**
- * Extracts the list of cities from the web page and validate them.
- */
-export async function extractCities(page) {
-  const selectElement = await getCitiesSelect(page);
-  const parsedOptions = await selectElement.$$eval('option', (elements) =>
-    elements.map((el) => ({ text: el.textContent?.trim(), value: el.value }))
-  );
-  const values = parsedOptions
-    .filter((op) => EXPECTED_VALUES.includes(op.text))
-    .map((op) => ({ ...op, id: toIdentifier(op.text) }));
-  if (values.length !== EXPECTED_VALUES.length) {
-    throw new Error('Some cities are missing on the web page');
-  }
-  return values;
-}
+].map((city) => ({
+  id: city.toLocaleLowerCase(),
+  name: city,
+}));

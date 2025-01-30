@@ -3,9 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "dependencies": {
-    "@types/node": "^22.5.5",
-    "puppeteer": "^24.1.1",
-    "ts-node": "^10.9.2"
+    "cheerio": "^1.0.0"
   },
   "engines": {
     "node": ">=23.0.0"
