@@ -1,12 +1,14 @@
 package me.thanish.prayers.se.routes.compass
 
 
+import android.hardware.SensorManager
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -45,12 +47,16 @@ val CompassRouteSpec = RouteSpec(
 @Composable
 fun CompassRoute(nav: NavController, modifier: Modifier = Modifier) {
     var heading by remember { mutableFloatStateOf(0f) }
+    var priority by remember { mutableIntStateOf(0) }
     var qibla by remember { mutableFloatStateOf(0f) }
 
-    CurrentHeading(onHeadingChanged = { heading = it })
+    CurrentHeading(onHeadingChanged = { newHeading, newPriority ->
+        heading = newHeading
+        priority = newPriority
+    })
     CurrentLocation(onLocationResult = { l -> qibla = CurrentQibla.getQiblaDirection(l) ?: 0f })
 
-    CompassRouteView(qibla, heading, modifier)
+    CompassRouteView(qibla, heading, priority, modifier)
 }
 
 /**
@@ -60,9 +66,10 @@ fun CompassRoute(nav: NavController, modifier: Modifier = Modifier) {
 fun CompassRouteView(
     qibla: Float,
     heading: Float,
+    priority: Int,
     modifier: Modifier = Modifier
 ) {
-    QiblaCompass(qibla, heading)
+    QiblaCompass(qibla, heading, priority)
 }
 
 /**
@@ -76,6 +83,7 @@ fun CompassRoutePreview() {
             CompassRouteView(
                 qibla = (Math.PI / 8f).toFloat(),
                 heading = (Math.PI / 4f).toFloat(),
+                priority = SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM,
                 modifier = Modifier.padding(innerPadding)
             )
         }

@@ -1,5 +1,6 @@
 package me.thanish.prayers.se.routes.compass.components
 
+import android.hardware.SensorManager
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -56,7 +58,7 @@ const val DASH_WIDTH = 4f
  * A compass that shows the direction to north and the qibla.
  */
 @Composable
-fun QiblaCompass(qibla: Float, heading: Float) {
+fun QiblaCompass(qibla: Float, heading: Float, priority: Int) {
     val linesColor = MaterialTheme.colorScheme.outlineVariant
     val qiblaColor = MaterialTheme.colorScheme.error
 
@@ -161,12 +163,46 @@ fun QiblaCompass(qibla: Float, heading: Float) {
             }
         }
         Text(
-            text = "Accuracy: Low",
+            text = getPriorityText(priority),
             fontSize = 10.sp,
             fontWeight = FontWeight.Normal,
-            color = linesColor
+            color = getPriorityColor(priority)
         )
     }
+}
+
+/**
+ * Returns text for the accuracy of data returned by sensors.
+ */
+@Composable
+fun getPriorityText(priority: Int): String {
+    if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
+        return stringResource(R.string.route_compass_priority_high)
+    }
+    if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
+        return stringResource(R.string.route_compass_priority_medium)
+    }
+    if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
+        return stringResource(R.string.route_compass_priority_low)
+    }
+    return stringResource(R.string.route_compass_priority_error)
+}
+
+/**
+ * Returns text for the accuracy of data returned by sensors.
+ */
+@Composable
+fun getPriorityColor(priority: Int): Color {
+    if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
+        return MaterialTheme.colorScheme.primary
+    }
+    if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
+        return MaterialTheme.colorScheme.primary
+    }
+    if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
+        return MaterialTheme.colorScheme.tertiary
+    }
+    return MaterialTheme.colorScheme.error
 }
 
 /**

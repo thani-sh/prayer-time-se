@@ -5,6 +5,10 @@
     <string name="notification_channel_description">Meddelar när det är dags för böner</string>
     <string name="route_compass_name">Kompass</string>
     <string name="route_compass_north">Norr</string>
+    <string name="route_compass_priority_high">Precision: Hög</string>
+    <string name="route_compass_priority_medium">Precision: Medium</string>
+    <string name="route_compass_priority_low">Precision: Låg</string>
+    <string name="route_compass_priority_error">Precision: Fel</string>
     <string name="route_home_name">Schema</string>
     <string name="route_settings_name">Inställningar</string>
     <string name="route_settings_city">Stad</string>
