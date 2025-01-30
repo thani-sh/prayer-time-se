@@ -25,16 +25,11 @@ fun CurrentHeading(onHeadingChanged: (Float, Int) -> Unit) {
         val rotation = FloatArray(9)
         val orientation = FloatArray(3)
 
-        var accelerometerStatus = SensorManager.SENSOR_STATUS_ACCURACY_LOW
-        var magnetometerStatus = SensorManager.SENSOR_STATUS_ACCURACY_LOW
-
         val sensorEventListener = object : SensorEventListener {
             private var gravity: FloatArray? = null
             private var magnetic: FloatArray? = null
+            private var priority = arrayOf(0, 0)
 
-            /**
-             * Handles when a sensor value changes.
-             */
             override fun onSensorChanged(event: SensorEvent) {
                 if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
                     gravity = event.values.clone()
@@ -45,36 +40,22 @@ fun CurrentHeading(onHeadingChanged: (Float, Int) -> Unit) {
                 if (gravity == null || magnetic == null) {
                     return
                 }
-                val success =
-                    SensorManager.getRotationMatrix(rotation, null, gravity, magnetic)
-                if (success) {
+                if (SensorManager.getRotationMatrix(rotation, null, gravity, magnetic)) {
                     SensorManager.getOrientation(rotation, orientation)
-                    emitHeadingChangedEvent()
+                    onHeadingChanged(
+                        2 * PI.toFloat() - normalizeAngle(orientation[0]),
+                        minOf(priority[0], priority[1])
+                    )
                 }
             }
 
-            /**
-             * Handles when the accuracy of a sensor changes.
-             */
-            override fun onAccuracyChanged(sensor: Sensor?, priority: Int) {
-                if (sensor == null) {
-                    return
+            override fun onAccuracyChanged(sensor: Sensor?, newPriority: Int) {
+                if (sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+                    priority[0] = newPriority
                 }
-                if (sensor.type == Sensor.TYPE_ACCELEROMETER) {
-                    accelerometerStatus = priority
+                if (sensor?.type == Sensor.TYPE_MAGNETIC_FIELD) {
+                    priority[1] = newPriority
                 }
-                if (sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
-                    magnetometerStatus = priority
-                }
-                emitHeadingChangedEvent()
-            }
-
-            /**
-             * Emits an event with the current heading and accuracy.
-             */
-            private fun emitHeadingChangedEvent() {
-                val priority = minOf(accelerometerStatus, magnetometerStatus)
-                onHeadingChanged(2 * PI.toFloat() - normalizeAngle(orientation[0]), priority)
             }
         }
 

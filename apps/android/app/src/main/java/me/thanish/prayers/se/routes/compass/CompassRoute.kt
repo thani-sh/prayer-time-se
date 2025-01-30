@@ -89,3 +89,21 @@ fun CompassRoutePreview() {
         }
     }
 }
+
+/**
+ * Preview of the main route with some example data.
+ */
+@Preview
+@Composable
+fun CompassRoutePreviewLowAccuracy() {
+    PrayersTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            CompassRouteView(
+                qibla = (Math.PI / 8f).toFloat(),
+                heading = (Math.PI / 4f).toFloat(),
+                priority = SensorManager.SENSOR_STATUS_ACCURACY_LOW,
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}

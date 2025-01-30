@@ -7,11 +7,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -25,23 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotateRad
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.thanish.prayers.se.R
-import kotlin.math.cos
-import kotlin.math.sin
 
 
 /**
@@ -59,14 +48,18 @@ const val DASH_WIDTH = 4f
  */
 @Composable
 fun QiblaCompass(qibla: Float, heading: Float, priority: Int) {
-    val linesColor = MaterialTheme.colorScheme.outlineVariant
-    val qiblaColor = MaterialTheme.colorScheme.error
-
-    val qiblaVector = ImageVector.vectorResource(R.drawable.kaaba_icon_filled)
-    val qiblaPainter = rememberVectorPainter(image = qiblaVector)
-
     val textMeasurer = rememberTextMeasurer()
-    val textStyle = TextStyle(fontSize = 12.sp, textAlign = TextAlign.Center, color = linesColor)
+    val linesColor = MaterialTheme.colorScheme.outlineVariant
+
+    val priorityText = getPriorityText(priority)
+    val priorityColor = getPriorityColor(priority)
+    val priorityStyle =
+        TextStyle(fontSize = 12.sp, textAlign = TextAlign.Center, color = priorityColor)
+    val priorityLayout = remember(priorityText, priorityStyle) {
+        textMeasurer.measure(priorityText, priorityStyle)
+    }
+
+    val textStyle = TextStyle(fontSize = 16.sp, textAlign = TextAlign.Center, color = linesColor)
     val textContent = stringResource(R.string.route_compass_north)
     val textLayout = remember(textContent, textStyle) {
         textMeasurer.measure(textContent, textStyle)
@@ -82,11 +75,7 @@ fun QiblaCompass(qibla: Float, heading: Float, priority: Int) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
-        ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
             val center = Offset(x = size.width / 2f, y = size.height / 2f)
             val radius = size.minDimension / 2f
             val offset = -(Math.PI / 2f).toFloat()
@@ -112,62 +101,60 @@ fun QiblaCompass(qibla: Float, heading: Float, priority: Int) {
                         y = center.y - textLayout.size.height / 2f - radius - 60f
                     )
                 )
-
-                rotateRad(radians = offset, pivot = center) {
-                    // draw qibla line
-                    val qiblaLine = Line(
-                        p0 = center,
-                        p1 = Offset(
-                            x = (center.x + (radius + 30) * cos(qibla)),
-                            y = (center.y + (radius + 30) * sin(qibla)),
-                        ),
-                        len = radius
-                    )
-                    drawLine(
-                        color = qiblaColor,
-                        start = qiblaLine.p0,
-                        end = qiblaLine.p1,
-                        cap = StrokeCap.Round,
-                        strokeWidth = 3.dp.toPx()
-                    )
-                    drawLine(
-                        color = qiblaColor,
-                        start = qiblaLine.p1,
-                        end = qiblaLine.p1.plus(Offset(-40f, 10f)),
-                        cap = StrokeCap.Round,
-                        strokeWidth = 3.dp.toPx()
-                    )
-                    drawLine(
-                        color = qiblaColor,
-                        start = qiblaLine.p1,
-                        end = qiblaLine.p1.plus(Offset(-25f, -35f)),
-                        cap = StrokeCap.Round,
-                        strokeWidth = 3.dp.toPx()
-                    )
-                }
             }
 
-            drawIntoCanvas { canvas ->
-                val angle = Math.toDegrees((animatedHeading + qibla).toDouble())
-
-                canvas.nativeCanvas.save()
-                canvas.nativeCanvas.translate(
-                    (center.x + (radius + 40 * 1.5f) * cos(qibla + offset)) - 20,
-                    (center.y + (radius + 40 * 1.5f) * sin(qibla + offset)) - 20
+            rotateRad(radians = animatedHeading + offset + qibla, pivot = center) {
+                // draw qibla line
+                val qiblaLine = Line(
+                    p0 = center,
+                    p1 = Offset(x = center.x + radius + 16, y = center.y),
+                    len = radius
                 )
-                canvas.nativeCanvas.rotate(angle.toFloat(), 20f, 20f)
-                with(qiblaPainter) {
-                    draw(size = Size(40f, 40f))
-                }
-                canvas.nativeCanvas.restore()
+                drawLine(
+                    color = priorityColor,
+                    start = qiblaLine.p0,
+                    end = qiblaLine.p1,
+                    cap = StrokeCap.Square,
+                    strokeWidth = 3.dp.toPx()
+                )
+                drawLine(
+                    color = priorityColor,
+                    start = qiblaLine.p1,
+                    end = qiblaLine.p1.plus(Offset(-32f, 20f)),
+                    cap = StrokeCap.Square,
+                    strokeWidth = 3.dp.toPx()
+                )
+                drawLine(
+                    color = priorityColor,
+                    start = qiblaLine.p1,
+                    end = qiblaLine.p1.plus(Offset(-32f, -20f)),
+                    cap = StrokeCap.Square,
+                    strokeWidth = 3.dp.toPx()
+                )
+                drawRect(
+                    color = Color.Black,
+                    topLeft = qiblaLine.p1.plus(Offset(20f, -20f)),
+                    size = Size(40f, 40f)
+                )
+                drawLine(
+                    color = Color.Yellow,
+                    start = qiblaLine.p1.plus(Offset(50f, -12f)),
+                    end = qiblaLine.p1.plus(Offset(50f, 12f)),
+                    cap = StrokeCap.Butt,
+                    strokeWidth = 2.dp.toPx()
+                )
             }
+
+            drawText(
+                textMeasurer = textMeasurer,
+                text = priorityText,
+                style = priorityStyle,
+                topLeft = Offset(
+                    x = center.x - priorityLayout.size.width / 2f,
+                    y = center.y - priorityLayout.size.height / 2f + radius + 160f
+                )
+            )
         }
-        Text(
-            text = getPriorityText(priority),
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Normal,
-            color = getPriorityColor(priority)
-        )
     }
 }
 
@@ -200,7 +187,7 @@ fun getPriorityColor(priority: Int): Color {
         return MaterialTheme.colorScheme.primary
     }
     if (priority >= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
-        return MaterialTheme.colorScheme.tertiary
+        return MaterialTheme.colorScheme.outlineVariant
     }
     return MaterialTheme.colorScheme.error
 }
