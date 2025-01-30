@@ -4,6 +4,7 @@
     <string name="notification_channel_title">Prayer time</string>
     <string name="notification_channel_description">Notifies when it\'s time for prayers</string>
     <string name="route_compass_name">Compass</string>
+    <string name="route_compass_north">North</string>
     <string name="route_home_name">Timetable</string>
     <string name="route_settings_name">Settings</string>
     <string name="route_settings_city">City</string>

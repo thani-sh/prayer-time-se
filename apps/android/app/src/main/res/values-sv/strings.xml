@@ -4,6 +4,7 @@
     <string name="notification_channel_title">Bönetider</string>
     <string name="notification_channel_description">Meddelar när det är dags för böner</string>
     <string name="route_compass_name">Kompass</string>
+    <string name="route_compass_north">Norr</string>
     <string name="route_home_name">Schema</string>
     <string name="route_settings_name">Inställningar</string>
     <string name="route_settings_city">Stad</string>

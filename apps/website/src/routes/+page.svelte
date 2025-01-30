@@ -3,7 +3,7 @@
 	import { city } from '$lib/domain/PrayerTimeCity';
 	import { method } from '$lib/domain/PrayerTimeMethod';
 
-	const hijriDateFormatter = new Intl.DateTimeFormat('sv-SE-u-ca-islamic', {
+	const hijriDateFormatter = new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
