@@ -10,23 +10,21 @@ import SwiftUI
 struct HomeRouteSpec: RouteSpec {
   let name: String      = "home"
   let text: String      = String(localized: "route_home_name")
-  let type: RouteType   = .PRIMARY
-  let icon: String      = "calendar"
+  let icon: String      = "calendar.badge.clock"
   let content: any View = HomeRoute()
 }
 
 struct HomeRoute: View {
-    @State var currentDate: Date = Date()
-    @AppStorage("PrayerTimeCity") private var selectedCity: String = PrayerTimeCity.stockholm.rawValue
+  @State
+  var currentDate: Date = Date()
   
-    var body: some View {
-      VStack(alignment: .center) {
-        MainRouteHeading(date: currentDate)
-        MainRouteContent(city: PrayerTimeCity(rawValue: selectedCity)!, currentDate: $currentDate)
-      }
+  @AppStorage(PrayerTimeCity.key)
+  private var city: PrayerTimeCity = PrayerTimeCity.standard
+  
+  var body: some View {
+    VStack(alignment: .center) {
+      MainRouteHeading(date: currentDate)
+      PrayerTimesPager(date: $currentDate, city: city)
     }
-}
-
-#Preview {
-    HomeRoute()
+  }
 }

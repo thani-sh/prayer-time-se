@@ -5,21 +5,12 @@
 //  Created by Thanish Nizam on 2025-01-30.
 //
 
-import Foundation
-import SwiftUICore
-
-// RouteType describes the type of route. This is used to decide
-// whether to show them on the main navigation bar or not.
-enum RouteType {
-  case PRIMARY
-  case SECONDARY
-}
+import SwiftUI
 
 // RouteSpec describes a route
 protocol RouteSpec {
   var name: String { get }
   var text: String { get }
-  var type: RouteType { get }
   var icon: String { get }
   var content: any View { get }
 }

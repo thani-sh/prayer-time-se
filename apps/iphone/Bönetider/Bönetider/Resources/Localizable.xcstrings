@@ -2,7 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "|" : {
-
+      "shouldTranslate" : false
     },
     "app_name" : {
       "extractionState" : "stale",
@@ -51,6 +51,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uppdatera"
+          }
+        }
+      }
+    },
+    "notification_before_adhan_enabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notify before adhan"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meddela innan adhan"
+          }
+        }
+      }
+    },
+    "notification_before_adhan_offset" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutes before adhan"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuter före adhan"
           }
         }
       }
@@ -105,8 +139,7 @@
         }
       }
     },
-    "notification_offset_template" : {
-      "extractionState" : "stale",
+    "notification_offset_template %lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -121,9 +154,6 @@
           }
         }
       }
-    },
-    "notification_offset_template %lld" : {
-
     },
     "notification_title" : {
       "extractionState" : "stale",
@@ -143,7 +173,6 @@
       }
     },
     "prayers_city_alingsas" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -160,7 +189,6 @@
       }
     },
     "prayers_city_amal" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -177,7 +205,6 @@
       }
     },
     "prayers_city_angelholm" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -194,7 +221,6 @@
       }
     },
     "prayers_city_avesta" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -211,7 +237,6 @@
       }
     },
     "prayers_city_bengtsfors" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -228,7 +253,6 @@
       }
     },
     "prayers_city_boden" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -245,7 +269,6 @@
       }
     },
     "prayers_city_bollnas" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -262,7 +285,6 @@
       }
     },
     "prayers_city_boras" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -279,7 +301,6 @@
       }
     },
     "prayers_city_borlange" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -296,7 +317,6 @@
       }
     },
     "prayers_city_eksjo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -313,7 +333,6 @@
       }
     },
     "prayers_city_enkoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -330,7 +349,6 @@
       }
     },
     "prayers_city_eskilstuna" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -347,7 +365,6 @@
       }
     },
     "prayers_city_eslov" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -364,7 +381,6 @@
       }
     },
     "prayers_city_falkenberg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -381,7 +397,6 @@
       }
     },
     "prayers_city_falkoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -398,7 +413,6 @@
       }
     },
     "prayers_city_filipstad" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -415,7 +429,6 @@
       }
     },
     "prayers_city_flen" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -432,7 +445,6 @@
       }
     },
     "prayers_city_gallivare" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -449,7 +461,6 @@
       }
     },
     "prayers_city_gavle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -466,7 +477,6 @@
       }
     },
     "prayers_city_gislaved" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -483,7 +493,6 @@
       }
     },
     "prayers_city_gnosjo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -500,7 +509,6 @@
       }
     },
     "prayers_city_goteborg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -517,7 +525,6 @@
       }
     },
     "prayers_city_halmstad" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -534,7 +541,6 @@
       }
     },
     "prayers_city_haparanda" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -551,7 +557,6 @@
       }
     },
     "prayers_city_harnosand" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -568,7 +573,6 @@
       }
     },
     "prayers_city_hassleholm" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -585,7 +589,6 @@
       }
     },
     "prayers_city_helsingborg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -602,7 +605,6 @@
       }
     },
     "prayers_city_hogsby" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -619,7 +621,6 @@
       }
     },
     "prayers_city_horby" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -636,7 +637,6 @@
       }
     },
     "prayers_city_hudiksvall" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -653,7 +653,6 @@
       }
     },
     "prayers_city_hultsfred" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -670,7 +669,6 @@
       }
     },
     "prayers_city_jokkmokk" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -687,7 +685,6 @@
       }
     },
     "prayers_city_jonkoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -704,7 +701,6 @@
       }
     },
     "prayers_city_kalmar" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -721,7 +717,6 @@
       }
     },
     "prayers_city_kalrshamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -738,7 +733,6 @@
       }
     },
     "prayers_city_karlskoga" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -755,7 +749,6 @@
       }
     },
     "prayers_city_karlskrona" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -772,7 +765,6 @@
       }
     },
     "prayers_city_karlstad" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -789,7 +781,6 @@
       }
     },
     "prayers_city_katrineholm" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -806,7 +797,6 @@
       }
     },
     "prayers_city_kiruna" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -823,7 +813,6 @@
       }
     },
     "prayers_city_koping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -840,7 +829,6 @@
       }
     },
     "prayers_city_kristianstad" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -857,7 +845,6 @@
       }
     },
     "prayers_city_kristinehamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -874,7 +861,6 @@
       }
     },
     "prayers_city_laholm" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -891,7 +877,6 @@
       }
     },
     "prayers_city_landskrona" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -908,7 +893,6 @@
       }
     },
     "prayers_city_lessebo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -925,7 +909,6 @@
       }
     },
     "prayers_city_lidkoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -942,7 +925,6 @@
       }
     },
     "prayers_city_linkoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -959,7 +941,6 @@
       }
     },
     "prayers_city_ludvika" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -976,7 +957,6 @@
       }
     },
     "prayers_city_lulea" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -993,7 +973,6 @@
       }
     },
     "prayers_city_lund" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1010,7 +989,6 @@
       }
     },
     "prayers_city_lysekil" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1027,7 +1005,6 @@
       }
     },
     "prayers_city_malmo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1044,7 +1021,6 @@
       }
     },
     "prayers_city_mariestad" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1061,7 +1037,6 @@
       }
     },
     "prayers_city_marsta" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1078,7 +1053,6 @@
       }
     },
     "prayers_city_mellerud" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1095,7 +1069,6 @@
       }
     },
     "prayers_city_mjolby" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1112,7 +1085,6 @@
       }
     },
     "prayers_city_monsteras" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1129,7 +1101,6 @@
       }
     },
     "prayers_city_munkedal" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1146,7 +1117,6 @@
       }
     },
     "prayers_city_nassjo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1163,7 +1133,6 @@
       }
     },
     "prayers_city_norrkoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1180,7 +1149,6 @@
       }
     },
     "prayers_city_norrtalje" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1197,7 +1165,6 @@
       }
     },
     "prayers_city_nybro" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1214,7 +1181,6 @@
       }
     },
     "prayers_city_nykoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1231,7 +1197,6 @@
       }
     },
     "prayers_city_nynashamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1248,7 +1213,6 @@
       }
     },
     "prayers_city_orebro" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1265,7 +1229,6 @@
       }
     },
     "prayers_city_ornskoldsvik" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1282,7 +1245,6 @@
       }
     },
     "prayers_city_oskarshamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1299,7 +1261,6 @@
       }
     },
     "prayers_city_ostersund" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1316,7 +1277,6 @@
       }
     },
     "prayers_city_oxelosund" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1333,7 +1293,6 @@
       }
     },
     "prayers_city_pajala" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1350,7 +1309,6 @@
       }
     },
     "prayers_city_pitea" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1367,7 +1325,6 @@
       }
     },
     "prayers_city_ronneby" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1384,7 +1341,6 @@
       }
     },
     "prayers_city_saffle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1401,7 +1357,6 @@
       }
     },
     "prayers_city_sala" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1418,7 +1373,6 @@
       }
     },
     "prayers_city_savsjo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1435,7 +1389,6 @@
       }
     },
     "prayers_city_simrishamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1452,7 +1405,6 @@
       }
     },
     "prayers_city_skara" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1469,7 +1421,6 @@
       }
     },
     "prayers_city_skelleftea" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1486,7 +1437,6 @@
       }
     },
     "prayers_city_skovde" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1503,7 +1453,6 @@
       }
     },
     "prayers_city_soderhamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1520,7 +1469,6 @@
       }
     },
     "prayers_city_sodertalje" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1537,7 +1485,6 @@
       }
     },
     "prayers_city_solleftea" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1554,7 +1501,6 @@
       }
     },
     "prayers_city_solvesborg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1571,7 +1517,6 @@
       }
     },
     "prayers_city_stockholm" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1588,7 +1533,6 @@
       }
     },
     "prayers_city_strangnas" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1605,7 +1549,6 @@
       }
     },
     "prayers_city_sundsvall" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1622,7 +1565,6 @@
       }
     },
     "prayers_city_tierp" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1639,7 +1581,6 @@
       }
     },
     "prayers_city_tranemo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1656,7 +1597,6 @@
       }
     },
     "prayers_city_trelleborg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1673,7 +1613,6 @@
       }
     },
     "prayers_city_trollhattan" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1690,7 +1629,6 @@
       }
     },
     "prayers_city_uddevalla" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1707,7 +1645,6 @@
       }
     },
     "prayers_city_ulricehamn" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1724,7 +1661,6 @@
       }
     },
     "prayers_city_umea" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1741,7 +1677,6 @@
       }
     },
     "prayers_city_uppsala" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1758,7 +1693,6 @@
       }
     },
     "prayers_city_vanersborg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1775,7 +1709,6 @@
       }
     },
     "prayers_city_varberg" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1792,7 +1725,6 @@
       }
     },
     "prayers_city_varnamo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1809,7 +1741,6 @@
       }
     },
     "prayers_city_vasteras" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1826,7 +1757,6 @@
       }
     },
     "prayers_city_vastervik" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1843,7 +1773,6 @@
       }
     },
     "prayers_city_vaxjo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1860,7 +1789,6 @@
       }
     },
     "prayers_city_vetlanda" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1877,7 +1805,6 @@
       }
     },
     "prayers_city_vimmerby" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1894,7 +1821,6 @@
       }
     },
     "prayers_city_visby" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1911,7 +1837,6 @@
       }
     },
     "prayers_city_ystad" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2073,6 +1998,7 @@
       }
     },
     "prayers_type_shuruk" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2303,6 +2229,74 @@
         }
       }
     },
+    "route_settings_open_github" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Github repository"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna GitHub-förråd"
+          }
+        }
+      }
+    },
+    "route_settings_report_errors" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report errors and feedback"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapportera fel och feedback"
+          }
+        }
+      }
+    },
+    "route_settings_section_development" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Development"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utveckling"
+          }
+        }
+      }
+    },
+    "route_settings_section_development_details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app is open-source and free to use under the MIT license, inviting everyone to contribute or share feedback to help improve it. You can explore the source code or contribute via its GitHub repository."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen är öppen källkod och gratis att använda under MIT-licensen, och uppmuntrar alla att bidra eller dela feedback för att hjälpa till att förbättra den. Du kan utforska källkoden eller bidra via dess GitHub-förråd."
+          }
+        }
+      }
+    },
     "route_settings_section_methodology" : {
       "localizations" : {
         "en" : {
@@ -2332,6 +2326,39 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "De böner-tider som visas i appen beräknas med hjälp av dessa inställningar."
+          }
+        }
+      }
+    },
+    "route_settings_section_notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meddelanden"
+          }
+        }
+      }
+    },
+    "route_settings_section_notifications_details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn prayer notifications on or off and customize how long before the prayer time you want to receive the notifications."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slå på eller av böner-aviseringar och anpassa hur lång tid innan bönetiden du vill ta emot aviseringarna."
           }
         }
       }

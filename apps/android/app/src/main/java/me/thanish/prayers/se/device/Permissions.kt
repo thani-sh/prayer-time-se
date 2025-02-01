@@ -1,4 +1,4 @@
-package me.thanish.prayers.se.device
+    package me.thanish.prayers.se.device
 
 import android.content.Context
 import android.content.pm.PackageManager

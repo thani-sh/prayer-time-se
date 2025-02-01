@@ -7,38 +7,45 @@
 
 import SwiftUI
 
-// PrayerTimeMethod is the city the prayer time is calculated for
+// PrayerTimeMethod is the method the prayer time is calculated using.
+// This value van be used on SwiftUI views using the snippet given below.
+//
+//   @AppStorage(PrayerTimeMethod.key)
+//   private var method: PrayerTimeMethod = PrayerTimeMethod.standard
+//
+// To update the stored value, set the PrayerTimeMethod.current value.
+//
+//   PrayerTimeMethod.current = PrayerTimeMethod.islamiskaforbundet
+//
 enum PrayerTimeMethod: String, CaseIterable, Identifiable {
   case islamiskaforbundet
   
+  // Key used to store notification offset on UserDefaults
+  static let key: String = "PrayerTimeMethod"
+  
+  // The default value to use before a value is picked by the user
+  static let standard: PrayerTimeMethod = .islamiskaforbundet
+  
+  // The current prayer time method value stored in UserDefaults
+  static var current : PrayerTimeMethod {
+    get {
+      let storedValue = UserDefaults.standard.string(forKey: key)
+      return Self(rawValue: storedValue ?? "") ?? PrayerTimeMethod.standard
+    }
+    set { UserDefaults.standard.set(newValue.id, forKey: key) }
+  }
+  
+  // MARK: - Computed Properties
+  
+  // Unique and machine friendly identifier used for matching
   var id: String { self.rawValue }
   
-  /// Get localized city name
-  func getLabel() -> String {
-    NSLocalizedString("prayers_method_" + self.rawValue, comment: "")
-  }
-}
-
-// PrayerTimeMethodPicker is a SwiftUI View for selecting the methodology
-struct PrayerTimeMethodPicker: View {
-  @AppStorage("PrayerTimeMethod") private var selectedMethod: String = PrayerTimeMethod.islamiskaforbundet.rawValue
-  
-  var body: some View {
-    List {
-      Picker(String(localized: "route_settings_method"), selection: Binding(
-        get: { PrayerTimeMethod(rawValue: selectedMethod) ?? .islamiskaforbundet },
-        set: { selectedMethod = $0.rawValue }
-      )) {
-        ForEach(PrayerTimeMethod.allCases, id: \.self) { method in
-          Text(method.getLabel()).tag(method)
-        }
-      }
+  // Localized string of the prayer time cuty
+  var label: String {
+    switch self {
+      case .islamiskaforbundet:
+        return String(localized: "prayers_method_islamiskaforbundet")
     }
   }
 }
 
-struct PrayerTimeMethodPicker_Previews: PreviewProvider {
-  static var previews: some View {
-    PrayerTimeMethodPicker()
-  }
-}

@@ -5,88 +5,55 @@
 //  Created by Thanish Nizam on 2025-01-31.
 //
 
-
 import Foundation
 
-/**
- PrayerTimeData contains data read from asset json files.
- */
+// PrayerTimeData is data read from bundled JSON files for a specific city.
+// Instances of this struct should contain prayer times for the entire year.
 struct PrayerTimeData {
-    let city: PrayerTimeCity
-    private let data: [[[Int]]]
-    
-    private enum PrayerTimeIndex: Int {
-        case fajr = 0
-        case shuruk = 1
-        case dhohr = 2
-        case asrShafi = 3
-        case asrHanafi = 4
-        case maghrib = 5
-        case isha = 6
+  // Cached the recently loaded dataset to avoid reading and parsing the file.
+  private static var cache: PrayerTimeData?
+  
+  // The number of values available per day in bundles JSON file.
+  // TODO: remove the extra "Asr" value and change this to 6.
+  private static let valuesPerDay = 7
+  
+  // Get the dataset for the city the user has selected (or the default city).
+  static var current: PrayerTimeData {
+    let city = PrayerTimeCity.current
+    if cache != nil && cache!.city == city {
+      return cache!
     }
-    
-    // MARK: - Prayer Time Getters
-    
-    func fajrTime(for date: Date) -> Date {
-        return prayerTime(for: date, index: .fajr)
+    guard let url = Bundle.main.url(forResource: city.rawValue, withExtension: "json"),
+          let data = try? Data(contentsOf: url),
+          let json = try? JSONSerialization.jsonObject(with: data) as? [[[Int]]] else {
+      fatalError("Failed to load prayer time data for \(city.rawValue)")
     }
-    
-    func shurukTime(for date: Date) -> Date {
-        return prayerTime(for: date, index: .shuruk)
+    return PrayerTimeData(city: city, data: json)
+  }
+  
+  // MARK: - Properties
+  
+  let city: PrayerTimeCity
+  let data: [[[Int]]]
+  
+  // MARK: - Methods
+  
+  // Returns an array of prayer times for the given date. This only contains
+  // date values. Use static methods on the PrayerTime struct for a more
+  // helpful version. This should not be used directly in almost all cases.
+  func forDate(_ date: Date) -> [Date] {
+    let calendar = Calendar.current
+    let month = calendar.component(.month, from: date) - 1
+    let day = calendar.component(.day, from: date) - 1
+    let values: [Int] = data[month][day]
+    if values.count != PrayerTimeData.valuesPerDay {
+      fatalError("Invalid prayer time data for \(city.rawValue): \(values) for \(date)")
     }
-    
-    func dhohrTime(for date: Date) -> Date {
-        return prayerTime(for: date, index: .dhohr)
+    return values.map { minutes in
+      var components = calendar.dateComponents([.year, .month, .day], from: date)
+      components.hour = minutes / 60
+      components.minute = minutes % 60
+      return Calendar.current.date(from: components)!
     }
-    
-    func asrTime(for date: Date) -> Date {
-        return prayerTime(for: date, index: .asrShafi)
-    }
-    
-    func maghribTime(for date: Date) -> Date {
-        return prayerTime(for: date, index: .maghrib)
-    }
-    
-    func ishaTime(for date: Date) -> Date {
-        return prayerTime(for: date, index: .isha)
-    }
-    
-    // MARK: - Private Helpers
-    
-    private func prayerTime(for date: Date, index: PrayerTimeIndex) -> Date {
-        let calendar = Calendar.current
-        let month = calendar.component(.month, from: date) - 1
-        let day = calendar.component(.day, from: date) - 1
-        let minutes = data[month][day][index.rawValue]
-        
-        var components = calendar.dateComponents([.year, .month, .day], from: date)
-        components.hour = minutes / 60
-        components.minute = minutes % 60
-        
-        return calendar.date(from: components) ?? date
-    }
-    
-    // MARK: - Data Loading
-    
-    private static var current: PrayerTimeData?
-    
-    static func get(for city: PrayerTimeCity) -> PrayerTimeData {
-        if let current = current, current.city == city {
-            return current
-        }
-        
-        let newData = loadData(for: city)
-        current = loadData(for: city)
-        return newData
-    }
-    
-    private static func loadData(for city: PrayerTimeCity) -> PrayerTimeData {
-        guard let url = Bundle.main.url(forResource: city.rawValue, withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let jsonData = try? JSONSerialization.jsonObject(with: data) as? [[[Int]]]
-        else {
-            fatalError("Failed to load prayer time data for \(city.rawValue)")
-        }
-        return PrayerTimeData(city: city, data: jsonData)
-    }
+  }
 }

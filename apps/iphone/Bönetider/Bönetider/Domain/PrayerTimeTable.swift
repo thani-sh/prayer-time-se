@@ -8,68 +8,35 @@
 
 import Foundation
 
+// PrayerTimeTable is a helper struct that makes it easy to bundle prayer times
+// for a specific date together. Provides computed properties for easy access.
 struct PrayerTimeTable {
-    let city: PrayerTimeCity
-    let date: Date
-    let fajr: PrayerTime
-    let shuruk: PrayerTime
-    let dhohr: PrayerTime
-    let asr: PrayerTime
-    let maghrib: PrayerTime
-    let isha: PrayerTime
-    
-    var prayerTimes: [PrayerTime] {
-        [fajr, shuruk, dhohr, asr, maghrib, isha]
-    }
-    
-    static func forDate(city: PrayerTimeCity, date: Date) -> PrayerTimeTable {
-        let data = PrayerTimeData.get(for: city)
-        
-        return PrayerTimeTable(
-            city: city,
-            date: date.startOfDay,
-            fajr: PrayerTime(
-                city: city,
-                type: .fajr,
-                time: data.fajrTime(for: date)
-            ),
-            shuruk: PrayerTime(
-                city: city,
-                type: .shuruk,
-                time: data.shurukTime(for: date)
-            ),
-            dhohr: PrayerTime(
-                city: city,
-                type: .dhohr,
-                time: data.dhohrTime(for: date)
-            ),
-            asr: PrayerTime(
-                city: city,
-                type: .asr,
-                time: data.asrTime(for: date)
-            ),
-            maghrib: PrayerTime(
-                city: city,
-                type: .maghrib,
-                time: data.maghribTime(for: date)
-            ),
-            isha: PrayerTime(
-                city: city,
-                type: .isha,
-                time: data.ishaTime(for: date)
-            )
-        )
-    }
-    
-    static func forToday(city: PrayerTimeCity) -> PrayerTimeTable {
-        let now = Date()
-        return forDate(city: city, date: now)
-    }
-}
-
-// MARK: - Date Helpers
-extension Date {
-    var startOfDay: Date {
-        Calendar.current.startOfDay(for: self)
-    }
+  // Get the PrayerTimeTable for given date and city.
+  static func forDate(city: PrayerTimeCity, date: Date) -> PrayerTimeTable {
+    let values = PrayerTime.getPrayersForDate(city: city, date: date)
+    return PrayerTimeTable.init(city: city, date: date, data: values)
+  }
+  
+  // MARK: - Properties
+  
+  let city: PrayerTimeCity
+  let date: Date
+  let data: [PrayerTime]
+  
+  // MARK: - Computed Properties
+  
+  var fajr: PrayerTime { data.first(where: { $0.type == .fajr })! }
+  var shuruk: PrayerTime { data.first(where: { $0.type == .shuruk })! }
+  var dhohr: PrayerTime { data.first(where: { $0.type == .dhohr })! }
+  var asr: PrayerTime { data.first(where: { $0.type == .asr })! }
+  var maghrib: PrayerTime { data.first(where: { $0.type == .maghrib })! }
+  var isha: PrayerTime { data.first(where: { $0.type == .isha })! }
+  
+  // MARK: - Initializers
+  
+  init(city: PrayerTimeCity, date: Date, data: [PrayerTime]) {
+    self.city = city
+    self.date = date
+    self.data = data
+  }
 }
