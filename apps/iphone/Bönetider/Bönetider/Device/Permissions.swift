@@ -11,17 +11,15 @@ import CoreLocation
 
 // Permissions need to be obtained from the user using the app
 struct Permissions {
-  private static let notificationCenter = UNUserNotificationCenter.current()
-  private static let locationManager = CLLocationManager()
-  
-  
   // shows the dialog to request permission from the user for notifications
-  static func requestNotification(callback: @escaping (Bool) -> Void) {
+  static func requestNotification(_ callback: @escaping (Bool) -> Void) {
+    let notificationCenter = UNUserNotificationCenter.current()
     notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, _ in callback(granted) }
   }
   
   // shows the dialog to request permission from the user for user location
-  static func requestLocation(callback: @escaping (Bool) -> Void) {
+  static func requestLocation(_ callback: @escaping (Bool) -> Void) {
+    let locationManager = CLLocationManager()
     locationManager.requestWhenInUseAuthorization()
     callback(locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways)
   }
