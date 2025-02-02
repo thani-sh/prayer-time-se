@@ -16,6 +16,11 @@ struct CompassRouteSpec: RouteSpec {
 
 struct CompassRoute: View {
   var body: some View {
-    Text(String(localized: "shared_coming_soon"))
+    VStack {
+      Text(String(localized: "shared_coming_soon"))
+    }
+    .onAppear {
+      Permissions.requestLocation({ _ in })
+    }
   }
 }
