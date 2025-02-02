@@ -25,9 +25,11 @@ struct SettingsRoute: View {
   private var method: PrayerTimeMethod = PrayerTimeMethod.standard
   
   func enableNotifications() {
-    Permissions.requestNotification(callback: { success in
+    Permissions.requestNotification({ success in
       if success {
         SchedulerWorker.scheduleNotifications()
+      } else {
+        offset = NotificationOffset.disabled
       }
     })
   }
@@ -60,8 +62,4 @@ struct SettingsRoute: View {
     .navigationTitle(String(localized: "route_settings_name"))
     .navigationBarTitleDisplayMode(.inline)
   }
-}
-
-#Preview {
-    SettingsRoute()
 }
