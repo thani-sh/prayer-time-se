@@ -62,10 +62,7 @@ struct NotificationOffset: Codable, RawRepresentable, Identifiable, Equatable {
   var rawValue: Int { minutes }
   
   // Offset value in seconds before adhan time
-  var asSeconds: Int { minutes * 60 }
-  
-  // Offset value in millis before adhan time
-  var asMillis: Int { minutes * 60 * 1000 }
+  var seconds: Int { minutes * 60 }
   
   // Indicates whether notifications are enabled or disabled
   var enabled: Bool { self != NotificationOffset.disabled }

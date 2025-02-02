@@ -4,7 +4,7 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>me.thanish.prayers.se.scheduler</string>
+		<string>me.thanish.prayers.se.SchedulerWorker</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>

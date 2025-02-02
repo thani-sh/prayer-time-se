@@ -28,7 +28,9 @@ struct PrayerTimeData {
           let json = try? JSONSerialization.jsonObject(with: data) as? [[[Int]]] else {
       fatalError("Failed to load prayer time data for \(city.rawValue)")
     }
-    return PrayerTimeData(city: city, data: json)
+    let loadedData = PrayerTimeData(city: city, data: json)
+    cache = loadedData
+    return loadedData
   }
   
   // MARK: - Properties

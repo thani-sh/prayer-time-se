@@ -9,6 +9,14 @@ import SwiftUI
 
 @main
 struct Bo_netiderApp: App {
+  // Schedules notifications and the next refresh
+  init() {
+    Task {
+      NotificationWorker.initialize()
+      SchedulerWorker.initialize()
+    }
+  }
+
   var body: some Scene {
     WindowGroup {
       TabView {
@@ -20,6 +28,9 @@ struct Bo_netiderApp: App {
           }
         }
       }
+    }
+    .backgroundTask(.appRefresh(SchedulerWorker.identifier)) {
+      SchedulerWorker.scheduleNotifications()
     }
   }
 }

@@ -68,6 +68,11 @@ struct PrayerTime: Identifiable, Equatable {
     return String(localized: "prayers_time_until_m \(components.minute ?? 0)")
   }
   
+  // The time when notifications must be shown to the user
+  var notifyTime: Date {
+    time.addingTimeInterval(-TimeInterval(NotificationOffset.current.seconds))
+  }
+  
   // Flag to indicate whether the prayer time is "current". A prayer is considered current
   // from the adhan time to 30 minutes from then. This flag is completely arbitrary and only
   // used to emphasize a prayer time immediately from adhan time.
@@ -89,6 +94,9 @@ struct PrayerTime: Identifiable, Equatable {
   var isNext: Bool {
     return PrayerTime.getNextPrayers(city: city, count: 1).first == self
   }
+  
+  // Flag to indicate whether the prayer time is in the future or not.
+  var isFuture: Bool { time > Date() }
   
   // MARK: - Initializers
   
