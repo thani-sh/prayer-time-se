@@ -26,5 +26,8 @@ struct HomeRoute: View {
       MainRouteHeading(date: currentDate)
       PrayerTimesPager(date: $currentDate, city: city)
     }
+    .onAppear {
+      currentDate = Date()
+    }
   }
 }
