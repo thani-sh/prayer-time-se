@@ -22,30 +22,27 @@ struct CompassRoute: View {
   private var locationService = LocationService()
   
   @State
-  private var locationPermissionGranted: Bool = false
+  private var qibla: Double = 0
+  
+  @State
+  private var heading: Double = 0
+  
+  @State
+  private var accuracy = LocationService.HeadingAccuracy.unknown
   
   var body: some View {
-    ZStack {
-      VStack {
-        QiblaCompass(
-          qibla: locationService.qibla,
-          heading: locationService.heading,
-          accuracy: locationService.accuracy
-        )
-        .onAppear { locationService.start() }
-        .onDisappear { locationService.stop() }
+    QiblaCompass(qibla: qibla, heading: heading, accuracy: accuracy)
+      .onAppear {
+        locationService.start({ newQibla, _, newHeading, newAccuracy in
+          withAnimation {
+            qibla = newQibla
+            heading = newHeading
+            accuracy = newAccuracy
+          }
+        })
       }
-      
-      if !locationPermissionGranted {
-        Rectangle()
-          .fill(.white)
-          .opacity(0.95)
-        LocationButton(.currentLocation) { locationPermissionGranted = true }
-          .cornerRadius(32)
-          .symbolVariant(.fill)
-          .labelStyle(.titleAndIcon)
-          .foregroundColor(Color.white)
+      .onDisappear {
+        locationService.stop()
       }
-    }
   }
 }

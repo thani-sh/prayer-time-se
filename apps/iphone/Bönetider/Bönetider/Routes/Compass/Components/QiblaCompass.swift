@@ -68,6 +68,7 @@ struct QiblaCompass: View {
           dashPhase: 0
         )
       )
+      .rotationEffect(.radians(-heading))
   }
   
   private func northLabel(center: CGPoint, radius: CGFloat) -> some View {
@@ -79,17 +80,17 @@ struct QiblaCompass: View {
   
   private func qiblaArrow(center: CGPoint, radius: CGFloat) -> some View {
     let arrowPath = Path { path in
-      let tip = CGPoint(x: center.x + radius, y: center.y)
+      let tip = CGPoint(x: center.x, y: center.y - radius)
       path.move(to: center)
       path.addLine(to: tip)
-      path.addLine(to: tip.applying(.init(translationX: -8, y: 5)))
+      path.addLine(to: tip.applying(.init(translationX: 5, y: 8)))
       path.move(to: tip)
-      path.addLine(to: tip.applying(.init(translationX: -8, y: -5)))
+      path.addLine(to: tip.applying(.init(translationX: -5, y: 8)))
     }
-    
+
     return arrowPath
       .stroke(priorityColor, style: StrokeStyle(lineWidth: 3, lineCap: .square))
-      .rotationEffect(.radians(heading + qibla - .pi/2))
+      .rotationEffect(.radians(-(heading - qibla)))
   }
   
   private func priorityIndicator(center: CGPoint, radius: CGFloat) -> some View {
