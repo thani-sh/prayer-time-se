@@ -40,7 +40,7 @@ struct NotificationWorker {
     // Prepare notification content
     let content = UNMutableNotificationContent()
     content.title = String(localized: "notification_title \(prayer.type.label)")
-    content.body = String(localized: "notification_body \(prayer.timeString)")
+    content.body = String(localized: "notification_body \(prayer.type.label) \(prayer.timeString)")
     content.sound = .default
     content.categoryIdentifier = category
     

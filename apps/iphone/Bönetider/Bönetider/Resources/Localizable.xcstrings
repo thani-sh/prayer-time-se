@@ -89,18 +89,18 @@
         }
       }
     },
-    "notification_body %@" : {
+    "notification_body %@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "It's time for %@"
+            "value" : "%1$@ prayer begins at %2$@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det är dags för %@"
+            "value" : "%1$@ bön börjar kl. %2$@"
           }
         }
       }
