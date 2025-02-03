@@ -19,25 +19,32 @@ struct CompassRouteSpec: RouteSpec {
 
 struct CompassRoute: View {
   @State
+  private var locationService = LocationService()
+  
+  @State
   private var locationPermissionGranted: Bool = false
   
   var body: some View {
     ZStack {
       VStack {
         QiblaCompass(
-          qibla: .pi / 4,
-          heading: 0,
-          priority: CMMagneticFieldCalibrationAccuracy.medium
+          qibla: locationService.qibla,
+          heading: locationService.heading,
+          accuracy: locationService.accuracy
         )
+        .onAppear { locationService.start() }
+        .onDisappear { locationService.stop() }
       }
       
       if !locationPermissionGranted {
-        Rectangle().fill(.white).opacity(0.95)
+        Rectangle()
+          .fill(.white)
+          .opacity(0.95)
         LocationButton(.currentLocation) { locationPermissionGranted = true }
-        .cornerRadius(32)
-        .symbolVariant(.fill)
-        .labelStyle(.titleAndIcon)
-        .foregroundColor(Color.white)
+          .cornerRadius(32)
+          .symbolVariant(.fill)
+          .labelStyle(.titleAndIcon)
+          .foregroundColor(Color.white)
       }
     }
   }

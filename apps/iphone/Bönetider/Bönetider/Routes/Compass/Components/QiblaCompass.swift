@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
-import CoreMotion
 
 struct QiblaCompass: View {
   // MARK: - Properties
   
   let qibla: Double
   let heading: Double
-  let priority: CMMagneticFieldCalibrationAccuracy
+  let accuracy: LocationService.HeadingAccuracy
   
   // MARK: - Private Properties
   
@@ -24,14 +23,12 @@ struct QiblaCompass: View {
   
   // Text to show on UI based on sensor accuracy
   private var priorityText: String {
-    switch priority {
-      case _ where Int(priority.rawValue) >= Int(CMMagneticFieldCalibrationAccuracy.high.rawValue):
+    switch accuracy {
+      case .high:
         return String(localized: "route_compass_priority_high")
-      case _ where Int(priority.rawValue) >= Int(
-        CMMagneticFieldCalibrationAccuracy.medium.rawValue
-      ):
+      case .medium:
         return String(localized: "route_compass_priority_medium")
-      case _ where Int(priority.rawValue) >= Int(CMMagneticFieldCalibrationAccuracy.low.rawValue):
+      case .low:
         return String(localized: "route_compass_priority_low")
       default:
         return String(localized: "route_compass_priority_error")
@@ -40,14 +37,12 @@ struct QiblaCompass: View {
   
   // Color to use on UI based on sensor accuracy
   private var priorityColor: Color {
-    switch priority {
-      case _ where Int(priority.rawValue) >= Int(CMMagneticFieldCalibrationAccuracy.high.rawValue):
+    switch accuracy {
+      case .high:
         return .blue
-      case _ where Int(priority.rawValue) >= Int(
-        CMMagneticFieldCalibrationAccuracy.medium.rawValue
-      ):
+      case .medium:
         return .blue
-      case _ where Int(priority.rawValue) >= Int(CMMagneticFieldCalibrationAccuracy.low.rawValue):
+      case .low:
         return .gray
       default:
         return .red
@@ -114,8 +109,10 @@ struct QiblaCompass: View {
         
         ZStack {
           compassCircle(geometry: geometry)
-          northLabel(center: center, radius: radius)
-          qiblaArrow(center: center, radius: radius)
+          if accuracy != .unknown {
+            northLabel(center: center, radius: radius)
+            qiblaArrow(center: center, radius: radius)
+          }
           priorityIndicator(center: center, radius: radius)
         }
       }
