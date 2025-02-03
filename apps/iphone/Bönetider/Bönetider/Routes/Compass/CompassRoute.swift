@@ -18,7 +18,7 @@ struct CompassRouteSpec: RouteSpec {
 }
 
 struct CompassRoute: View {
-  @State
+  @StateObject
   private var locationService = LocationService()
   
   @State
