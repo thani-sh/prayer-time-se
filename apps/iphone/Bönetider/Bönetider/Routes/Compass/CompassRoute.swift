@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import CoreMotion
+import CoreLocation
+import CoreLocationUI
 
 struct CompassRouteSpec: RouteSpec {
   let name: String      = "compass"
@@ -15,12 +18,27 @@ struct CompassRouteSpec: RouteSpec {
 }
 
 struct CompassRoute: View {
+  @State
+  private var locationPermissionGranted: Bool = false
+  
   var body: some View {
-    VStack {
-      Text(String(localized: "shared_coming_soon"))
-    }
-    .onAppear {
-      Permissions.requestLocation({ _ in })
+    ZStack {
+      VStack {
+        QiblaCompass(
+          qibla: .pi / 4,
+          heading: 0,
+          priority: CMMagneticFieldCalibrationAccuracy.medium
+        )
+      }
+      
+      if !locationPermissionGranted {
+        Rectangle().fill(.white).opacity(0.95)
+        LocationButton(.currentLocation) { locationPermissionGranted = true }
+        .cornerRadius(32)
+        .symbolVariant(.fill)
+        .labelStyle(.titleAndIcon)
+        .foregroundColor(Color.white)
+      }
     }
   }
 }

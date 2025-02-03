@@ -90,7 +90,20 @@
       }
     },
     "notification_body %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's time for %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är dags för %@"
+          }
+        }
+      }
     },
     "notification_channel_description" : {
       "extractionState" : "stale",
@@ -158,8 +171,7 @@
         }
       }
     },
-    "notification_title" : {
-      "extractionState" : "stale",
+    "notification_title %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -174,9 +186,6 @@
           }
         }
       }
-    },
-    "notification_title %@" : {
-
     },
     "prayers_city_alingsas" : {
       "localizations" : {
@@ -2004,7 +2013,6 @@
       }
     },
     "prayers_type_shuruk" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2037,7 +2045,6 @@
       }
     },
     "route_compass_north" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2054,7 +2061,6 @@
       }
     },
     "route_compass_priority_error" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2071,7 +2077,6 @@
       }
     },
     "route_compass_priority_high" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2088,7 +2093,6 @@
       }
     },
     "route_compass_priority_low" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2105,7 +2109,6 @@
       }
     },
     "route_compass_priority_medium" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2201,40 +2204,6 @@
         }
       }
     },
-    "route_settings_notifications" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Before adhan"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aviseringar"
-          }
-        }
-      }
-    },
-    "route_settings_notifications_off" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Av"
-          }
-        }
-      }
-    },
     "route_settings_open_github" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2315,23 +2284,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bönetider"
-          }
-        }
-      }
-    },
-    "route_settings_section_methodology_details" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The prayer times displayed in the app are calculated using these settings."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "De böner-tider som visas i appen beräknas med hjälp av dessa inställningar."
           }
         }
       }

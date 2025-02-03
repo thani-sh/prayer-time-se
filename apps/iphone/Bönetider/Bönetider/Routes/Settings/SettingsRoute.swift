@@ -24,8 +24,9 @@ struct SettingsRoute: View {
   @AppStorage(PrayerTimeMethod.key)
   private var method: PrayerTimeMethod = PrayerTimeMethod.standard
   
-  func enableNotifications() {
-    Permissions.requestNotification({ success in
+  // Request notification permissions
+  func requestNotificationPermission() {
+    Permissions.requestNotificationPermission({ success in
       if success {
         SchedulerWorker.scheduleNotifications()
       } else {
@@ -46,7 +47,7 @@ struct SettingsRoute: View {
         
         Section {
           NotificationEnabledToggle(offset: $offset)
-            .onChange(of: offset) { enableNotifications() }
+            .onChange(of: offset) { requestNotificationPermission() }
           NotificationOffsetSlider(offset: $offset)
         }
           header: { Text(String(localized: "route_settings_section_notifications")) }

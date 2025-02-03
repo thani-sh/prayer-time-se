@@ -31,7 +31,7 @@ enum PrayerTimeType: String, CaseIterable, Identifiable {
       case .fajr:
         return String(localized: "prayers_type_fajr")
       case .shuruk:
-        return String(localized: "prayers_type_fajr")
+        return String(localized: "prayers_type_shuruk")
       case .dhohr:
         return String(localized: "prayers_type_dhohr")
       case .asr:
