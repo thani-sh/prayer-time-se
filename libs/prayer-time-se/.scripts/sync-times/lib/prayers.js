@@ -40,13 +40,23 @@ export async function fetchPrayerTimesForCity(city) {
  * Fetches the prayer times for a specific city and month.
  */
 export async function fetchPrayerTime(city, month) {
-  const params = [`ifis_bonetider_page_city=${city}%2C+SE`, `ifis_bonetider_page_month=${month}`];
-  const res = await fetch(API_URL, { method: 'POST', headers: HEADERS, body: params.join('&') });
-  if (!res.ok) {
-    throw new Error(`Failed to fetch prayer times for ${city} in month ${month}`);
+  const action = async function () {
+    const params = [`ifis_bonetider_page_city=${city}%2C+SE`, `ifis_bonetider_page_month=${month}`];
+    const res = await fetch(API_URL, { method: 'POST', headers: HEADERS, body: params.join('&') });
+    if (!res.ok) {
+      console.error(`Request failed with status ${res.statusText} (${res.status})`);
+      throw new Error(`Failed to fetch prayer times for ${city} in month ${month}`);
+    }
+    const html = await res.text();
+    return extractPrayerTimes(html);
+  };
+  for (let i = 0; i < 10; ++i) {
+    try {
+      return await action();
+    } catch (err) {
+      console.error(`Retrying ... ${i + 1}`);
+    }
   }
-  const html = await res.text();
-  return extractPrayerTimes(html);
 }
 
 /**
