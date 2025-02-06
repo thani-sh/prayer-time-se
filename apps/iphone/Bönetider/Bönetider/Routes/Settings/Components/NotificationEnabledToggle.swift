@@ -12,6 +12,17 @@ struct NotificationEnabledToggle: View {
   @Binding
   var offset: NotificationOffset
   
+  // Request notification permissions
+  func requestNotificationPermission() {
+    Permissions.requestNotificationPermission({ success in
+      if success {
+        SchedulerWorker.scheduleNotifications()
+      } else {
+        offset = NotificationOffset.disabled
+      }
+    })
+  }
+  
   var body: some View {
     List {
       Toggle(isOn: Binding(
@@ -21,5 +32,6 @@ struct NotificationEnabledToggle: View {
         Text(String(localized: "notification_before_adhan_enabled"))
       }
     }
+    .onChange(of: offset) { requestNotificationPermission() }
   }
 }

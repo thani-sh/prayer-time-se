@@ -24,43 +24,27 @@ struct SettingsRoute: View {
   @AppStorage(PrayerTimeMethod.key)
   private var method: PrayerTimeMethod = PrayerTimeMethod.standard
   
-  // Request notification permissions
-  func requestNotificationPermission() {
-    Permissions.requestNotificationPermission({ success in
-      if success {
-        SchedulerWorker.scheduleNotifications()
-      } else {
-        offset = NotificationOffset.disabled
-      }
-    })
-  }
-  
   var body: some View {
-    NavigationView {
-      Form {
-        Section {
-          PrayerTimeCityPicker(city: $city)
-          PrayerTimeMethodPicker(method: $method)
-        }
-          header: { Text(String(localized: "route_settings_section_methodology")) }
-          footer: { Text(String(localized: "prayers_method_islamiskaforbundet_details")) }
-        
-        Section {
-          NotificationEnabledToggle(offset: $offset)
-            .onChange(of: offset) { requestNotificationPermission() }
-          NotificationOffsetSlider(offset: $offset)
-        }
-          header: { Text(String(localized: "route_settings_section_notifications")) }
-          footer: { Text(String(localized: "route_settings_section_notifications_details")) }
-        
-        Section {
-          OpenGithubRepositoryLink()
-        }
-          header: { Text(String(localized: "route_settings_section_development")) }
-          footer: { Text(String(localized: "route_settings_section_development_details")) }
+    Form {
+      Section {
+        PrayerTimeCityPicker(city: $city)
+        PrayerTimeMethodPicker(method: $method)
       }
+      header: { Text(String(localized: "route_settings_section_methodology")) }
+      footer: { Text(String(localized: "prayers_method_islamiskaforbundet_details")) }
+      
+      Section {
+        NotificationEnabledToggle(offset: $offset)
+        NotificationOffsetSlider(offset: $offset)
+      }
+      header: { Text(String(localized: "route_settings_section_notifications")) }
+      footer: { Text(String(localized: "route_settings_section_notifications_details")) }
+      
+      Section {
+        OpenGithubRepositoryLink()
+      }
+      header: { Text(String(localized: "route_settings_section_development")) }
+      footer: { Text(String(localized: "route_settings_section_development_details")) }
     }
-    .navigationTitle(String(localized: "route_settings_name"))
-    .navigationBarTitleDisplayMode(.inline)
   }
 }
