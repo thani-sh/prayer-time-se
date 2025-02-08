@@ -69,7 +69,7 @@ struct NotificationOffset: Codable, RawRepresentable, Identifiable, Equatable {
   
   // Localized string describing the offset period
   var label: String {
-    minutes == NotificationOffset.disabled.minutes
+    self == NotificationOffset.disabled
     ? String(localized: "notification_offset_disabled")
     : String(localized: "notification_offset_template \(minutes)")
   }
@@ -88,8 +88,6 @@ struct NotificationOffset: Codable, RawRepresentable, Identifiable, Equatable {
   
   // Creates a struct based on whether notifications are enabled or disabled
   init(enabled: Bool) {
-    self.minutes = enabled
-    ? NotificationOffset.standard.minutes
-    : NotificationOffset.disabled.minutes
+    self = enabled ? NotificationOffset.standard : NotificationOffset.disabled
   }
 }

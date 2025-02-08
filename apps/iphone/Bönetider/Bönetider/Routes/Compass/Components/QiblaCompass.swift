@@ -103,6 +103,8 @@ struct QiblaCompass: View {
   // MARK: - Renderer
   
   var body: some View {
+    let padding: CGFloat = if UIDevice.current.userInterfaceIdiom == .pad { 256 } else { 64 }
+    
     VStack {
       GeometryReader { geometry in
         let center = geometry.center
@@ -118,7 +120,7 @@ struct QiblaCompass: View {
         }
       }
     }
-    .padding(64)
+    .padding(padding)
   }
 }
 

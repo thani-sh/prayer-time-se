@@ -4,53 +4,50 @@
     "|" : {
       "shouldTranslate" : false
     },
-    "app_name" : {
-      "extractionState" : "stale",
+    "hijri_calendar_offset_disabled" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bönetider"
+            "value" : "Disabled"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bönetider"
+            "value" : "Av"
           }
         }
       }
     },
-    "next_prayer_widget_name" : {
-      "extractionState" : "stale",
+    "hijri_calendar_offset_label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next Prayer"
+            "value" : "Hijri calendar offset"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nästa bön"
+            "value" : "Hijri-kalenderoffset"
           }
         }
       }
     },
-    "next_prayer_widget_refresh" : {
-      "extractionState" : "stale",
+    "hijri_calendar_offset_template %lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "tap to refresh"
+            "value" : "%d days"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uppdatera"
+            "value" : "%d dagar"
           }
         }
       }
@@ -101,40 +98,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ bön börjar kl. %2$@"
-          }
-        }
-      }
-    },
-    "notification_channel_description" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifies when it's time for prayers"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Meddelar när det är dags för böner"
-          }
-        }
-      }
-    },
-    "notification_channel_title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prayer time"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bönetider"
           }
         }
       }
@@ -2238,6 +2201,38 @@
         }
       }
     },
+    "route_settings_section_adjustments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrections"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rättelser"
+          }
+        }
+      }
+    },
+    "route_settings_section_adjustments_details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use these settings to correct values shown on the app when necessary (eg: Hijri calendar)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd dessa inställningar för att korrigera värden som visas i appen vid behov (t.ex.: Hijri-kalender)"
+          }
+        }
+      }
+    },
     "route_settings_section_development" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2317,23 +2312,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Slå på eller av böner-aviseringar och anpassa hur lång tid innan bönetiden du vill ta emot aviseringarna."
-          }
-        }
-      }
-    },
-    "route_settings_test_notification" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test Notification"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testa meddelar"
           }
         }
       }

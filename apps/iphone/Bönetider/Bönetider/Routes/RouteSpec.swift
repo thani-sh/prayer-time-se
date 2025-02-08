@@ -26,3 +26,8 @@ var AvailableRoutes: [RouteSpec] = [
 var DefaultRoute: RouteSpec {
   AvailableRoutes.first!
 }
+
+// ContentRoutes are routes with content ( does not include settings ).
+var ContentRoutes: [RouteSpec] {
+  AvailableRoutes.filter { $0.name != "settings" }
+}

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainRouteHeading: View {
   let date: Date
+  let offset: HijriCalendarOffset
   
   var body: some View {
     VStack(alignment: .center) {
@@ -36,6 +37,6 @@ struct MainRouteHeading: View {
     formatter.calendar = islamicCalendar
     formatter.locale = Locale(identifier: "ar")
     formatter.dateFormat = "MMM yyyy هـ d"
-    return formatter.string(from: date)
+    return formatter.string(from: offset.apply(date))
   }
 }

@@ -21,9 +21,12 @@ struct HomeRoute: View {
   @AppStorage(PrayerTimeCity.key)
   private var city: PrayerTimeCity = PrayerTimeCity.standard
   
+  @AppStorage(HijriCalendarOffset.key)
+  private var calendarOffset: HijriCalendarOffset = HijriCalendarOffset.nothing
+  
   var body: some View {
     VStack(alignment: .center) {
-      MainRouteHeading(date: currentDate)
+      MainRouteHeading(date: currentDate, offset: calendarOffset)
       PrayerTimesPager(date: $currentDate, city: city)
     }
     .onAppear {
