@@ -19,14 +19,10 @@ struct Bo_netiderApp: App {
 
   var body: some Scene {
     WindowGroup {
-      TabView {
-        ForEach(AvailableRoutes.indices, id: \.self) { index in
-          let route = AvailableRoutes[index]
-          AnyView(route.content).tabItem {
-            Image(systemName: route.icon)
-            Text(route.text)
-          }
-        }
+      if ProcessInfo.processInfo.isiOSAppOnMac {
+        DesktopApp()
+      } else {
+        MobileApp()
       }
     }
     .backgroundTask(.appRefresh(SchedulerWorker.identifier)) {
