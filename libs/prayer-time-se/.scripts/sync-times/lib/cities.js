@@ -108,6 +108,6 @@ export const CITIES = [
   'Visby',
   'Ystad',
 ].map((city) => ({
-  id: city.toLocaleLowerCase(),
+  id: city.toLocaleLowerCase().replaceAll('å', 'a').replaceAll('ä', 'a').replaceAll('ö', 'o'),
   name: city,
 }));
