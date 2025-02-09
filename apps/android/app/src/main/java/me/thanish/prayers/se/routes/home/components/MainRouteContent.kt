@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.domain.PrayerTimeMethod
 import me.thanish.prayers.se.domain.PrayerTimeTable
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -41,6 +42,7 @@ val MAXIMUM_PAGE_DATE: LocalDate = LocalDate.of(2025, 12, 31)
 
 @Composable
 fun MainRouteContent(
+    method: PrayerTimeMethod,
     city: PrayerTimeCity,
     initialDate: LocalDate,
     onDateChange: (LocalDate) -> Unit = {}
@@ -57,7 +59,7 @@ fun MainRouteContent(
 
     HorizontalPager(state = pagerState) { page ->
         val date = INITIAL_PAGE_DATE.plusDays(page.toLong())
-        val times = PrayerTimeTable.forDate(LocalContext.current, city, date)
+        val times = PrayerTimeTable.forDate(LocalContext.current, method, city, date)
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

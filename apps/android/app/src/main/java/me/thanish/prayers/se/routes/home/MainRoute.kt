@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import me.thanish.prayers.se.R
 import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.domain.PrayerTimeMethod
 import me.thanish.prayers.se.routes.RouteSpec
 import me.thanish.prayers.se.routes.RouteType
 import me.thanish.prayers.se.routes.home.components.MainRouteContent
@@ -50,6 +51,7 @@ val MainRouteSpec = RouteSpec(
 @Composable
 fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val method by remember { mutableStateOf(PrayerTimeMethod.get(context)) }
     val city by remember { mutableStateOf(PrayerTimeCity.get(context)) }
     var date by remember { mutableStateOf(LocalDate.now()) }
 
@@ -57,7 +59,7 @@ fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
         date = selectedDate
     }
 
-    MainRouteView(city, date, onDateChange, modifier)
+    MainRouteView(method, city, date, onDateChange, modifier)
 }
 
 /**
@@ -65,6 +67,7 @@ fun MainRoute(nav: NavController, modifier: Modifier = Modifier) {
  */
 @Composable
 fun MainRouteView(
+    method: PrayerTimeMethod,
     city: PrayerTimeCity,
     date: LocalDate,
     onDateChange: (LocalDate) -> Unit = {},
@@ -80,7 +83,7 @@ fun MainRouteView(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             MainRouteHeading(date)
             Spacer(modifier = Modifier.height(80.dp))
-            MainRouteContent(city, date, onDateChange)
+            MainRouteContent(method, city, date, onDateChange)
         }
     }
 }
@@ -91,12 +94,13 @@ fun MainRouteView(
 @Preview
 @Composable
 fun MainRoutePreview() {
+    val method = PrayerTimeMethod.islamiskaforbundet
     val city = PrayerTimeCity.stockholm
     val date = LocalDate.now()
 
     PrayersTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            MainRouteView(city, date, {}, modifier = Modifier.padding(innerPadding))
+            MainRouteView(method, city, date, {}, modifier = Modifier.padding(innerPadding))
         }
     }
 }

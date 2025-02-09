@@ -14,6 +14,7 @@ import me.thanish.prayers.se.R
 import me.thanish.prayers.se.domain.NotificationOffset
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.domain.PrayerTimeMethod
 import me.thanish.prayers.se.domain.PrayerTimeType
 import java.time.LocalDateTime
 
@@ -111,6 +112,7 @@ class NotificationWorker : BroadcastReceiver() {
         fun scheduleTestNotification(context: Context, delay: Long) {
             Log.i(TAG, "Scheduling test notification with a $delay seconds delay")
             val testPrayerTime = PrayerTime(
+                method = PrayerTimeMethod.get(context),
                 city = PrayerTimeCity.get(context),
                 type = PrayerTimeType.asr,
                 time = LocalDateTime.now().plusSeconds(delay)

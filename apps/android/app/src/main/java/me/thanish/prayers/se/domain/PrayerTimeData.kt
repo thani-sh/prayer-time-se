@@ -10,6 +10,7 @@ import java.time.LocalTime
  * PrayerTimeData contains data read from asset json files.
  */
 internal class PrayerTimeData(
+    val method: PrayerTimeMethod,
     val city: PrayerTimeCity,
     private val data: Array<Array<Array<Int>>>
 ) {
@@ -72,9 +73,8 @@ internal class PrayerTimeData(
         private const val INDEX_SHURUK: Int = 1
         private const val INDEX_DHOHR: Int = 2
         private const val INDEX_ASR_SHAFI: Int = 3
-        private const val INDEX_ASR_HANAFI: Int = 4
-        private const val INDEX_MAGHRIB: Int = 5
-        private const val INDEX_ISHA: Int = 6
+        private const val INDEX_MAGHRIB: Int = 4
+        private const val INDEX_ISHA: Int = 5
 
         /**
          * current keeps the prayer times in memory for faster access.
@@ -86,12 +86,12 @@ internal class PrayerTimeData(
          * a multi-dimensional array with this format.
          *   - 1st Index: Month ( 0 - 11 )
          *   - 2nd Index: Day of Month ( 0 - 30 )
-         *   - 3rd Index: Prayer Time ( 0 - 6 ) [fajr, shuruk, dhohr, asr, asr_hanafi, maghrib, isha]
+         *   - 3rd Index: Prayer Time ( 0 - 5 ) [fajr, shuruk, dhohr, asr, maghrib, isha]
          *   - Values:    Minutes from 00:00
          */
-        fun get(context: Context, city: PrayerTimeCity): PrayerTimeData {
-            if (current == null || current!!.city != city) {
-                current = PrayerTimeData(city, readAssetFile(context, city))
+        fun get(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity): PrayerTimeData {
+            if (current == null || current!!.city != city || current!!.method != method) {
+                current = PrayerTimeData(method, city, readAssetFile(context, method, city))
             }
             return current as PrayerTimeData
         }
@@ -99,8 +99,8 @@ internal class PrayerTimeData(
         /**
          * readAssetFile reads a text file from the assets directory
          */
-        private fun readAssetFile(context: Context, city: PrayerTimeCity): Array<Array<Array<Int>>> {
-            val path = "values/$city.json"
+        private fun readAssetFile(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity): Array<Array<Array<Int>>> {
+            val path = "values/$method.$city.json"
             val text = context.assets.open(path).bufferedReader().use { it.readText() }
             return Gson().fromJson(text, Array<Array<Array<Int>>>::class.java)
         }

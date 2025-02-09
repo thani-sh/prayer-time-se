@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import me.thanish.prayers.se.domain.NotificationOffset
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.domain.PrayerTimeMethod
 import java.util.concurrent.TimeUnit
 
 /**
@@ -25,8 +26,9 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
      */
     override fun doWork(): Result {
         try {
+            val method = PrayerTimeMethod.get(applicationContext)
             val city = PrayerTimeCity.get(applicationContext)
-            schedule(applicationContext, city)
+            schedule(applicationContext, method, city)
         } catch (e: Exception) {
             e.printStackTrace()
             return Result.failure()
@@ -53,19 +55,19 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
                 request = request
             )
             // Immediately schedule notifications for next N prayers
-            schedule(context, PrayerTimeCity.get(context))
+            schedule(context, PrayerTimeMethod.get(context), PrayerTimeCity.get(context))
         }
 
         /**
          * Schedule or reschedule notifications for next N prayer times
          */
-        fun schedule(context: Context, city: PrayerTimeCity) {
+        fun schedule(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity) {
             if (!NotificationOffset.isEnabled(context)) {
                 Log.i(TAG, "Notifications are disabled")
                 return
             }
             Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
-            PrayerTime.getNext(context, city, PRAYERS_TO_SCHEDULE)
+            PrayerTime.getNext(context, method, city, PRAYERS_TO_SCHEDULE)
                 .filter { t -> t.type.shouldNotify() }
                 .forEach { t -> NotificationWorker.schedule(context, t) }
         }

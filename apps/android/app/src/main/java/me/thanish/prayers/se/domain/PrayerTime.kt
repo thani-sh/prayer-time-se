@@ -9,6 +9,7 @@ import java.time.ZoneId
  * PrayerTime is a data class representing a prayer time.
  */
 data class PrayerTime(
+    val method: PrayerTimeMethod,
     val city: PrayerTimeCity,
     val type: PrayerTimeType,
     val time: LocalDateTime
@@ -24,7 +25,7 @@ data class PrayerTime(
      * getStringId returns a unique string id for the prayer time.
      */
     fun getStringId(): String {
-        return "${city}|${type}|${time}"
+        return "${method}|${city}|${type}|${time}"
     }
 
     /**
@@ -77,7 +78,7 @@ data class PrayerTime(
      * isNextPrayer returns true if the prayer time is the next prayer time.
      */
     fun isNextPrayer(context: Context): Boolean {
-        return getNext(context, city, 1).firstOrNull() == this
+        return getNext(context, method, city, 1).firstOrNull() == this
     }
 
     /**
@@ -98,19 +99,20 @@ data class PrayerTime(
             if (parts.size != 3) {
                 return null
             }
-            val city = PrayerTimeCity.valueOf(parts[0])
-            val type = PrayerTimeType.valueOf(parts[1])
-            val time = LocalDateTime.parse(parts[2])
-            return PrayerTime(city, type, time)
+            val method = PrayerTimeMethod.valueOf(parts[1])
+            val city = PrayerTimeCity.valueOf(parts[1])
+            val type = PrayerTimeType.valueOf(parts[2])
+            val time = LocalDateTime.parse(parts[3])
+            return PrayerTime(method, city, type, time)
         }
 
 
         /**
          * getNextPrayer returns the next prayer time
          */
-        fun getNextPrayer(context: Context, city: PrayerTimeCity): PrayerTime {
-            val item = getNext(context, city, 1).firstOrNull()
-                ?: throw Exception("No prayer times found for $city")
+        fun getNextPrayer(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity): PrayerTime {
+            val item = getNext(context, method, city, 1).firstOrNull()
+                ?: throw Exception("No prayer times found for $city ($method)")
             return item
         }
 
@@ -119,6 +121,7 @@ data class PrayerTime(
          */
         fun getNext(
             context: Context,
+            method: PrayerTimeMethod,
             city: PrayerTimeCity,
             count: Int,
             from: LocalDateTime = LocalDateTime.now()
@@ -126,7 +129,7 @@ data class PrayerTime(
             val list = mutableListOf<PrayerTime>()
             var date = from.toLocalDate()
             while (list.size < count) {
-                val prayerTimes = PrayerTimeTable.forDate(context, city, date).toList()
+                val prayerTimes = PrayerTimeTable.forDate(context, method, city, date).toList()
                 for (prayerTime in prayerTimes) {
                     if (prayerTime.time.isBefore(from)) {
                         continue

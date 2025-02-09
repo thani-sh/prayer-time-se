@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
+import me.thanish.prayers.se.domain.PrayerTimeMethod
 
 /**
  * NextPrayerTimeStore is a data store for getting next prayer time from system time.
@@ -20,8 +21,9 @@ class NextPrayerTimeStore(
         get() {
             return flow {
                 while (true) {
+                    val method = PrayerTimeMethod.get(context)
                     val city = PrayerTimeCity.get(context)
-                    emit(PrayerTime.getNextPrayer(context, city))
+                    emit(PrayerTime.getNextPrayer(context, method, city))
                     delay(interval)
                 }
             }
