@@ -27,7 +27,7 @@
 	</fieldset>
 {/snippet}
 
-<div class="flex flex-col w-full max-w-md mx-auto px-4 py-4 mb-20">
+<div class="flex flex-col w-full max-w-md mx-auto px-4 py-4 mb-32">
 	<section>
 		<h1 class="text-3xl font-light mb-2">Inställningar</h1>
 		<div class="card bg-black/10 shadow-sm p-4">
