@@ -5,7 +5,7 @@ import { writable } from 'svelte/store';
 /**
  * Key used to store in localStorage.
  */
-const STORAGE_KEY = 'preferences:city';
+const STORAGE_KEY = 'bönetider:preferences:city';
 
 /**
  * Holds the selected city as a svelte store.

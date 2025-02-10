@@ -5,7 +5,7 @@ import { writable } from 'svelte/store';
 /**
  * Key used to store in localStorage.
  */
-const STORAGE_KEY = 'preferences:method';
+const STORAGE_KEY = 'bönetider:preferences:method';
 
 /**
  * Holds the selected method as a svelte store.

@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { CITIES, METHODS, type City, type Method } from '@thani-sh/prayer-time-se';
 	import capitalize from 'lodash/capitalize';
+	import { CodeIcon, MailIcon, CookieIcon } from 'lucide-svelte';
 	import { city } from '$lib/domain/PrayerTimeCity';
 	import { method } from '../../lib/domain/PrayerTimeMethod';
-	import { CodeIcon, MailIcon, CookieIcon } from 'lucide-svelte';
+	import iphoneBadge from './iphone-badge.png';
+	import androidBadge from './android-badge.png';
 </script>
 
 {#snippet Dropdown(
@@ -72,6 +74,26 @@
 				<CookieIcon class="w-4 h-4 mr-2" />
 				Öppna integritetspolicyn
 			</a>
+		</div>
+	</section>
+
+	<section class="mt-8">
+		<h1 class="text-3xl font-light mb-2">Ladda ner appen</h1>
+		<div class="card bg-black/10 shadow-sm p-4">
+			<p class="text-sm">
+				Installera appen på din telefon för att få snabb åtkomst till böner-tider och meddelanden.
+			</p>
+
+			<div class="flex flex-col sm:flex-row items-center justify-center mt-4 gap-4 grayscale">
+				<a href="https://apps.apple.com/se/app/islamiska-b%C3%B6netider/id6741252950">
+					<img src={iphoneBadge} alt="Ladda ner på App Store" />
+				</a>
+				<a href="https://play.google.com/store/apps/details?id=me.thanish.prayers.se">
+					<img src={androidBadge} alt="Ladda ner på Google Play" />
+				</a>
+			</div>
+
+			<p class="text-sm mt-4">Kom ihåg att betygsätta appen efter att ha provat den!</p>
 		</div>
 	</section>
 </div>
