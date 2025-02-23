@@ -66,7 +66,7 @@ class NotificationWorker : BroadcastReceiver() {
 
     companion object {
         private const val TAG = "NotificationWorker"
-        private const val ACTION = "me.thanish.se.prayers.NOTIFY"
+        private const val ACTION = "me.thanish.prayers.se.NOTIFY"
         private const val CH_ID = "prayer_time"
         private const val INPUT_PRAYER_TIME_ID = "prayerTimeId"
 

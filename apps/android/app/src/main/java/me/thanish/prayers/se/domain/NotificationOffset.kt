@@ -28,6 +28,13 @@ class NotificationOffset(val offset: Int) {
     }
 
     /**
+     * isEnabled returns true if notifications are enabled.
+     */
+    fun isEnabled(): Boolean {
+        return offset != DISABLED_OFFSET
+    }
+
+    /**
      * ✄ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      */
 
@@ -35,7 +42,22 @@ class NotificationOffset(val offset: Int) {
         /**
          * DISABLED_OFFSET is the offset when notifications are disabled.
          */
-        private const val DISABLED_OFFSET: Int = -1
+        const val DISABLED_OFFSET: Int = -1
+
+        /**
+         * DEFAULT_OFFSET is the default offset in minutes.
+         */
+        const val DEFAULT_OFFSET: Int = 5
+
+        /**
+         * MIN_OFFSET is the minimum offset in minutes.
+         */
+        const val MIN_OFFSET: Int = 0
+
+        /**
+         * MAX_OFFSET is the maximum offset in minutes.
+         */
+        const val MAX_OFFSET: Int = 30
 
         /**
          * STORE_KEY is the MMKV key for storing the notification offset.
@@ -43,21 +65,27 @@ class NotificationOffset(val offset: Int) {
         private val STORE_KEY = intPreferencesKey("NotificationOffset")
 
         /**
-         * entries is the list of notification offsets suggested by the app.
-         */
-        val entries: List<NotificationOffset>
-            get() = listOf(
-                NotificationOffset(DISABLED_OFFSET),
-                NotificationOffset(10),
-                NotificationOffset(15),
-                NotificationOffset(20),
-            )
-
-        /**
-         * set sets the notification offset.
+         * set sets the notification offset to a specific value.
          */
         fun set(context: Context, offset: NotificationOffset) {
-            setIntegerSync(context, STORE_KEY, offset.offset)
+            val value = if (offset.offset == DISABLED_OFFSET) {
+                DISABLED_OFFSET
+            } else if (offset.offset < MIN_OFFSET) {
+                MIN_OFFSET
+            } else if (offset.offset > MAX_OFFSET) {
+                MAX_OFFSET
+            } else {
+                offset.offset
+            }
+            setIntegerSync(context, STORE_KEY, value)
+        }
+
+        /**
+         * setEnabled sets the notification offset based on whether notifications are enabled.
+         */
+        fun set(context: Context, enabled: Boolean) {
+            val value = if (enabled) DEFAULT_OFFSET else DISABLED_OFFSET
+            setIntegerSync(context, STORE_KEY, value)
         }
 
         /**

@@ -96,10 +96,10 @@ data class PrayerTime(
          */
         fun fromStringId(id: String): PrayerTime? {
             val parts = id.split("|")
-            if (parts.size != 3) {
+            if (parts.size != 4) {
                 return null
             }
-            val method = PrayerTimeMethod.valueOf(parts[1])
+            val method = PrayerTimeMethod.valueOf(parts[0])
             val city = PrayerTimeCity.valueOf(parts[1])
             val type = PrayerTimeType.valueOf(parts[2])
             val time = LocalDateTime.parse(parts[3])

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -36,12 +36,17 @@ fun FeedbackIconButtons() {
         IconAndTextButton(
             icon = ImageVector.vectorResource(R.drawable.baseline_code_24),
             text = stringResource(R.string.route_settings_open_github),
-            onClick = { openGitHubRepo(context) }
+            onClick = { openUrl("https://github.com/thani-sh/prayer-time-se", context) }
         )
         IconAndTextButton(
-            icon = Icons.Filled.Email,
-            text = stringResource(R.string.route_settings_report_errors),
-            onClick = { openEmailComposer(context) }
+            icon = Icons.Filled.Info,
+            text = stringResource(R.string.route_settings_open_website),
+            onClick = { openUrl("https://xn--bnetider-n4a.nu", context) }
+        )
+        IconAndTextButton(
+            icon = Icons.Filled.Info,
+            text = stringResource(R.string.route_settings_read_privacy),
+            onClick = { openUrl("https://xn--bnetider-n4a.nu/docs/privacy", context) }
         )
     }
 }
@@ -65,22 +70,10 @@ fun IconAndTextButton(
 }
 
 /**
- * openGithubRepo opens the GitHub repository in a browser
+ * openUrl opens a link on the web browser
  */
-fun openGitHubRepo(context: Context) {
-    val url = "https://github.com/thani-sh/prayer-time-se"
+fun openUrl(url: String, context: Context) {
+    val url = "https://prayertime.lk"
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     context.startActivity(intent)
-}
-
-/**
- * openEmailComposer opens the email composer with the author's email address
- */
-fun openEmailComposer(context: Context) {
-    val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:mnmtanish@gmail.com")
-        putExtra(Intent.EXTRA_SUBJECT, "Prayers app feedback")
-        putExtra(Intent.EXTRA_TEXT, "Enter your message here...")
-    }
-    context.startActivity(Intent.createChooser(emailIntent, "Send email"))
 }
