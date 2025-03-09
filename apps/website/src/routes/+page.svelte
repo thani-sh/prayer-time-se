@@ -23,8 +23,8 @@
 
 {#snippet TableRow(name: string, hour: number, minute: number)}
 	<div class="flex flex-row py-4 space-x-6 items-center justify-center">
-		<div class="text-lg w-1/2 text-right text-gray-300">{name}</div>
-		<div class="text-lg w-1/2 text-gray-300">
+		<div class="text-lg w-1/2 text-right text-gray-500 dark:text-gray-300">{name}</div>
+		<div class="text-lg w-1/2 text-gray-500 dark:text-gray-300">
 			{String(hour).padStart(2, '0')}:{String(minute).padStart(2, '0')}
 		</div>
 	</div>
@@ -37,7 +37,7 @@
 	</div>
 
 	{#await getPrayerTimes(date, $method, $city) then prayerTimes}
-		<div class="w-3xs divide-y divide-gray-800 mb-16">
+		<div class="w-3xs divide-y divide-gray-100 dark:divide-gray-800 mb-16">
 			{@render TableRow('Fajr', prayerTimes.fajr.hour, prayerTimes.fajr.minute)}
 			{@render TableRow('Shuruk', prayerTimes.sunrise.hour, prayerTimes.sunrise.minute)}
 			{@render TableRow('Dhohr', prayerTimes.dhuhr.hour, prayerTimes.dhuhr.minute)}

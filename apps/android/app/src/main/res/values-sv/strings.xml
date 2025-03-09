@@ -42,10 +42,10 @@
     <string name="route_home_title">Bönetider</string>
     <string name="next_prayer_widget_name">Nästa bön</string>
     <string name="next_prayer_widget_title">Nästa bönetid</string>
-    <string name="next_prayer_widget_refresh">Uppdatera</string>
     <string name="prayers_time_until_hm">%1$d tim, %2$d min</string>
     <string name="prayers_time_until_m">om %d min</string>
     <string name="route_settings_notifications_before_adhan">Minuter före adhan</string>
     <string name="route_settings_section_corrections">Rättelser</string>
     <string name="route_settings_open_website">https://bönetider.nu</string>
+    <string name="notification_body">%1$s bön börjar kl. %2$s</string>
 </resources>

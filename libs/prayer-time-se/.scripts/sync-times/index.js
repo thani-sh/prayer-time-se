@@ -4,9 +4,9 @@ import { fetchPrayerTimesForCity } from './lib/prayers.js';
 
 // Reset the data directory by deleting and recreating it
 await rm('./src/data', { recursive: true, force: true });
-await rm('./json', { recursive: true, force: true });
+await rm('../../data', { recursive: true, force: true });
 await mkdir('./src/data');
-await mkdir('./json');
+await mkdir('../../data');
 
 // Iterate over combinations of cities and months and extract data
 for (const city of CITIES) {
@@ -14,7 +14,7 @@ for (const city of CITIES) {
   const prayerTimes = await fetchPrayerTimesForCity(city);
   const stringified = JSON.stringify(prayerTimes);
   await Promise.all([
-    writeFile(`./json/islamiskaforbundet.${city.id}.json`, stringified),
+    writeFile(`../../data/islamiskaforbundet.${city.id}.json`, stringified),
     writeFile(`./src/data/islamiskaforbundet.${city.id}.js`, `export default ${stringified};`),
     writeFile(
       `./src/data/islamiskaforbundet.${city.id}.d.ts`,
