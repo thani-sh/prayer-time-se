@@ -59,7 +59,7 @@ class NotificationWorker : BroadcastReceiver() {
             .setTimeoutAfter(notificationExpiresIn)
             .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             .setContentTitle(context.getString(R.string.notification_title, prayerTime.type.getLabel(context)))
-            .setContentText(context.getString(R.string.notification_title, prayerTime.type.getLabel(context)))
+            .setContentText(context.getString(R.string.notification_body, prayerTime.type.getLabel(context), prayerTime.getTimeString()))
 
         manager.notify(notificationId, notificationBuilder.build())
     }
@@ -110,12 +110,12 @@ class NotificationWorker : BroadcastReceiver() {
          * Only used for testing scheduling notifications.
          */
         fun scheduleTestNotification(context: Context, delay: Long) {
-            Log.i(TAG, "Scheduling test notification with a $delay seconds delay")
+            Log.i(TAG, "Scheduling test notification with a $delay minutes delay")
             val testPrayerTime = PrayerTime(
                 method = PrayerTimeMethod.get(context),
                 city = PrayerTimeCity.get(context),
                 type = PrayerTimeType.asr,
-                time = LocalDateTime.now().plusSeconds(delay)
+                time = LocalDateTime.now().plusMinutes(delay).withSecond(0).withNano(0)
             )
             schedule(context, testPrayerTime)
         }

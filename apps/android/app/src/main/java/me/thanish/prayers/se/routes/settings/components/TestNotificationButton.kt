@@ -13,7 +13,7 @@ fun TestNotificationButton(
     onTestNotification: (Long) -> Unit,
 ) {
     TextButton(
-        onClick = { onTestNotification(60) },
+        onClick = { onTestNotification(1) },
     ) {
         Text(
             text = stringResource(R.string.route_settings_test_notification),

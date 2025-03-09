@@ -43,7 +43,7 @@
     <string name="route_home_title">Prayer Times</string>
     <string name="next_prayer_widget_name">Next Prayer</string>
     <string name="next_prayer_widget_title">Next prayer time</string>
-    <string name="next_prayer_widget_refresh">tap to refresh</string>
     <string name="prayers_time_until_hm">in %dh, %dmins</string>
     <string name="prayers_time_until_m">in %dmins</string>
+    <string name="notification_body">%1$s prayer begins at %2$s</string>
 </resources>
