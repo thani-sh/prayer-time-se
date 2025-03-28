@@ -1,13 +1,14 @@
 {
   "name": "prayer-time-se",
   "type": "module",
-  "version": "4.0.0",
+  "version": "4.2.1",
   "private": true,
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.7.0",
   "workspaces": [
     "apps/webapi",
     "apps/website",
-    "libs/prayer-time-se"
+    "libs/prayer-time-se",
+    "libs/update-times"
   ],
   "engines": {
     "node": ">=23.0.0"

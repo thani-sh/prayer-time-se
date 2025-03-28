@@ -1,7 +1,7 @@
 {
   "name": "@thani-sh/prayer-time-se",
   "type": "module",
-  "version": "4.1.0",
+  "version": "4.2.1",
   "description": "Islamic prayer times for Sweden as a JavaScript Module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,6 @@
     "build": "tsc",
     "test": "vitest",
     "lint": "prettier --write \"src/**/*.{ts}\"",
-    "sync": "node .scripts/sync-times/index.js",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {

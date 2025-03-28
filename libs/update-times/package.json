@@ -1,0 +1,16 @@
+{
+  "name": "@thani-sh/update-times",
+  "type": "module",
+  "version": "4.2.1",
+  "private": true,
+  "scripts": {
+    "copy": "node bin/copy.js",
+    "sync": "node bin/sync.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=23.0.0"
+  }
+}

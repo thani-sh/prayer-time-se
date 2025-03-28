@@ -74,7 +74,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	app.get('/v1/method/:method/city/:city/times', async (c) => {
 		const method = c.req.param('method');
 		const city = c.req.param('city');
-		const object = await c.env.BUCKET.get(`${method}/${city}.json`);
+		const object = await c.env.BUCKET.get(`${method}.${city}.json`);
 		if (object === null) {
 			c.status(404);
 			return c.json({ error: 'Data not found' });
@@ -90,7 +90,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 		const method = c.req.param('method');
 		const city = c.req.param('city');
 		const date = new Date(c.req.param('date'));
-		const object = await c.env.BUCKET.get(`${method}/${city}.json`);
+		const object = await c.env.BUCKET.get(`${method}.${city}.json`);
 		if (object === null) {
 			c.status(404);
 			return c.json({ error: 'Data not found' });
