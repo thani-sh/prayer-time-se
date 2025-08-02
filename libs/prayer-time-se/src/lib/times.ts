@@ -1,5 +1,5 @@
-import { City, DEFAULT_CITY, isValidCity } from './cities';
-import { DEFAULT_METHOD, isValidMethod, Method } from './method';
+import { City, DEFAULT_CITY, isValidCity } from './cities.js';
+import { DEFAULT_METHOD, isValidMethod, Method } from './method.js';
 
 /**
  * The number of minutes in a day.
@@ -47,7 +47,7 @@ export async function getPrayerTimes(
   }
   const d = date.getDate();
   const m = date.getMonth();
-  const values = await import(`../data/${method}.${city}.ts`).then((module) => module.default);
+  const values = await import(`../data/${method}.${city}.js`).then((module) => module.default);
   return {
     fajr: minutesToTime(values[m][d - 1][0]),
     sunrise: minutesToTime(values[m][d - 1][1]),
