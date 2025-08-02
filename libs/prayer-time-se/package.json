@@ -1,7 +1,7 @@
 {
   "name": "@thani-sh/prayer-time-se",
   "type": "module",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "description": "Islamic prayer times for Sweden as a JavaScript Module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
