@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "build:index": "node .scripts/build-index.js",
     "test": "vitest",
     "lint": "prettier --write \"src/**/*.{ts}\"",
     "prepublishOnly": "npm run build"
