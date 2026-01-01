@@ -13,6 +13,7 @@
     <string name="route_settings_name">Settings</string>
     <string name="route_settings_city">City</string>
     <string name="route_settings_method">Method</string>
+    <string name="route_settings_time_format">Use 24-hour format</string>
     <string name="route_settings_notifications">Notify before adhan</string>
     <string name="route_settings_notifications_before_adhan">Minutes before adhan</string>
     <string name="route_settings_hijri_calendar_offset_days">Hijri calendar offset</string>
@@ -36,6 +37,8 @@
     <string name="prayers_type_isha">Isha</string>
     <string name="prayers_method_islamiskaforbundet">Islamiska Förbundet</string>
     <string name="prayers_method_islamiskaforbundet_details">This app provides accurate Islamic prayer times sourced directly from the Islamiska Förbundet website that calculates times based on the method described here: https://www.islamiskaforbundet.se/bonetiders-kalla/.</string>
+    <string name="time_format_12h">12-hour</string>
+    <string name="time_format_24h">24-hour</string>
     <string name="notification_offset_template">%d mins</string>
     <string name="notification_offset_disabled">Disabled</string>
     <string name="hijri_calendar_offset_template">%d days</string>

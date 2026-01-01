@@ -47,8 +47,8 @@ data class PrayerTime(
     /**
      * getTimeString returns the time string for the prayer time without date.
      */
-    fun getTimeString(): String {
-        return time.toLocalTime().toString()
+    fun getTimeString(context: Context): String {
+        return TimeFormat.get(context).format(time.toLocalTime())
     }
 
     /**

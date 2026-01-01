@@ -12,31 +12,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import me.thanish.prayers.se.R
-import me.thanish.prayers.se.domain.NotificationOffset
+import me.thanish.prayers.se.domain.TimeFormat
 
 @Composable
-fun SelectOffsetToggle(
-    offset: NotificationOffset,
-    onOffsetChange: (NotificationOffset) -> Unit
+fun SelectTimeFormatToggle(
+    format: TimeFormat,
+    onFormatChange: (TimeFormat) -> Unit
 ) {
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(R.string.route_settings_notifications),
+                text = stringResource(R.string.route_settings_time_format),
                 fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.weight(2f)
             )
             Switch(
                 modifier = Modifier.scale(0.6f),
-                checked = offset.isEnabled(),
+                checked = format == TimeFormat.h24,
                 onCheckedChange = {
                     if (it) {
-                        onOffsetChange(NotificationOffset(NotificationOffset.DEFAULT_OFFSET))
+                        onFormatChange(TimeFormat.h24)
                     } else {
-                        onOffsetChange(NotificationOffset(NotificationOffset.DISABLED_OFFSET))
+                        onFormatChange(TimeFormat.h12)
                     }
                 }
             )

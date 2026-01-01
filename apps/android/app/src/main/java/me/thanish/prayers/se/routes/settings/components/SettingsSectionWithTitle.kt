@@ -25,8 +25,8 @@ fun SettingsSectionWithTitle(
         .fillMaxWidth()) {
         Text(
             text = titleText,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Light,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
         )
         Spacer(modifier = Modifier.height(4.dp))
         Surface(tonalElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {

@@ -57,7 +57,7 @@ fun WidgetContent(prayerTime: PrayerTime) {
                 )
             )
             Text(
-                text = prayerTime.getTimeString(),
+                text = prayerTime.getTimeString(context),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

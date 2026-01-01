@@ -59,7 +59,7 @@ class NotificationWorker : BroadcastReceiver() {
             .setTimeoutAfter(notificationExpiresIn)
             .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             .setContentTitle(context.getString(R.string.notification_title, prayerTime.type.getLabel(context)))
-            .setContentText(context.getString(R.string.notification_body, prayerTime.type.getLabel(context), prayerTime.getTimeString()))
+            .setContentText(context.getString(R.string.notification_body, prayerTime.type.getLabel(context), prayerTime.getTimeString(context)))
 
         manager.notify(notificationId, notificationBuilder.build())
     }

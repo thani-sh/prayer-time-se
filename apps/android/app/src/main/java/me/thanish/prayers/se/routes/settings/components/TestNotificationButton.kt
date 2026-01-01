@@ -17,7 +17,7 @@ fun TestNotificationButton(
     ) {
         Text(
             text = stringResource(R.string.route_settings_test_notification),
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             letterSpacing = 0.5.sp,
         )
     }

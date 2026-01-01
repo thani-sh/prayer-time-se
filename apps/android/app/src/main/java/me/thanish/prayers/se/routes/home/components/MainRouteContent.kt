@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -30,15 +31,7 @@ import me.thanish.prayers.se.domain.PrayerTimeTable
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-/**
- * Initial page date is the earliest date you can view.
- */
-val INITIAL_PAGE_DATE: LocalDate = LocalDate.of(2024, 12, 1)
 
-/**
- * Maximum page date is the latest date you can view.
- */
-val MAXIMUM_PAGE_DATE: LocalDate = LocalDate.of(2025, 12, 31)
 
 @Composable
 fun MainRouteContent(
@@ -48,17 +41,23 @@ fun MainRouteContent(
     onDateChange: (LocalDate) -> Unit = {}
 ) {
     val context = LocalContext.current
-    val initialPage = ChronoUnit.DAYS.between(INITIAL_PAGE_DATE, initialDate).toInt()
-    val maximumPage = ChronoUnit.DAYS.between(INITIAL_PAGE_DATE, MAXIMUM_PAGE_DATE).toInt()
-    val pagerState = rememberPagerState(initialPage = initialPage, pageCount = { maximumPage })
+    val today = remember { LocalDate.now() }
+    val start = remember(today) { today.minusDays(7) }
+    val count = 35
+
+    val initialPage = remember(start, initialDate) {
+        ChronoUnit.DAYS.between(start, initialDate).toInt()
+    }
+
+    val pagerState = rememberPagerState(initialPage = initialPage, pageCount = { count })
 
     LaunchedEffect(pagerState.currentPage) {
-        val scrolledPage = INITIAL_PAGE_DATE.plusDays(pagerState.currentPage.toLong())
+        val scrolledPage = start.plusDays(pagerState.currentPage.toLong())
         onDateChange(scrolledPage)
     }
 
     HorizontalPager(state = pagerState) { page ->
-        val date = INITIAL_PAGE_DATE.plusDays(page.toLong())
+        val date = start.plusDays(page.toLong())
         val times = PrayerTimeTable.forDate(LocalContext.current, method, city, date)
 
         Column(
@@ -104,7 +103,7 @@ fun MainRouteContent(
                             .padding(horizontal = 16.dp),
                     )
                     Text(
-                        text = prayerTime.getTimeString(),
+                        text = prayerTime.getTimeString(context),
                         textAlign = TextAlign.Start,
                         style = valueStyle,
                         modifier = Modifier

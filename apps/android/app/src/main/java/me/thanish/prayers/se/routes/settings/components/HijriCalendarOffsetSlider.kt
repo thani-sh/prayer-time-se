@@ -31,13 +31,13 @@ fun HijriCalendarOffsetSlider(
         ) {
             Text(
                 text = stringResource(R.string.route_settings_hijri_calendar_offset_days),
-                fontSize = 16.sp,
+                fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.weight(2f)
             )
             Text(
                 text = offset.getLabel(context),
-                fontSize = 16.sp,
+                fontSize = 12.sp,
                 textAlign = TextAlign.Right,
             )
         }

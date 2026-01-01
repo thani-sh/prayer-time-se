@@ -7,7 +7,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -43,22 +43,21 @@ fun SelectCityDropdown(
         ) {
             Text(
                 text = stringResource(R.string.route_settings_city),
-                fontSize = 16.sp,
+                fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.weight(2f)
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(20.dp))
             TextButton(
-                onClick = { expanded = true },
-                modifier = Modifier
+                onClick = { expanded = true }, modifier = Modifier
                     .weight(3f)
-                    .menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true)
+                    .menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
             ) {
+                Spacer(modifier = Modifier.weight(1f))
                 Text(
                     city.getLabel(context),
-                    fontSize = 16.sp,
+                    fontSize = 12.sp
                 )
-                Spacer(modifier = Modifier.weight(1f))
             }
         }
 
@@ -69,7 +68,7 @@ fun SelectCityDropdown(
                     text = {
                         Text(
                             option.getLabel(context),
-                            fontSize = 16.sp,
+                            fontSize = 12.sp
                         )
                     },
                     onClick = {

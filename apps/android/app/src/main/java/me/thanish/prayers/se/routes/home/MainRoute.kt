@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.ui.res.painterResource
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,7 +39,7 @@ val MainRouteSpec = RouteSpec(
     name = "main",
     text = R.string.route_home_name,
     type = RouteType.PRIMARY,
-    icon = { Pair(Icons.Filled.DateRange, Icons.Outlined.DateRange) },
+    icon = { Pair(painterResource(R.drawable.daterange_filled), painterResource(R.drawable.daterange)) },
     content = { nav: NavController, modifier: Modifier -> MainRoute(nav, modifier) }
 )
 

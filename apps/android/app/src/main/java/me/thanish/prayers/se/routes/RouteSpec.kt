@@ -3,7 +3,7 @@ package me.thanish.prayers.se.routes
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.navigation.NavController
 import me.thanish.prayers.se.routes.compass.CompassRouteSpec
 import me.thanish.prayers.se.routes.home.MainRouteSpec
@@ -24,7 +24,7 @@ data class RouteSpec(
     val name: String,
     val text: Int,
     val type: RouteType = RouteType.PRIMARY,
-    val icon: @Composable () -> Pair<ImageVector, ImageVector>,
+    val icon: @Composable () -> Pair<Painter, Painter>,
     val content: @Composable (NavController, Modifier) -> Unit
 ) {
     /**

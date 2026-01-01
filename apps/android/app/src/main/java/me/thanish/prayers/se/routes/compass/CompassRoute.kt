@@ -12,8 +12,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import me.thanish.prayers.se.R
@@ -32,12 +31,7 @@ val CompassRouteSpec = RouteSpec(
     name = "compass",
     text = R.string.route_compass_name,
     type = RouteType.PRIMARY,
-    icon = {
-        Pair(
-            ImageVector.vectorResource(R.drawable.baseline_explore_24),
-            ImageVector.vectorResource(R.drawable.outline_explore_24),
-        )
-    },
+    icon = { Pair(painterResource(R.drawable.explore_filled), painterResource(R.drawable.explore)) },
     content = { nav: NavController, modifier: Modifier -> CompassRoute(nav, modifier) }
 )
 
