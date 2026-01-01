@@ -14,7 +14,6 @@
     <string name="route_settings_city">Stad</string>
     <string name="route_settings_method">Metod</string>
     <string name="route_settings_notifications">Aviseringar</string>
-    <string name="route_settings_notifications_off">Av</string>
     <string name="route_settings_hijri_calendar_offset_days">Hijri-kalenderoffset</string>
     <string name="route_settings_test_notification">Testa meddelar</string>
     <string name="route_settings_section_methodology">Bönetider</string>
@@ -25,7 +24,6 @@
     <string name="route_settings_section_development">Utveckling</string>
     <string name="route_settings_section_development_details">Appen är öppen källkod och gratis att använda under MIT-licensen, och uppmuntrar alla att bidra eller dela feedback för att hjälpa till att förbättra den. Du kan utforska källkoden eller bidra via dess GitHub-förråd.</string>
     <string name="route_settings_open_github">Öppna GitHub-förråd</string>
-    <string name="route_settings_report_errors">Rapportera fel och feedback</string>
     <string name="route_settings_read_privacy">Läs integritetspolicyn</string>
     <string name="prayers_type_fajr">Fajr</string>
     <string name="prayers_type_shuruk">Shuruk</string>
