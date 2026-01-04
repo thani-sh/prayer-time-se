@@ -82,6 +82,7 @@ prayer-time-se/
 **Missing Features**:
 - Qibla compass (placeholder only)
 - 12/24 hour format switch
+- Prayer time notifications
 
 ### iOS/iPadOS/macOS Application (`apps/iphone`)
 
