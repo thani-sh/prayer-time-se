@@ -2,6 +2,7 @@
 	import { getPrayerTimes } from '@thani-sh/prayer-time-se';
 	import { city } from '$lib/domain/PrayerTimeCity';
 	import { method } from '$lib/domain/PrayerTimeMethod';
+	import { timeFormat } from '$lib/domain/TimeFormat';
 
 	const hijriDateFormatter = new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
 		year: 'numeric',
@@ -19,13 +20,25 @@
 	function getHijriDateString() {
 		return hijriDateFormatter.format(date);
 	}
+
+	function formatTime(hour: number, minute: number, format: 'h12' | 'h24'): string {
+		const date = new Date();
+		date.setHours(hour);
+		date.setMinutes(minute);
+
+		return date.toLocaleTimeString('en-US', {
+			hour: 'numeric',
+			minute: '2-digit',
+			hour12: format === 'h12'
+		});
+	}
 </script>
 
 {#snippet TableRow(name: string, hour: number, minute: number)}
 	<div class="flex flex-row py-4 space-x-6 items-center justify-center">
 		<div class="text-lg w-1/2 text-right text-gray-500 dark:text-gray-300">{name}</div>
 		<div class="text-lg w-1/2 text-gray-500 dark:text-gray-300">
-			{String(hour).padStart(2, '0')}:{String(minute).padStart(2, '0')}
+			{formatTime(hour, minute, $timeFormat)}
 		</div>
 	</div>
 {/snippet}

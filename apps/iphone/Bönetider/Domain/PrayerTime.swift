@@ -58,7 +58,15 @@ struct PrayerTime: Identifiable, Equatable {
   var id: String { "\(method.rawValue)|\(city.rawValue)|\(type)|\(ISO8601DateFormatter().string(from: time))" }
 
   // Localized time string for the prayer time without the date
-  var timeString: String { DateFormatter.localizedString(from: time, dateStyle: .none, timeStyle: .short) }
+  var timeString: String {
+    let formatter = DateFormatter()
+    if TimeFormat.current == .h24 {
+      formatter.dateFormat = "HH:mm"
+    } else {
+      formatter.dateFormat = "h:mm a"
+    }
+    return formatter.string(from: time)
+  }
   
   // Localized time duration from now until the prayer time
   var untilString: String {

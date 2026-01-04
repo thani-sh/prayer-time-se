@@ -27,11 +27,15 @@ struct SettingsRoute: View {
   @AppStorage(PrayerTimeMethod.key)
   private var method: PrayerTimeMethod = PrayerTimeMethod.standard
   
+  @AppStorage(TimeFormat.key)
+  private var timeFormat: TimeFormat = TimeFormat.standard
+
   var body: some View {
     Form {
       Section {
         PrayerTimeCityPicker(city: $city)
         PrayerTimeMethodPicker(method: $method)
+        TimeFormatPicker(format: $timeFormat)
       }
       header: { Text(String(localized: "route_settings_section_methodology")) }
       footer: { Text(String(localized: "route_settings_section_methodology_details")) }

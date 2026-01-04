@@ -4,6 +4,7 @@
 	import { CodeIcon, MailIcon, CookieIcon } from 'lucide-svelte';
 	import { city } from '$lib/domain/PrayerTimeCity';
 	import { method } from '../../lib/domain/PrayerTimeMethod';
+	import { TIME_FORMATS, timeFormat, type TimeFormat } from '$lib/domain/TimeFormat';
 	import iphoneBadge from './iphone-badge.png';
 	import androidBadge from './android-badge.png';
 </script>
@@ -12,7 +13,8 @@
 	label: string,
 	options: readonly string[],
 	selected: string,
-	onSelect: (value: string) => void
+	onSelect: (value: string) => void,
+	formatLabel: (value: string) => string = capitalize
 )}
 	<fieldset class="fieldset my-2">
 		<legend class="fieldset-legend">{label}</legend>
@@ -21,7 +23,7 @@
 			on:change={(e) => onSelect((e.target as HTMLSelectElement).value)}
 		>
 			{#each options as option}
-				<option value={option} selected={selected === option}>{capitalize(option)}</option>
+				<option value={option} selected={selected === option}>{formatLabel(option)}</option>
 			{/each}
 		</select>
 	</fieldset>
@@ -36,6 +38,13 @@
 			</p>
 			{@render Dropdown('Stad', CITIES, $city, (value) => city.set(value as City))}
 			{@render Dropdown('Metod', METHODS, $method, (value) => method.set(value as Method))}
+			{@render Dropdown(
+				'Tidsformat',
+				TIME_FORMATS,
+				$timeFormat,
+				(value) => timeFormat.set(value as TimeFormat),
+				(value) => (value === 'h24' ? '24-timmars' : '12-timmars')
+			)}
 			<p class="text-sm mt-2">
 				Denna app tillhandahåller exakta islamiska böner-tider som hämtas direkt från Islamiska
 				Förbundets webbplats, som beräknar tider baserat på metoden som beskrivs här:

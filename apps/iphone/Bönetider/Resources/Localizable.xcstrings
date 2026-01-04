@@ -20,6 +20,54 @@
         }
       }
     },
+    "route_settings_time_format" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time format"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidsformat"
+          }
+        }
+      }
+    },
+    "time_format_12h" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12-hour"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12-timmars"
+          }
+        }
+      }
+    },
+    "time_format_24h" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24-hour"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24-timmars"
+          }
+        }
+      }
+    },
     "hijri_calendar_offset_label" : {
       "localizations" : {
         "en" : {
