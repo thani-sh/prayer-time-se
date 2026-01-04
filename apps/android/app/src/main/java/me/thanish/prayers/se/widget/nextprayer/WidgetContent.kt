@@ -9,10 +9,7 @@ import androidx.glance.LocalContext
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.preview.ExperimentalGlancePreviewApi
 import androidx.glance.preview.Preview
@@ -32,40 +29,25 @@ fun WidgetContent(prayerTime: PrayerTime) {
         modifier = GlanceModifier
             .fillMaxSize()
             .background(GlanceTheme.colors.surface)
-            .padding(8.dp)
+            .padding(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(GlanceModifier.defaultWeight())
-        Column(
-            horizontalAlignment = Alignment.Start,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = GlanceModifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "Next",
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    color = GlanceTheme.colors.onSurface
-                ),
+        Text(
+            text = prayerTime.type.getLabel(context),
+            style = TextStyle(
+                fontSize = 14.sp,
+                color = GlanceTheme.colors.onSurface
             )
-            Spacer(GlanceModifier.height(4.dp))
-            Text(
-                text = prayerTime.type.getLabel(context),
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    color = GlanceTheme.colors.onSurface
-                )
+        )
+        Text(
+            text = prayerTime.getTimeString(context),
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp,
+                color = GlanceTheme.colors.onSurface
             )
-            Text(
-                text = prayerTime.getTimeString(context),
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = GlanceTheme.colors.onSurface
-                )
-            )
-        }
-        Spacer(GlanceModifier.defaultWeight())
+        )
     }
 }
 
