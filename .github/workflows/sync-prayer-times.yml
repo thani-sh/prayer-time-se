@@ -1,0 +1,54 @@
+name: Sync Prayer Times
+
+on:
+  # Run every Monday at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * 1'
+
+  # Allow manual triggering
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Fetch latest prayer times
+        run: yarn --cwd libs/update-times sync
+
+      - name: Verify synced data
+        run: yarn --cwd libs/update-times verify-sync
+
+      - name: Copy data to destinations
+        run: yarn --cwd libs/update-times copy
+
+      - name: Verify all destinations
+        run: yarn --cwd libs/update-times verify-copy
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ apps/ libs/
+          git commit -m "chore: update prayer times data [skip ci]"
+          git push

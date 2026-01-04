@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "copy": "node bin/copy.js",
-    "sync": "node bin/sync.js"
+    "sync": "node bin/sync.js",
+    "verify-sync": "node bin/verify-sync.js",
+    "verify-copy": "node bin/verify-copy.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0"
