@@ -1,0 +1,8 @@
+app_identifier("me.thanish.prayers.se") # The bundle identifier of your app
+apple_id(ENV['APPLE_ID']) # Your Apple Developer Account email address
+
+# itc_team_id("...") # App Store Connect Team ID
+team_id("G5ER9796HA") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

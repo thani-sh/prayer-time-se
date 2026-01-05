@@ -1,0 +1,21 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    setup_ci if ENV['CI']
+    match(type: "appstore", readonly: is_ci)
+    # Using specific project path for increment_build_number
+    increment_build_number(xcodeproj: "Bönetider.xcodeproj")
+    build_app(workspace: "Bönetider.xcodeproj/project.xcworkspace", scheme: "Bönetider")
+    upload_to_testflight
+  end
+
+  desc "Push a new release build to the App Store"
+  lane :deploy do
+    setup_ci if ENV['CI']
+    match(type: "appstore", readonly: is_ci)
+    build_app(workspace: "Bönetider.xcodeproj/project.xcworkspace", scheme: "Bönetider")
+    upload_to_app_store(force: true)
+  end
+end
