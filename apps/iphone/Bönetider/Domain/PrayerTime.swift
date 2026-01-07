@@ -13,12 +13,12 @@ import SwiftUI
 struct PrayerTime: Identifiable, Equatable {
   // Consider the prayer time is current for 30 minutes from adhan
   static let activeDuration: TimeInterval = 60 * 30
-  
+
   // Notification offsets are equal if the number of mintues are equal
   static func == (lhs: PrayerTime, rhs: PrayerTime) -> Bool {
     lhs.id == rhs.id
   }
-  
+
   // Get returns all prayers for the given date as an ordered array.
   // TODO: the values[4] should be removed from bundled json files.
   static func getPrayersForDate(method: PrayerTimeMethod, city: PrayerTimeCity, date: Date = Date()) -> [PrayerTime] {
@@ -32,7 +32,7 @@ struct PrayerTime: Identifiable, Equatable {
       PrayerTime(method: method, city: city, type: .isha, time: values[5]),
     ]
   }
-  
+
   // Get the next N prayers from given date-time. If the date is not given,
   // current system time will be used as the date used to search from.
   static func getNextPrayers(method: PrayerTimeMethod, city: PrayerTimeCity, count: Int, date: Date = Date()) -> [PrayerTime] {
@@ -44,22 +44,30 @@ struct PrayerTime: Identifiable, Equatable {
     }
     return Array(result.prefix(count))
   }
-  
+
   // MARK: - Properties
-  
+
   let method: PrayerTimeMethod
   let city: PrayerTimeCity
   let type: PrayerTimeType
   let time: Date
 
   // MARK: - Computed Properties
-  
+
   // Unique and machine friendly identifier used for matching
   var id: String { "\(method.rawValue)|\(city.rawValue)|\(type)|\(ISO8601DateFormatter().string(from: time))" }
 
   // Localized time string for the prayer time without the date
-  var timeString: String { DateFormatter.localizedString(from: time, dateStyle: .none, timeStyle: .short) }
-  
+  var timeString: String {
+    let formatter = DateFormatter()
+    if TimeFormat.current == .h24 {
+      formatter.dateFormat = "HH:mm"
+    } else {
+      formatter.dateFormat = "h:mm a"
+    }
+    return formatter.string(from: time)
+  }
+
   // Localized time duration from now until the prayer time
   var untilString: String {
     let components = Calendar.current.dateComponents([.hour, .minute], from: Date(), to: time)
@@ -68,12 +76,12 @@ struct PrayerTime: Identifiable, Equatable {
     }
     return String(localized: "prayers_time_until_m \(components.minute ?? 0)")
   }
-  
+
   // The time when notifications must be shown to the user
   var notifyTime: Date {
     time.addingTimeInterval(-TimeInterval(NotificationOffset.current.seconds))
   }
-  
+
   // Flag to indicate whether the prayer time is "current". A prayer is considered current
   // from the adhan time to 30 minutes from then. This flag is completely arbitrary and only
   // used to emphasize a prayer time immediately from adhan time.
@@ -89,18 +97,18 @@ struct PrayerTime: Identifiable, Equatable {
     }
     return time >= now && time < end!
   }
-  
+
   // Flag to indicate whether the prayer is the "next" prayer. A prayer is considered
   // as next if is the next prayer from current system time. Used to emphasize on UIs.
   var isNext: Bool {
     return PrayerTime.getNextPrayers(method: method, city: city, count: 1).first == self
   }
-  
+
   // Flag to indicate whether the prayer time is in the future or not.
   var isFuture: Bool { time > Date() }
-  
+
   // MARK: - Initializers
-  
+
   // Create a new PrayerTime instance with given values.
   init(method: PrayerTimeMethod, city: PrayerTimeCity, type: PrayerTimeType, time: Date) {
     self.method = method
@@ -108,7 +116,7 @@ struct PrayerTime: Identifiable, Equatable {
     self.type = type
     self.time = time
   }
-  
+
   // Create a new PrayerTime instance by parsing an identifier string. Throws an error
   // if the given string value is not a valid identifier.
   init(id: String) {

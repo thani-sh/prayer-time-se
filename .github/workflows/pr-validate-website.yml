@@ -1,0 +1,51 @@
+name: validate website pr
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/website/**'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: install dependencies
+        run: npm install
+
+      - name: build library
+        run: npm run build
+        working-directory: libs/prayer-time-se
+
+      - name: build the website
+        run: npm run build
+        working-directory: apps/website
+
+      - name: run linter
+        run: npm run lint
+        working-directory: apps/website
+
+      - name: validate version matches root package.json
+        run: |
+          EXPECTED_VERSION=$(node -p "require('./package.json').version")
+          AVAILABLE_VERSION=$(node -p "require('./apps/website/package.json').version")
+          echo "Expected version: $EXPECTED_VERSION"
+          echo "Available version: $AVAILABLE_VERSION"
+          if [ "$AVAILABLE_VERSION" != "$EXPECTED_VERSION" ]; then
+            echo "ERROR: Available version ($AVAILABLE_VERSION) must match expected version ($EXPECTED_VERSION)"
+            exit 1
+          fi
