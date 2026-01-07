@@ -29,22 +29,22 @@ jobs:
 
       - name: build the app
         run: |
-          xcodebuild -project PrayerTimes.xcodeproj \
-            -scheme PrayerTimes \
+          xcodebuild -project Bönetider.xcodeproj \
+            -scheme Bönetider \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             build
 
       - name: run tests
         run: |
-          xcodebuild -project PrayerTimes.xcodeproj \
-            -scheme PrayerTimes \
+          xcodebuild -project Bönetider.xcodeproj \
+            -scheme Bönetider \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             test
 
       - name: validate version matches root package.json
         run: |
           EXPECTED_VERSION=$(cat ../../package.json | grep -o '"version": "[^"]*"' | cut -d'"' -f4)
-          AVAILABLE_VERSION=$(grep 'MARKETING_VERSION = ' PrayerTimes.xcodeproj/project.pbxproj | head -1 | sed 's/.*MARKETING_VERSION = \(.*\);/\1/')
+          AVAILABLE_VERSION=$(grep 'MARKETING_VERSION = ' Bönetider.xcodeproj/project.pbxproj | head -1 | sed 's/.*MARKETING_VERSION = \(.*\);/\1/')
           echo "Expected version: $EXPECTED_VERSION"
           echo "Available version: $AVAILABLE_VERSION"
           if [ "$AVAILABLE_VERSION" != "$EXPECTED_VERSION" ]; then
@@ -58,11 +58,11 @@ jobs:
           ERRORS=0
           for FILE in ../../data/*.json; do
             FILENAME=$(basename "$FILE")
-            if [ ! -f "PrayerTimes/Resources/Values/$FILENAME" ]; then
-              echo "ERROR: $FILENAME is missing in PrayerTimes/Resources/Values/"
+            if [ ! -f "Bönetider/Resources/Values/$FILENAME" ]; then
+              echo "ERROR: $FILENAME is missing in Bönetider/Resources/Values/"
               ERRORS=$((ERRORS + 1))
             else
-              if ! diff -q "PrayerTimes/Resources/Values/$FILENAME" "$FILE" > /dev/null 2>&1; then
+              if ! diff -q "Bönetider/Resources/Values/$FILENAME" "$FILE" > /dev/null 2>&1; then
                 echo "ERROR: $FILENAME does not match"
                 ERRORS=$((ERRORS + 1))
               else
