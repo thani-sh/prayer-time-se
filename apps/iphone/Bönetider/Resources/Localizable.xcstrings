@@ -52,6 +52,9 @@
         }
       }
     },
+    "Next Prayer" : {
+
+    },
     "notification_before_adhan_enabled" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1847,22 +1850,6 @@
         }
       }
     },
-    "route_settings_section_methodology_details" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This app provides accurate Islamic prayer times sourced directly from the Islamiska Förbundet website."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Denna app tillhandahåller exakta islamiska böner-tider som hämtas direkt från Islamiska Förbundets webbplats."
-          }
-        }
-      }
-    },
     "prayers_time_until_hm %lld %lld" : {
       "localizations" : {
         "en" : {
@@ -2315,6 +2302,22 @@
         }
       }
     },
+    "route_settings_section_methodology_details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This app provides accurate Islamic prayer times sourced directly from the Islamiska Förbundet website."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denna app tillhandahåller exakta islamiska böner-tider som hämtas direkt från Islamiska Förbundets webbplats."
+          }
+        }
+      }
+    },
     "route_settings_section_notifications" : {
       "localizations" : {
         "en" : {
@@ -2348,6 +2351,22 @@
         }
       }
     },
+    "route_settings_time_format" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Format"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidsformat"
+          }
+        }
+      }
+    },
     "shared_coming_soon" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2361,6 +2380,73 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kommer snart!"
+          }
+        }
+      }
+    },
+    "Shows the next prayer time." : {
+
+    },
+    "time_format_12h" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12-hour"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12-timmar"
+          }
+        }
+      }
+    },
+    "time_format_24h" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24-hour"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24-timmar"
+          }
+        }
+      }
+    },
+    "widget_next_prayer_label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Prayer"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nästa bön"
+          }
+        }
+      }
+    },
+    "widget_no_data_label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Data"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen data"
           }
         }
       }

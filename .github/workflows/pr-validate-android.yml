@@ -1,0 +1,73 @@
+name: validate android pr
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/android/**'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/android
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: setup jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: setup gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: build the app
+        run: ./gradlew build
+
+      - name: run tests
+        run: ./gradlew test
+
+      - name: validate version matches root package.json
+        run: |
+          EXPECTED_VERSION=$(cat ../../package.json | grep -o '"version": "[^"]*"' | cut -d'"' -f4)
+          AVAILABLE_VERSION=$(grep 'versionName = ' app/build.gradle.kts | sed 's/.*versionName = "\(.*\)".*/\1/')
+          echo "Expected version: $EXPECTED_VERSION"
+          echo "Available version: $AVAILABLE_VERSION"
+          if [ "$AVAILABLE_VERSION" != "$EXPECTED_VERSION" ]; then
+            echo "ERROR: Available version ($AVAILABLE_VERSION) must match expected version ($EXPECTED_VERSION)"
+            exit 1
+          fi
+
+      - name: validate embedded dataset matches data directory
+        run: |
+          echo "Checking dataset files..."
+          ERRORS=0
+          for FILE in ../../data/*.json; do
+            FILENAME=$(basename "$FILE")
+            if [ ! -f "app/src/main/assets/values/$FILENAME" ]; then
+              echo "ERROR: $FILENAME is missing in app/src/main/assets/values/"
+              ERRORS=$((ERRORS + 1))
+            else
+              if ! diff -q "app/src/main/assets/values/$FILENAME" "$FILE" > /dev/null 2>&1; then
+                echo "ERROR: $FILENAME does not match"
+                ERRORS=$((ERRORS + 1))
+              else
+                echo "✓ $FILENAME matches"
+              fi
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            echo "Found $ERRORS error(s)"
+            exit 1
+          fi
+          echo "All dataset files match!"

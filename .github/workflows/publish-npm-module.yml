@@ -1,0 +1,58 @@
+name: publish npm package
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'libs/prayer-time-se/**'
+  workflow_dispatch:
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: libs/prayer-time-se
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: install dependencies
+        run: npm install
+
+      - name: build the package
+        run: npm run build
+
+      - name: run tests
+        run: npm run test
+
+      - name: check if version exists on npm
+        id: check-version
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$PACKAGE_NAME@$VERSION" version 2>/dev/null; then
+            echo "Version $VERSION already exists on npm"
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version $VERSION does not exist on npm"
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: publish to npm
+        if: steps.check-version.outputs.should_publish == 'true'
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

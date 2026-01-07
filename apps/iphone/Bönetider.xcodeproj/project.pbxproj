@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4053A55F2F0DF42200A8817A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4053A55E2F0DF42200A8817A /* WidgetKit.framework */; };
+		4053A5612F0DF42200A8817A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4053A5602F0DF42200A8817A /* SwiftUI.framework */; };
+		4053A5702F0DF42400A8817A /* NextPrayerTimeExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4053A55C2F0DF42200A8817A /* NextPrayerTimeExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		403838CC2D4C321B00A918BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,17 +27,176 @@
 			remoteGlobalIDString = 403838BA2D4C321900A918BE;
 			remoteInfo = "Bönetider";
 		};
+		4053A56E2F0DF42400A8817A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 403838B32D4C321900A918BE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4053A55B2F0DF42200A8817A;
+			remoteInfo = NextPrayerTimeExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4053A5712F0DF42400A8817A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4053A5702F0DF42400A8817A /* NextPrayerTimeExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		403838BB2D4C321900A918BE /* Bönetider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bönetider.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		403838CB2D4C321B00A918BE /* BönetiderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BönetiderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		403838D52D4C321B00A918BE /* BönetiderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BönetiderUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4053A55C2F0DF42200A8817A /* NextPrayerTimeExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextPrayerTimeExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4053A55E2F0DF42200A8817A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		4053A5602F0DF42200A8817A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4053A5742F0DF42400A8817A /* Exceptions for "NextPrayerTime" folder in "NextPrayerTimeExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4053A55B2F0DF42200A8817A /* NextPrayerTimeExtension */;
+		};
+		4053A57D2F0DF43000A8817A /* Exceptions for "Bönetider" folder in "NextPrayerTimeExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Device/FeatureFlags.swift,
+				Domain/HijriCalendarOffset.swift,
+				Domain/NotificationOffset.swift,
+				Domain/PrayerTime.swift,
+				Domain/PrayerTimeCity.swift,
+				Domain/PrayerTimeData.swift,
+				Domain/PrayerTimeMethod.swift,
+				Domain/PrayerTimeTable.swift,
+				Domain/PrayerTimeType.swift,
+				Domain/TimeFormat.swift,
+				Resources/Localizable.xcstrings,
+				Resources/Values/islamiskaforbundet.alingsas.json,
+				Resources/Values/islamiskaforbundet.amal.json,
+				Resources/Values/islamiskaforbundet.angelholm.json,
+				Resources/Values/islamiskaforbundet.avesta.json,
+				Resources/Values/islamiskaforbundet.bengtsfors.json,
+				Resources/Values/islamiskaforbundet.boden.json,
+				Resources/Values/islamiskaforbundet.bollnas.json,
+				Resources/Values/islamiskaforbundet.boras.json,
+				Resources/Values/islamiskaforbundet.borlange.json,
+				Resources/Values/islamiskaforbundet.eksjo.json,
+				Resources/Values/islamiskaforbundet.enkoping.json,
+				Resources/Values/islamiskaforbundet.eskilstuna.json,
+				Resources/Values/islamiskaforbundet.eslov.json,
+				Resources/Values/islamiskaforbundet.falkenberg.json,
+				Resources/Values/islamiskaforbundet.falkoping.json,
+				Resources/Values/islamiskaforbundet.filipstad.json,
+				Resources/Values/islamiskaforbundet.flen.json,
+				Resources/Values/islamiskaforbundet.gallivare.json,
+				Resources/Values/islamiskaforbundet.gavle.json,
+				Resources/Values/islamiskaforbundet.gislaved.json,
+				Resources/Values/islamiskaforbundet.gnosjo.json,
+				Resources/Values/islamiskaforbundet.goteborg.json,
+				Resources/Values/islamiskaforbundet.halmstad.json,
+				Resources/Values/islamiskaforbundet.haparanda.json,
+				Resources/Values/islamiskaforbundet.harnosand.json,
+				Resources/Values/islamiskaforbundet.hassleholm.json,
+				Resources/Values/islamiskaforbundet.helsingborg.json,
+				Resources/Values/islamiskaforbundet.hogsby.json,
+				Resources/Values/islamiskaforbundet.horby.json,
+				Resources/Values/islamiskaforbundet.hudiksvall.json,
+				Resources/Values/islamiskaforbundet.hultsfred.json,
+				Resources/Values/islamiskaforbundet.jokkmokk.json,
+				Resources/Values/islamiskaforbundet.jonkoping.json,
+				Resources/Values/islamiskaforbundet.kalmar.json,
+				Resources/Values/islamiskaforbundet.kalrshamn.json,
+				Resources/Values/islamiskaforbundet.karlskoga.json,
+				Resources/Values/islamiskaforbundet.karlskrona.json,
+				Resources/Values/islamiskaforbundet.karlstad.json,
+				Resources/Values/islamiskaforbundet.katrineholm.json,
+				Resources/Values/islamiskaforbundet.kiruna.json,
+				Resources/Values/islamiskaforbundet.koping.json,
+				Resources/Values/islamiskaforbundet.kristianstad.json,
+				Resources/Values/islamiskaforbundet.kristinehamn.json,
+				Resources/Values/islamiskaforbundet.laholm.json,
+				Resources/Values/islamiskaforbundet.landskrona.json,
+				Resources/Values/islamiskaforbundet.lessebo.json,
+				Resources/Values/islamiskaforbundet.lidkoping.json,
+				Resources/Values/islamiskaforbundet.linkoping.json,
+				Resources/Values/islamiskaforbundet.ludvika.json,
+				Resources/Values/islamiskaforbundet.lulea.json,
+				Resources/Values/islamiskaforbundet.lund.json,
+				Resources/Values/islamiskaforbundet.lysekil.json,
+				Resources/Values/islamiskaforbundet.malmo.json,
+				Resources/Values/islamiskaforbundet.mariestad.json,
+				Resources/Values/islamiskaforbundet.marsta.json,
+				Resources/Values/islamiskaforbundet.mellerud.json,
+				Resources/Values/islamiskaforbundet.mjolby.json,
+				Resources/Values/islamiskaforbundet.monsteras.json,
+				Resources/Values/islamiskaforbundet.munkedal.json,
+				Resources/Values/islamiskaforbundet.nassjo.json,
+				Resources/Values/islamiskaforbundet.norrkoping.json,
+				Resources/Values/islamiskaforbundet.norrtalje.json,
+				Resources/Values/islamiskaforbundet.nybro.json,
+				Resources/Values/islamiskaforbundet.nykoping.json,
+				Resources/Values/islamiskaforbundet.nynashamn.json,
+				Resources/Values/islamiskaforbundet.orebro.json,
+				Resources/Values/islamiskaforbundet.ornskoldsvik.json,
+				Resources/Values/islamiskaforbundet.oskarshamn.json,
+				Resources/Values/islamiskaforbundet.ostersund.json,
+				Resources/Values/islamiskaforbundet.oxelosund.json,
+				Resources/Values/islamiskaforbundet.pajala.json,
+				Resources/Values/islamiskaforbundet.pitea.json,
+				Resources/Values/islamiskaforbundet.ronneby.json,
+				Resources/Values/islamiskaforbundet.saffle.json,
+				Resources/Values/islamiskaforbundet.sala.json,
+				Resources/Values/islamiskaforbundet.savsjo.json,
+				Resources/Values/islamiskaforbundet.simrishamn.json,
+				Resources/Values/islamiskaforbundet.skara.json,
+				Resources/Values/islamiskaforbundet.skelleftea.json,
+				Resources/Values/islamiskaforbundet.skovde.json,
+				Resources/Values/islamiskaforbundet.soderhamn.json,
+				Resources/Values/islamiskaforbundet.sodertalje.json,
+				Resources/Values/islamiskaforbundet.solleftea.json,
+				Resources/Values/islamiskaforbundet.solvesborg.json,
+				Resources/Values/islamiskaforbundet.stockholm.json,
+				Resources/Values/islamiskaforbundet.strangnas.json,
+				Resources/Values/islamiskaforbundet.sundsvall.json,
+				Resources/Values/islamiskaforbundet.tierp.json,
+				Resources/Values/islamiskaforbundet.tranemo.json,
+				Resources/Values/islamiskaforbundet.trelleborg.json,
+				Resources/Values/islamiskaforbundet.trollhattan.json,
+				Resources/Values/islamiskaforbundet.uddevalla.json,
+				Resources/Values/islamiskaforbundet.ulricehamn.json,
+				Resources/Values/islamiskaforbundet.umea.json,
+				Resources/Values/islamiskaforbundet.uppsala.json,
+				Resources/Values/islamiskaforbundet.vanersborg.json,
+				Resources/Values/islamiskaforbundet.varberg.json,
+				Resources/Values/islamiskaforbundet.varnamo.json,
+				Resources/Values/islamiskaforbundet.vasteras.json,
+				Resources/Values/islamiskaforbundet.vastervik.json,
+				Resources/Values/islamiskaforbundet.vaxjo.json,
+				Resources/Values/islamiskaforbundet.vetlanda.json,
+				Resources/Values/islamiskaforbundet.vimmerby.json,
+				Resources/Values/islamiskaforbundet.visby.json,
+				Resources/Values/islamiskaforbundet.ystad.json,
+			);
+			target = 4053A55B2F0DF42200A8817A /* NextPrayerTimeExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		403838BD2D4C321900A918BE /* Bönetider */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4053A57D2F0DF43000A8817A /* Exceptions for "Bönetider" folder in "NextPrayerTimeExtension" target */,
+			);
 			path = "Bönetider";
 			sourceTree = "<group>";
 		};
@@ -43,6 +208,14 @@
 		403838D82D4C321B00A918BE /* BönetiderUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "BönetiderUITests";
+			sourceTree = "<group>";
+		};
+		4053A5622F0DF42200A8817A /* NextPrayerTime */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4053A5742F0DF42400A8817A /* Exceptions for "NextPrayerTime" folder in "NextPrayerTimeExtension" target */,
+			);
+			path = NextPrayerTime;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +242,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4053A5592F0DF42200A8817A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4053A5612F0DF42200A8817A /* SwiftUI.framework in Frameworks */,
+				4053A55F2F0DF42200A8817A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +260,8 @@
 				403838BD2D4C321900A918BE /* Bönetider */,
 				403838CE2D4C321B00A918BE /* BönetiderTests */,
 				403838D82D4C321B00A918BE /* BönetiderUITests */,
+				4053A5622F0DF42200A8817A /* NextPrayerTime */,
+				4053A55D2F0DF42200A8817A /* Frameworks */,
 				403838BC2D4C321900A918BE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +272,18 @@
 				403838BB2D4C321900A918BE /* Bönetider.app */,
 				403838CB2D4C321B00A918BE /* BönetiderTests.xctest */,
 				403838D52D4C321B00A918BE /* BönetiderUITests.xctest */,
+				4053A55C2F0DF42200A8817A /* NextPrayerTimeExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4053A55D2F0DF42200A8817A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4053A55E2F0DF42200A8817A /* WidgetKit.framework */,
+				4053A5602F0DF42200A8817A /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,10 +296,12 @@
 				403838B72D4C321900A918BE /* Sources */,
 				403838B82D4C321900A918BE /* Frameworks */,
 				403838B92D4C321900A918BE /* Resources */,
+				4053A5712F0DF42400A8817A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4053A56F2F0DF42400A8817A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				403838BD2D4C321900A918BE /* Bönetider */,
@@ -163,6 +359,28 @@
 			productReference = 403838D52D4C321B00A918BE /* BönetiderUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		4053A55B2F0DF42200A8817A /* NextPrayerTimeExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4053A5752F0DF42400A8817A /* Build configuration list for PBXNativeTarget "NextPrayerTimeExtension" */;
+			buildPhases = (
+				4053A5582F0DF42200A8817A /* Sources */,
+				4053A5592F0DF42200A8817A /* Frameworks */,
+				4053A55A2F0DF42200A8817A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4053A5622F0DF42200A8817A /* NextPrayerTime */,
+			);
+			name = NextPrayerTimeExtension;
+			packageProductDependencies = (
+			);
+			productName = NextPrayerTimeExtension;
+			productReference = 4053A55C2F0DF42200A8817A /* NextPrayerTimeExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -170,7 +388,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					403838BA2D4C321900A918BE = {
@@ -183,6 +401,9 @@
 					403838D42D4C321B00A918BE = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 403838BA2D4C321900A918BE;
+					};
+					4053A55B2F0DF42200A8817A = {
+						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
@@ -204,6 +425,7 @@
 				403838BA2D4C321900A918BE /* Bönetider */,
 				403838CA2D4C321B00A918BE /* BönetiderTests */,
 				403838D42D4C321B00A918BE /* BönetiderUITests */,
+				4053A55B2F0DF42200A8817A /* NextPrayerTimeExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -224,6 +446,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		403838D32D4C321B00A918BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4053A55A2F0DF42200A8817A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -254,6 +483,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4053A5582F0DF42200A8817A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -266,6 +502,11 @@
 			isa = PBXTargetDependency;
 			target = 403838BA2D4C321900A918BE /* Bönetider */;
 			targetProxy = 403838D62D4C321B00A918BE /* PBXContainerItemProxy */;
+		};
+		4053A56F2F0DF42400A8817A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4053A55B2F0DF42200A8817A /* NextPrayerTimeExtension */;
+			targetProxy = 4053A56E2F0DF42400A8817A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -415,7 +656,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 4.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.thanish.prayers.se;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -448,7 +689,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 4.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = me.thanish.prayers.se;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -465,7 +706,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.thanish.Bo-netiderTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -483,7 +724,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.thanish.Bo-netiderTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -499,7 +740,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.thanish.Bo-netiderUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -515,13 +756,75 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.thanish.Bo-netiderUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "Bönetider";
+			};
+			name = Release;
+		};
+		4053A5722F0DF42400A8817A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G5ER9796HA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NextPrayerTime/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NextPrayerTime;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 4.2.4;
+				PRODUCT_BUNDLE_IDENTIFIER = me.thanish.prayers.se.NextPrayerTime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4053A5732F0DF42400A8817A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G5ER9796HA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NextPrayerTime/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NextPrayerTime;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 4.2.4;
+				PRODUCT_BUNDLE_IDENTIFIER = me.thanish.prayers.se.NextPrayerTime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -560,6 +863,15 @@
 			buildConfigurations = (
 				403838E62D4C321B00A918BE /* Debug */,
 				403838E72D4C321B00A918BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4053A5752F0DF42400A8817A /* Build configuration list for PBXNativeTarget "NextPrayerTimeExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4053A5722F0DF42400A8817A /* Debug */,
+				4053A5732F0DF42400A8817A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
