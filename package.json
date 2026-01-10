@@ -10,6 +10,6 @@
     "libs/update-times"
   ],
   "engines": {
-    "node": ">=23.0.0"
+    "node": ">=24.0.0"
   }
 }

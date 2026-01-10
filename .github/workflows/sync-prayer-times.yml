@@ -1,11 +1,6 @@
 name: Sync Prayer Times
 
 on:
-  # Run every Monday at 00:00 UTC
-  schedule:
-    - cron: '0 0 * * 1'
-
-  # Allow manual triggering
   workflow_dispatch:
 
 permissions:
@@ -25,19 +20,19 @@ jobs:
           node-version: '23'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Fetch latest prayer times
-        run: yarn --cwd libs/update-times sync
+        run: npm run sync --prefix libs/update-times
 
       - name: Verify synced data
-        run: yarn --cwd libs/update-times verify-sync
+        run: npm run verify-sync --prefix libs/update-times
 
       - name: Copy data to destinations
-        run: yarn --cwd libs/update-times copy
+        run: npm run copy --prefix libs/update-times
 
       - name: Verify all destinations
-        run: yarn --cwd libs/update-times verify-copy
+        run: npm run verify-copy --prefix libs/update-times
 
       - name: Check for changes
         id: git-check
