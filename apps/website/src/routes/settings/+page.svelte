@@ -12,7 +12,8 @@
 	label: string,
 	options: readonly string[],
 	selected: string,
-	onSelect: (value: string) => void
+	onSelect: (value: string) => void,
+	format: (value: string) => string = capitalize,
 )}
 	<fieldset class="fieldset my-2">
 		<legend class="fieldset-legend">{label}</legend>
@@ -21,7 +22,7 @@
 			on:change={(e) => onSelect((e.target as HTMLSelectElement).value)}
 		>
 			{#each options as option}
-				<option value={option} selected={selected === option}>{capitalize(option)}</option>
+				<option value={option} selected={selected === option}>{format(option)}</option>
 			{/each}
 		</select>
 	</fieldset>
