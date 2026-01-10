@@ -20,7 +20,7 @@
   "devDependencies": {
     "prettier": "^3.4.2",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4"
+    "vitest": "^4.0.16"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,6 @@
   },
   "homepage": "https://github.com/thani-sh/prayer-time-se#readme",
   "engines": {
-    "node": ">=23.0.0"
+    "node": ">=24.0.0"
   }
 }

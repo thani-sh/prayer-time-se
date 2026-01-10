@@ -10,14 +10,13 @@
 		"type": "wrangler types"
 	},
 	"dependencies": {
-		"@cloudflare/workers-types": "^4.20250124.3",
+		"@cloudflare/workers-types": "^4.20260109.0",
 		"@thani-sh/prayer-time-se": "^4.2.4",
-		"hono": "^4.6.18"
+		"hono": "^4.11.3"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.6.4",
 		"typescript": "^5.5.2",
-		"vitest": "2.1.8",
-		"wrangler": "^4.5.0"
+		"vitest": "^4.0.16",
+		"wrangler": "^4.58.0"
 	}
 }
