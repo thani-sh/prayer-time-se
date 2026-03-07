@@ -1,6 +1,6 @@
 {
 	"name": "@thani-sh/prayer-time-se-website",
-	"version": "4.2.4",
+	"version": "5.0.0",
 	"description": "Islamic prayer times for Sweden as a website",
 	"type": "module",
 	"scripts": {
@@ -14,7 +14,7 @@
 		"lint": "prettier --check ."
 	},
 	"dependencies": {
-		"@thani-sh/prayer-time-se": "^4.2.4",
+		"@thani-sh/prayer-time-se": "^5.0.0",
 		"date-fns": "^4.1.0",
 		"lodash": "^4.17.23",
 		"lucide-svelte": "^0.577.0"
