@@ -1,4 +1,4 @@
-name: Update API Data
+name: publish api database
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
           node-version: "24"
 
       - name: install dependencies
-        run: npm install
+        run: npm ci
 
       - name: run database sync
         run: npm run db:update
