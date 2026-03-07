@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'libs/prayer-time-se/**'
+      - "libs/prayer-time-se/**"
   workflow_dispatch:
 
 permissions:
-  id-token: write  # Required for OIDC
+  id-token: write # Required for OIDC
   contents: read
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - name: install dependencies
         run: npm install
@@ -54,5 +54,3 @@ jobs:
       - name: publish to npm
         if: steps.check-version.outputs.should_publish == 'true'
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
