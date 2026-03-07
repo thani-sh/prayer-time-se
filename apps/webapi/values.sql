@@ -38404,5 +38404,5 @@ INSERT INTO prayer_times (month, day, city, fajr, sunrise, dhuhr, asr, maghrib, 
   (11, 30, 'ystad', 376, 508, 735, 815, 952, 1069);
 
 DELETE FROM metadata WHERE key = 'last_updated';
-INSERT INTO metadata (key, value) VALUES ('last_updated', '2026-03-07T06:37:50.298Z');
+INSERT INTO metadata (key, value) VALUES ('last_updated', '2026-03-07T07:35:23.666Z');
 

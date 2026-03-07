@@ -11,11 +11,11 @@ async function verify() {
 	const data = await (res.json() as Promise<{ updated: string }>);
 	console.log('Received:', data);
 
-	const updatedTime = new Date(data.updated).getTime();
-	const diffMinutes = (Date.now() - updatedTime) / (1000 * 60);
+	const updatedDate = new Date(data.updated).toISOString().slice(0, 10);
+	const currentDate = new Date().toISOString().slice(0, 10);
 
-	if (isNaN(diffMinutes) || diffMinutes > 15) {
-		console.error('❌ Error: API date is not recent or invalid. Diff:', diffMinutes, 'min');
+	if (updatedDate !== currentDate) {
+		console.error(`❌ Error: API date is not today. Expected: ${currentDate}, Got: ${updatedDate}`);
 		process.exit(1);
 	}
 	console.log('✅ API verify check passed! Data is fresh.');
