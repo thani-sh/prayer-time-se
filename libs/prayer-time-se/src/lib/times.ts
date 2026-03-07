@@ -1,6 +1,5 @@
 import { City, DEFAULT_CITY, isValidCity } from './cities.js';
 import { DEFAULT_METHOD, isValidMethod, Method } from './method.js';
-import PrayerTimesMap from '../data/index.js';
 
 /**
  * The number of minutes in a day.
@@ -33,6 +32,16 @@ function minutesToTime(minutes: number) {
 }
 
 /**
+ * Format a Date object as YYYY-MM-DD string.
+ */
+function formatDate(date: Date): string {
+  const yyyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyyy}-${mm}-${dd}`;
+}
+
+/**
  * Get prayer times for the given city, method and date.
  */
 export async function getPrayerTimes(
@@ -46,15 +55,26 @@ export async function getPrayerTimes(
   if (!isValidCity(city)) {
     throw new Error(`Invalid city: ${city}`);
   }
-  const d = date.getDate();
-  const m = date.getMonth();
-  const values = await PrayerTimesMap[method][city]();
+
+  const formattedDate = formatDate(date);
+  const url = `https://api.xn--bnetider-n4a.nu/v1/method/${method}/city/${city}/times/${formattedDate}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch prayer times: ${response.statusText}`);
+  }
+
+  const values: number[] = await response.json();
+  if (!Array.isArray(values) || values.length !== 6) {
+    throw new Error('Invalid response format from API');
+  }
+
   return {
-    fajr: minutesToTime(values[m][d - 1][0]),
-    sunrise: minutesToTime(values[m][d - 1][1]),
-    dhuhr: minutesToTime(values[m][d - 1][2]),
-    asr: minutesToTime(values[m][d - 1][3]),
-    maghrib: minutesToTime(values[m][d - 1][4]),
-    isha: minutesToTime(values[m][d - 1][5]),
+    fajr: minutesToTime(values[0]),
+    sunrise: minutesToTime(values[1]),
+    dhuhr: minutesToTime(values[2]),
+    asr: minutesToTime(values[3]),
+    maghrib: minutesToTime(values[4]),
+    isha: minutesToTime(values[5]),
   };
 }

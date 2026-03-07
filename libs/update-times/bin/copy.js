@@ -11,25 +11,13 @@ const __rootdir = resolve(__dirname, "../../../");
 const sourceDir = resolve(__dirname, __rootdir, "data");
 
 // Destination directories and the expected format for the data
-const outputDir = [
-  { type: "data", dir: "apps/android/app/src/main/assets/values" },
-  { type: "data", dir: "apps/iphone/Bönetider/Resources/Values" },
-  { type: "code", dir: "libs/prayer-time-se/src/data" },
+const targets = [
+  { dir: "apps/android/app/src/main/assets/values" },
+  { dir: "apps/iphone/Bönetider/Resources/Values" },
 ];
 
-// Code to prepare data
-const formatters = {
-  data: (name, data) => ({ name, data }),
-  code: (_name, _data) => {
-    const name = _name.replace(".json", ".ts");
-    const type = "[number, number, number, number, number, number][][]";
-    const data = `export default ${_data} as ${type};`;
-    return { name, data };
-  },
-};
-
 // Clean destination dirs
-for (const { dir } of outputDir) {
+for (const { dir } of targets) {
   const resolvedDir = resolve(__dirname, __rootdir, dir);
   await rm(resolvedDir, { recursive: true, force: true });
   await mkdir(resolvedDir);
@@ -42,14 +30,13 @@ const sourceFileData = await Promise.all(
     const filePath = resolve(__dirname, __rootdir, sourceDir, name);
     const data = await readFile(filePath, "utf-8");
     return { name, data };
-  })
+  }),
 );
 
 // Write formatted files to all output directories
-for (const { type, dir } of outputDir) {
+for (const { dir } of targets) {
   for (const sourceFile of sourceFileData) {
-    const { name, data } = formatters[type](sourceFile.name, sourceFile.data);
-    const filePath = resolve(__dirname, __rootdir, dir, name);
-    await writeFile(filePath, data);
+    const filePath = resolve(__dirname, __rootdir, dir, sourceFile.name);
+    await writeFile(filePath, sourceFile.data);
   }
 }

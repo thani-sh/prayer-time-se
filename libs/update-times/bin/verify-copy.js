@@ -15,9 +15,16 @@ const method = "islamiskaforbundet";
 // Define source and destination directories
 const sourceDir = resolve(__rootdir, "data");
 const destinations = [
-  { type: "data", dir: "apps/android/app/src/main/assets/values", label: "Android Assets" },
-  { type: "data", dir: "apps/iphone/Bönetider/Resources/Values", label: "iOS Resources" },
-  { type: "code", dir: "libs/prayer-time-se/src/data", label: "Library TypeScript" },
+  {
+    type: "data",
+    dir: "apps/android/app/src/main/assets/values",
+    label: "Android Assets",
+  },
+  {
+    type: "data",
+    dir: "apps/iphone/Bönetider/Resources/Values",
+    label: "iOS Resources",
+  },
 ];
 
 let hasErrors = false;
@@ -117,87 +124,6 @@ async function verifyDataDestination(destination, sourceHashes) {
 }
 
 /**
- * Verify a code destination (TypeScript files)
- */
-async function verifyCodeDestination(destination, sourceHashes) {
-  const destPath = resolve(__rootdir, destination.dir);
-  console.log(`\n📂 Checking ${destination.label}: ${destination.dir}`);
-
-  let missingFiles = [];
-  let mismatchedFiles = [];
-  let matchedFiles = 0;
-
-  try {
-    const files = await readdir(destPath);
-
-    for (const city of CITIES) {
-      const jsonFileName = `${method}.${city.id}.json`;
-      const tsFileName = `${method}.${city.id}.ts`;
-
-      if (!files.includes(tsFileName)) {
-        missingFiles.push({ city: city.name, file: tsFileName });
-        continue;
-      }
-
-      const filePath = resolve(destPath, tsFileName);
-      const content = await readFile(filePath, "utf-8");
-
-      // Extract JSON from TypeScript export
-      const match = content.match(/export default (.*?) as/s);
-      if (!match) {
-        mismatchedFiles.push({ city: city.name, file: tsFileName, reason: "Invalid format" });
-        continue;
-      }
-
-      const jsonContent = match[1].trim();
-      const sourceContent = sourceHashes.get(jsonFileName)?.content;
-
-      if (!sourceContent) {
-        console.error(`   ❌ Source file not found for ${city.name}`);
-        hasErrors = true;
-        continue;
-      }
-
-      // Compare normalized JSON (remove whitespace differences)
-      const normalizedSource = JSON.stringify(JSON.parse(sourceContent));
-      const normalizedDest = JSON.stringify(JSON.parse(jsonContent));
-
-      if (normalizedSource !== normalizedDest) {
-        mismatchedFiles.push({ city: city.name, file: tsFileName, reason: "Content mismatch" });
-      } else {
-        matchedFiles++;
-      }
-    }
-  } catch (err) {
-    console.error(`   ❌ Error accessing destination: ${err.message}`);
-    return false;
-  }
-
-  if (missingFiles.length > 0) {
-    console.error(`   ❌ Missing ${missingFiles.length} file(s):`);
-    missingFiles.forEach(({ city, file }) => {
-      console.error(`      - ${city}: ${file}`);
-    });
-    hasErrors = true;
-  }
-
-  if (mismatchedFiles.length > 0) {
-    console.error(`   ❌ Mismatched ${mismatchedFiles.length} file(s):`);
-    mismatchedFiles.forEach(({ city, file, reason }) => {
-      console.error(`      - ${city}: ${file} (${reason})`);
-    });
-    hasErrors = true;
-  }
-
-  if (missingFiles.length === 0 && mismatchedFiles.length === 0) {
-    console.log(`   ✅ All ${matchedFiles} files match source`);
-    return true;
-  }
-
-  return false;
-}
-
-/**
  * Main verification function
  */
 async function main() {
@@ -208,11 +134,7 @@ async function main() {
   console.log(`✅ Read ${sourceHashes.size} source files`);
 
   for (const destination of destinations) {
-    if (destination.type === "data") {
-      await verifyDataDestination(destination, sourceHashes);
-    } else if (destination.type === "code") {
-      await verifyCodeDestination(destination, sourceHashes);
-    }
+    await verifyDataDestination(destination, sourceHashes);
   }
 
   console.log("\n" + "=".repeat(50));
