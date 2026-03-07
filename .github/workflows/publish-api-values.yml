@@ -1,0 +1,36 @@
+name: Update API Data
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/**'
+      - 'apps/webapi/**'
+      - '.github/workflows/update-api-values.yml'
+  workflow_dispatch:
+
+jobs:
+  sync-db:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/webapi
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: install dependencies
+        run: npm install
+
+      - name: run database sync
+        run: npm run sync
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

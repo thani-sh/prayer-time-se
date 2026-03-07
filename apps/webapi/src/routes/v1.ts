@@ -1,14 +1,9 @@
-import { Hono } from 'hono';
 import { CITIES, METHODS } from '@thani-sh/prayer-time-se';
+import { and, eq } from 'drizzle-orm';
+import { drizzle } from 'drizzle-orm/d1';
+import { Hono } from 'hono';
 import { Env } from '../../cf-types';
-
-/**
- * Function to convert a readable stream to an object
- */
-async function streamToObject(stream: ReadableStream) {
-	const text = await new Response(stream).text();
-	return JSON.parse(text);
-}
+import { metadata, prayerTimes } from '../db/schema';
 
 /**
  * Function to register the v1 API endpoints and middleware
@@ -22,10 +17,13 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	});
 
 	/**
-	 * API endpoint to check if the server is up
+	 * API endpoint to get the API's current version and last updated date
 	 */
-	app.get('/v1/version', (c) => {
-		return c.json({ updated: '2025-01-26' });
+	app.get('/v1/version', async (c) => {
+		const db = drizzle(c.env.db);
+		const row = await db.select().from(metadata).where(eq(metadata.key, 'last_updated')).get();
+		const updated = row?.value || 'unknown';
+		return c.json({ updated });
 	});
 
 	/**
@@ -42,8 +40,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 		const method = c.req.param('method');
 		if (METHODS.indexOf(method as any) === -1) {
 			c.status(404);
-			c.json({ error: 'Method not found' });
-			return;
+			return c.json({ error: 'Method not found' });
 		}
 		await next();
 	});
@@ -62,8 +59,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 		const city = c.req.param('city');
 		if (CITIES.indexOf(city as any) === -1) {
 			c.status(404);
-			c.json({ error: 'City not found' });
-			return;
+			return c.json({ error: 'City not found' });
 		}
 		await next();
 	});
@@ -72,32 +68,41 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	 * API endpoint to get prayer times for a year
 	 */
 	app.get('/v1/method/:method/city/:city/times', async (c) => {
-		const method = c.req.param('method');
 		const city = c.req.param('city');
-		const object = await c.env.BUCKET.get(`${method}.${city}.json`);
-		if (object === null) {
+		const db = drizzle(c.env.db);
+		const rows = await db.select().from(prayerTimes).where(eq(prayerTimes.city, city)).all();
+		if (!rows || rows.length === 0) {
 			c.status(404);
 			return c.json({ error: 'Data not found' });
 		}
+		// Map SQL rows back to the 12-month format array.
+		const dataset: any[][] = Array.from({ length: 12 }, () => []);
+		for (const row of rows) {
+			dataset[row.month][row.day] = [row.fajr, row.sunrise, row.dhuhr, row.asr, row.maghrib, row.isha];
+		}
 		c.header('content-type', 'application/json');
-		return c.body(object.body);
+		return c.json(dataset);
 	});
 
 	/**
 	 * API endpoint to get prayer times for a date
 	 */
 	app.get('/v1/method/:method/city/:city/times/:date', async (c) => {
-		const method = c.req.param('method');
 		const city = c.req.param('city');
-		const date = new Date(c.req.param('date'));
-		const object = await c.env.BUCKET.get(`${method}.${city}.json`);
-		if (object === null) {
+		const dateObj = new Date(c.req.param('date'));
+		const [m, d] = [dateObj.getMonth(), dateObj.getDate() - 1];
+		const db = drizzle(c.env.db);
+		const row = await db
+			.select()
+			.from(prayerTimes)
+			.where(and(eq(prayerTimes.month, m), eq(prayerTimes.day, d), eq(prayerTimes.city, city)))
+			.get();
+		if (!row) {
 			c.status(404);
-			return c.json({ error: 'Data not found' });
+			return c.json({ error: 'Data not found for this date' });
 		}
-		const dataset = await streamToObject(object.body);
-		const [m, d] = [date.getMonth(), date.getDate() - 1];
+		const times = [row.fajr, row.sunrise, row.dhuhr, row.asr, row.maghrib, row.isha];
 		c.header('content-type', 'application/json');
-		return c.json(dataset[m][d]);
+		return c.json(times);
 	});
 }

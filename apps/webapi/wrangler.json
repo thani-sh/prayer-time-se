@@ -5,17 +5,17 @@
 	"observability": {
 		"enabled": true
 	},
-	"r2_buckets": [
-		{
-			"binding": "BUCKET",
-			"bucket_name": "prayer-time-se",
-			"preview_bucket_name": "prayer-time-se"
-		}
-	],
 	"routes": [
 		{
 			"pattern": "api.bönetider.nu",
 			"custom_domain": true
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "db",
+			"database_name": "prayer-time-se",
+			"database_id": "09a179eb-6be6-41bf-9de8-e185d955218a"
 		}
 	]
 }
