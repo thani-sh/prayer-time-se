@@ -29,7 +29,13 @@ jobs:
         run: npm install
 
       - name: run database sync
-        run: npm run sync
+        run: npm run db:update
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: wait for API update
+        run: sleep 5
+
+      - name: verify API version
+        run: npm run db:verify
