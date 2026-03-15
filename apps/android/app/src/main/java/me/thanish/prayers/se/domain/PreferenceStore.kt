@@ -34,3 +34,22 @@ fun getIntegerSync(context: Context, key: Preferences.Key<Int>, default: Int): I
         flow.firstOrNull() ?: default
     }
 }
+
+/**
+ * setBooleanSync stores the boolean value on device for the given key.
+ */
+fun setBooleanSync(context: Context, key: Preferences.Key<Boolean>, value: Boolean) {
+    runBlocking {
+        context.dataStore.edit { it[key] = value }
+    }
+}
+
+/**
+ * getBooleanSync returns the boolean value stored on device for the given key.
+ */
+fun getBooleanSync(context: Context, key: Preferences.Key<Boolean>, default: Boolean): Boolean {
+    return runBlocking {
+        val flow = context.dataStore.data.map { it[key] ?: default }
+        flow.firstOrNull() ?: default
+    }
+}

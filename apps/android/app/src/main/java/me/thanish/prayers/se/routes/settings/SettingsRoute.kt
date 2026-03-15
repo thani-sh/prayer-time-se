@@ -43,6 +43,7 @@ import me.thanish.prayers.se.routes.settings.components.SelectOffsetSlider
 import me.thanish.prayers.se.routes.settings.components.SelectOffsetToggle
 import me.thanish.prayers.se.routes.settings.components.SelectTimeFormatToggle
 import me.thanish.prayers.se.routes.settings.components.SettingsSectionWithTitle
+import me.thanish.prayers.se.routes.settings.components.SyncDataButton
 import me.thanish.prayers.se.routes.settings.components.TestNotificationButton
 import me.thanish.prayers.se.theme.PrayersTheme
 import me.thanish.prayers.se.worker.NotificationWorker
@@ -165,9 +166,11 @@ fun SettingsRouteView(
             titleText = stringResource(R.string.route_settings_section_methodology),
             descriptionText = stringResource(R.string.route_settings_section_methodology_details),
         ) {
+            SelectTimeFormatToggle(timeFormat, onTimeFormatChange)
             SelectCityDropdown(city, onCityChange)
             SelectMethodDropdown(method, onMethodChange)
-            SelectTimeFormatToggle(timeFormat, onTimeFormatChange)
+            Spacer(Modifier.height(16.dp))
+            SyncDataButton()
         }
 
         SettingsSectionWithTitle(

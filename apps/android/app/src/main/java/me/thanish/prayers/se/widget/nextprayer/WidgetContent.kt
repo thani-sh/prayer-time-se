@@ -19,6 +19,7 @@ import androidx.glance.preview.Preview
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import me.thanish.prayers.se.R
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
 import me.thanish.prayers.se.domain.PrayerTimeMethod
@@ -41,7 +42,7 @@ fun WidgetContent(prayerTime: PrayerTime) {
             modifier = GlanceModifier.fillMaxWidth()
         ) {
             Text(
-                text = "Next",
+                text = context.getString(R.string.next_prayer_widget_next),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
