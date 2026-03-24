@@ -15,6 +15,8 @@ struct SettingsRouteSpec: RouteSpec {
 }
 
 struct SettingsRoute: View {
+  @ObservedObject private var repository = PrayerTimeRepository.shared
+
   @AppStorage(NotificationOffset.key)
   private var notificationOffset: NotificationOffset = NotificationOffset.disabled
 
@@ -37,6 +39,21 @@ struct SettingsRoute: View {
         PrayerTimeCityPicker(city: $city)
         PrayerTimeMethodPicker(method: $method)
         TimeFormatPicker(timeFormat: $timeFormat)
+        
+        Button(action: {
+          Task {
+            await repository.syncIfNeeded(force: true)
+          }
+        }) {
+          HStack {
+            Text(String(localized: "route_settings_button_refresh", defaultValue: "Check for updates"))
+            Spacer()
+            if repository.isSyncing {
+              ProgressView()
+            }
+          }
+        }
+        .disabled(repository.isSyncing)
       }
       header: { Text(String(localized: "route_settings_section_methodology")) }
       footer: { Text(String(localized: "route_settings_section_methodology_details")) }

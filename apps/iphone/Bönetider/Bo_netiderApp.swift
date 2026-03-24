@@ -14,15 +14,21 @@ struct Bo_netiderApp: App {
     Task {
       NotificationWorker.initialize()
       SchedulerWorker.initialize()
+      await PrayerTimeRepository.shared.syncIfNeeded()
     }
   }
 
   var body: some Scene {
     WindowGroup {
-      if ProcessInfo.processInfo.isiOSAppOnMac {
-        DesktopApp()
-      } else {
-        MobileApp()
+      Group {
+        if ProcessInfo.processInfo.isiOSAppOnMac {
+          DesktopApp()
+        } else {
+          MobileApp()
+        }
+      }
+      .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("PrayerTimesUpdated"))) { _ in
+        SchedulerWorker.initialize()
       }
     }
     .backgroundTask(.appRefresh(SchedulerWorker.identifier)) {
