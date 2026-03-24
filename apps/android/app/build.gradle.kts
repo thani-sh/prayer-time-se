@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -12,8 +13,8 @@ android {
         applicationId = "me.thanish.prayers.se"
         minSdk = 26
         targetSdk = 36
-        versionCode = 34
-        versionName = "4.2.0"
+        versionCode = 35
+        versionName = "5.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,6 +59,9 @@ dependencies {
     implementation(libs.androidx.glance.appwidget.preview)
     implementation(libs.gson)
     implementation(libs.play.services.location)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -18,6 +18,10 @@
     <string name="route_settings_notifications_before_adhan">Minutes before adhan</string>
     <string name="route_settings_hijri_calendar_offset_days">Hijri calendar offset</string>
     <string name="route_settings_test_notification">Test Notification</string>
+    <string name="route_settings_sync_data">Refresh data</string>
+    <string name="route_settings_sync_data_progress">Refreshing data (%1$d/%2$d)</string>
+    <string name="route_settings_sync_data_success">Data synced successfully</string>
+    <string name="route_settings_sync_data_failure">Failed to sync data</string>
     <string name="route_settings_section_methodology">Prayer times</string>
     <string name="route_settings_section_methodology_details">The prayer times displayed in the app are calculated using these settings.</string>
     <string name="route_settings_section_notifications">Notifications</string>
@@ -46,6 +50,7 @@
     <string name="route_home_title">Prayer Times</string>
     <string name="next_prayer_widget_name">Next Prayer</string>
     <string name="next_prayer_widget_title">Next prayer time</string>
+    <string name="next_prayer_widget_next">Next</string>
     <string name="prayers_time_until_hm">in %dh, %dmins</string>
     <string name="prayers_time_until_m">in %dmins</string>
     <string name="notification_body">%1$s prayer begins at %2$s</string>

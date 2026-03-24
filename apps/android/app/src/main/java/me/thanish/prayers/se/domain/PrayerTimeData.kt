@@ -82,6 +82,13 @@ internal class PrayerTimeData(
         private var current: PrayerTimeData? = null
 
         /**
+         * clearCache clears the in-memory prayer times.
+         */
+        fun clearCache() {
+            current = null
+        }
+
+        /**
          * fromAssetData reads prayer times for the given city and returns
          * a multi-dimensional array with this format.
          *   - 1st Index: Month ( 0 - 11 )
@@ -91,9 +98,40 @@ internal class PrayerTimeData(
          */
         fun get(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity): PrayerTimeData {
             if (current == null || current!!.city != city || current!!.method != method) {
-                current = PrayerTimeData(method, city, readAssetFile(context, method, city))
+                current = PrayerTimeData(method, city, readData(context, method, city))
             }
             return current as PrayerTimeData
+        }
+
+        /**
+         * readData reads prayer times from the database if available,
+         * otherwise it falls back to the asset file.
+         */
+        private fun readData(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity): Array<Array<Array<Int>>> {
+            try {
+                val db = me.thanish.prayers.se.storage.AppDatabase.getDatabase(context)
+                val dao = db.prayerTimeDao()
+                val entities = dao.forCity(city.name)
+
+                if (entities.isNotEmpty()) {
+                    val data = Array(12) { Array(31) { Array(6) { 0 } } }
+                    for (entity in entities) {
+                        if (entity.month < 12 && entity.day < 31) {
+                            data[entity.month][entity.day][0] = entity.fajr
+                            data[entity.month][entity.day][1] = entity.sunrise
+                            data[entity.month][entity.day][2] = entity.dhuhr
+                            data[entity.month][entity.day][3] = entity.asr
+                            data[entity.month][entity.day][4] = entity.maghrib
+                            data[entity.month][entity.day][5] = entity.isha
+                        }
+                    }
+                    return data
+                }
+            } catch (_: Exception) {
+                // Fallback to assets
+            }
+
+            return readAssetFile(context, method, city)
         }
 
         /**
