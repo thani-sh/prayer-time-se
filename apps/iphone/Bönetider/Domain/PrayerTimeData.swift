@@ -127,19 +127,27 @@ class PrayerTimeRepository: ObservableObject {
   }
 
   private func syncAllPrayerTimes(version: String) async throws {
+    var anySucceeded = false
     for method in PrayerTimeMethod.allCases {
       for city in PrayerTimeCity.allCases {
         do {
           try await fetchAndSaveTimes(method: method, city: city)
+          anySucceeded = true
         } catch {
           print(">> PrayerTimeRepository: Failed to fetch for \(city.rawValue) - \(method.rawValue)")
         }
       }
     }
+
+    guard anySucceeded else {
+      print(">> PrayerTimeRepository: No cities synced, keeping existing version.")
+      return
+    }
+
     UserDefaults.standard.set(version, forKey: lastUpdatedKey)
     PrayerTimeData.clearCache()
-    print(">> PrayerTimeRepository: Successfully synced all times.")
-    
+    print(">> PrayerTimeRepository: Successfully synced prayer times (\(version)).")
+
     await MainActor.run {
       NotificationCenter.default.post(name: NSNotification.Name("PrayerTimesUpdated"), object: nil)
     }
