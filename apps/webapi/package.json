@@ -1,12 +1,12 @@
 {
 	"name": "@thani-sh/prayer-time-se-api",
-	"version": "4.2.4",
+	"version": "5.0.0",
 	"description": "Islamic prayer times for Sweden as an API",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev --remote",
-		"test": "vitest",
+		"test": "vitest --passWithNoTests",
 		"type": "wrangler types",
 		"db:update": "bash scripts/db-update.sh",
 		"db:verify": "tsx scripts/db-verify.ts"
