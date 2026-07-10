@@ -1,6 +1,6 @@
 {
 	"name": "@thani-sh/prayer-time-se-api",
-	"version": "4.2.4",
+	"version": "5.0.0",
 	"description": "Islamic prayer times for Sweden as an API",
 	"private": true,
 	"scripts": {
