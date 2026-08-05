@@ -205,3 +205,11 @@ fun animatedRotation(newValue: Float): State<Float> {
         label = "animated_rotation"
     )
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+fun QiblaCompassPreview() {
+    me.thanish.prayers.se.theme.PrayersTheme {
+        QiblaCompass(qibla = 45f, heading = 0f, priority = android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_HIGH)
+    }
+}

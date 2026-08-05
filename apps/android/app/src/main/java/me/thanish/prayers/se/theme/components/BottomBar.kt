@@ -39,3 +39,12 @@ fun getCurrentRoute(navController: NavController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+fun BottomBarPreview() {
+    me.thanish.prayers.se.theme.PrayersTheme {
+        val nav = androidx.navigation.compose.rememberNavController()
+        BottomBar(nav = nav)
+    }
+}

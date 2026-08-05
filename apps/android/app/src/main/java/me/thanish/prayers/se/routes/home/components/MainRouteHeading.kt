@@ -47,3 +47,11 @@ fun getHijrahDateString(date: LocalDate, context: Context): String {
     val formatter = DateTimeFormatter.ofPattern("MMM u هـ d", Locale.forLanguageTag("ar"))
     return HijrahDate.from(date.plusDays(offsetDays)).format(formatter)
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+fun MainRouteHeadingPreview() {
+    me.thanish.prayers.se.theme.PrayersTheme {
+        MainRouteHeading(LocalDate.now())
+    }
+}

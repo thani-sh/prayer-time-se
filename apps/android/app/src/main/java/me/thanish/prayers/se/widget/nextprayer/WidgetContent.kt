@@ -61,7 +61,7 @@ fun WidgetContent(prayerTime: PrayerTime) {
                 text = prayerTime.getTimeString(context),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+                    fontSize = 36.sp,
                     color = GlanceTheme.colors.onSurface
                 )
             )
@@ -72,7 +72,7 @@ fun WidgetContent(prayerTime: PrayerTime) {
 
 @Composable
 @OptIn(ExperimentalGlancePreviewApi::class)
-@Preview(widthDp = 80, heightDp = 100)
+@Preview(widthDp = 170, heightDp = 80)
 fun WidgetContentAsrPreview() {
     val times = PrayerTimeTable.forToday(LocalContext.current, PrayerTimeMethod.islamiskaforbundet, PrayerTimeCity.stockholm)
 
@@ -83,7 +83,7 @@ fun WidgetContentAsrPreview() {
 
 @Composable
 @OptIn(ExperimentalGlancePreviewApi::class)
-@Preview(widthDp = 80, heightDp = 100)
+@Preview(widthDp = 170, heightDp = 80)
 fun WidgetContentMaghribPreview() {
     val times = PrayerTimeTable.forToday(LocalContext.current, PrayerTimeMethod.islamiskaforbundet, PrayerTimeCity.stockholm)
 

@@ -133,3 +133,15 @@ fun FadingHorizontalDivider() {
             )
     )
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+fun MainRouteContentPreview() {
+    me.thanish.prayers.se.theme.PrayersTheme {
+        MainRouteContent(
+            method = me.thanish.prayers.se.domain.PrayerTimeMethod.islamiskaforbundet,
+            city = me.thanish.prayers.se.domain.PrayerTimeCity.stockholm,
+            initialDate = LocalDate.now()
+        )
+    }
+}
