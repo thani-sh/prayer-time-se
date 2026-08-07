@@ -13,7 +13,7 @@ interface PrayerTimeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(prayerTimes: List<PrayerTimeEntity>)
 
-    @Query("SELECT value FROM metadata WHERE 'key' = :key")
+    @Query("SELECT value FROM metadata WHERE `key` = :key")
     suspend fun getMetadata(key: String): String?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

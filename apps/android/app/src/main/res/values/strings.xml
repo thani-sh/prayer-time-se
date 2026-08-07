@@ -54,4 +54,5 @@
     <string name="prayers_time_until_hm">in %dh, %dmins</string>
     <string name="prayers_time_until_m">in %dmins</string>
     <string name="notification_body">%1$s prayer begins at %2$s</string>
+    <string name="notification_on_time_body">It is now time for %1$s prayer</string>
 </resources>

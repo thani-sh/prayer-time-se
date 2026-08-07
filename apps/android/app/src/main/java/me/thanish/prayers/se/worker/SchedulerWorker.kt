@@ -8,21 +8,20 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import me.thanish.prayers.se.domain.NotificationOffset
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
 import me.thanish.prayers.se.domain.PrayerTimeMethod
 import java.util.concurrent.TimeUnit
 
 /**
- * Worker to schedule notifications for prayer times
- * This worker runs every hour to schedule notifications for the next N prayers
+ * Worker to schedule notifications and widget updates for prayer times.
+ * This worker runs every hour to schedule exact-time alarms and pre-Adhan alerts for the next N prayers.
  */
 class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
     /**
-     * Runs approximately every hour to schedule notifications
+     * Runs approximately every hour to schedule alarms
      */
     override fun doWork(): Result {
         try {
@@ -54,21 +53,17 @@ class SchedulerWorker(context: Context, workerParams: WorkerParameters) :
                 existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
                 request = request
             )
-            // Immediately schedule notifications for next N prayers
+            // Immediately schedule alarms for next N prayers
             schedule(context, PrayerTimeMethod.get(context), PrayerTimeCity.get(context))
         }
 
         /**
-         * Schedule or reschedule notifications for next N prayer times
+         * Schedule or reschedule exact-time alarms and notifications for next N prayer times
          */
         fun schedule(context: Context, method: PrayerTimeMethod, city: PrayerTimeCity) {
-            if (!NotificationOffset.isEnabled(context)) {
-                Log.i(TAG, "Notifications are disabled")
-                return
-            }
-            Log.i(TAG, "Scheduling notifications for next $PRAYERS_TO_SCHEDULE prayers")
+            Log.i(TAG, "Scheduling alarms & widget updates for next $PRAYERS_TO_SCHEDULE prayers")
+            NotificationWorker.scheduleMinuteTick(context)
             PrayerTime.getNext(context, method, city, PRAYERS_TO_SCHEDULE)
-                .filter { t -> t.type.shouldNotify() }
                 .forEach { t -> NotificationWorker.schedule(context, t) }
         }
     }

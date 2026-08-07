@@ -6,6 +6,7 @@
 //
 
 import BackgroundTasks
+import WidgetKit
 
 // SchedulerWorker runs recurrently and schedules notifications for
 // the next N prayers with selected city and methodology.
@@ -45,6 +46,7 @@ struct SchedulerWorker {
   static func scheduleNotifications() {
     print(">> SchedulerWorker: started")
     Task { await SchedulerWorker.scheduleNextTask() }
+    WidgetCenter.shared.reloadAllTimelines()
     PrayerTime
       .getNextPrayers(method: PrayerTimeMethod.current, city: PrayerTimeCity.current, count: toSchedule)
       .forEach { prayer in

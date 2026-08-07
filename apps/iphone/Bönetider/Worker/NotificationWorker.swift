@@ -25,47 +25,68 @@ struct NotificationWorker {
     NotificationWorker.scheduleTestNotification()
   }
   
-  // Schedule a notification for given prayer
+  // Schedule notifications (exact and pre-Adhan) for given prayer
   static func schedule(prayer: PrayerTime) {
-    guard NotificationOffset.current.enabled else {
-      print(">> NotificationWorker: notifications are not enabled")
-      return
-    }
     guard prayer.city == PrayerTimeCity.current else {
-      print (">> NotificationWorker: prayer time has a different city \(prayer.city)")
+      print(">> NotificationWorker: prayer time has a different city \(prayer.city)")
       return
     }
-    print(">> NotificationWorker: scheduling for \(prayer.type) at \(prayer.notifyTime)")
     
-    // Prepare notification content
+    // 1. Schedule Exact On-Time Notification
+    scheduleNotification(
+      prayer: prayer,
+      triggerDate: prayer.time,
+      identifier: "\(prayer.id)-exact",
+      body: String(localized: "notification_on_time_body \(prayer.type.label)")
+    )
+    
+    // 2. Schedule Pre-Adhan Notification (if enabled and offset > 0)
+    if NotificationOffset.current.enabled && prayer.notifyTime < prayer.time {
+      scheduleNotification(
+        prayer: prayer,
+        triggerDate: prayer.notifyTime,
+        identifier: "\(prayer.id)-preadhan",
+        body: String(localized: "notification_body \(prayer.type.label) \(prayer.timeString)")
+      )
+    }
+  }
+
+  private static func scheduleNotification(
+    prayer: PrayerTime,
+    triggerDate: Date,
+    identifier: String,
+    body: String
+  ) {
+    guard triggerDate > Date() else {
+      print(">> NotificationWorker: trigger time \(triggerDate) is in the past")
+      return
+    }
+    
+    print(">> NotificationWorker: scheduling [\(identifier)] for \(prayer.type) at \(triggerDate)")
+    
     let content = UNMutableNotificationContent()
     content.title = String(localized: "notification_title \(prayer.type.label)")
-    content.body = String(localized: "notification_body \(prayer.type.label) \(prayer.timeString)")
+    content.body = body
     content.sound = .default
     content.categoryIdentifier = category
     
-    // Treigger date must be in the future
-    guard prayer.isFuture else {
-      print(">> NotificationWorker: trigger time is in the past")
-      return
-    }
-    // Create calendar trigger
     let trigger = UNCalendarNotificationTrigger(
       dateMatching: Calendar.current.dateComponents(
         [.year, .month, .day, .hour, .minute],
-        from: prayer.notifyTime
+        from: triggerDate
       ),
       repeats: false
     )
-    // Unique identifier using prayer time ID
+    
     let request = UNNotificationRequest(
-      identifier: prayer.id,
+      identifier: identifier,
       content: content,
       trigger: trigger
     )
+    
     UNUserNotificationCenter.current().add(request) { error in
       if let error = error {
-        print(">> NotificationWorker: error scheduling notification: \(error.localizedDescription)")
+        print(">> NotificationWorker: error scheduling notification [\(identifier)]: \(error.localizedDescription)")
       }
     }
   }

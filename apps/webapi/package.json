@@ -1,6 +1,6 @@
 {
 	"name": "@thani-sh/prayer-time-se-api",
-	"version": "5.0.0",
+	"version": "5.1.0",
 	"description": "Islamic prayer times for Sweden as an API",
 	"private": true,
 	"scripts": {
@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@cloudflare/workers-types": "^4.20250124.3",
-		"@thani-sh/prayer-time-se": "^4.2.4",
+		"@thani-sh/prayer-time-se": "^5.1.0",
 		"@types/node": "^25.3.5",
 		"drizzle-orm": "^0.45.1",
 		"hono": "^4.6.18"

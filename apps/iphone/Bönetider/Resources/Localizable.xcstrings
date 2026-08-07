@@ -137,6 +137,22 @@
         }
       }
     },
+    "notification_on_time_body %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It is now time for %1$@ prayer"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är nu dags för %1$@-bönen"
+          }
+        }
+      }
+    },
     "notification_title %@" : {
       "localizations" : {
         "en" : {
@@ -2439,6 +2455,7 @@
       }
     },
     "widget_next_prayer_label" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

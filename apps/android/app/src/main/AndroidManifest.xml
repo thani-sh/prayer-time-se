@@ -31,6 +31,7 @@
 
         <receiver
             android:name=".widget.nextprayer.WidgetReceiver"
+            android:label="@string/next_prayer_widget_name"
             android:exported="true"
             android:intentMatchingFlags="none">
             <intent-filter>

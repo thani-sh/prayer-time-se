@@ -10,32 +10,72 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.thanish.prayers.se.R
 import me.thanish.prayers.se.domain.NotificationOffset
 import me.thanish.prayers.se.domain.PrayerTime
 import me.thanish.prayers.se.domain.PrayerTimeCity
 import me.thanish.prayers.se.domain.PrayerTimeMethod
 import me.thanish.prayers.se.domain.PrayerTimeType
+import me.thanish.prayers.se.widget.nextprayer.hasActiveWidgets
+import me.thanish.prayers.se.widget.nextprayer.updateAllWidgets
 import java.time.LocalDateTime
 
 /**
- * Worker to show a notification approximately 10 minutes before a prayer time
- * with a countdown timer to show the time remaining.
+ * Worker to show prayer notifications and auto-update home screen widgets.
  */
 class NotificationWorker : BroadcastReceiver() {
-    /**
-     * Runs approximately 10 minutes before the prayer time
-     */
+
     override fun onReceive(context: Context?, intent: Intent?) {
-        val prayerTimeId = intent?.getStringExtra(INPUT_PRAYER_TIME_ID) ?: return
+        if (context == null || intent == null) return
+
+        if (intent.action == ACTION_MINUTE_TICK) {
+            val pendingResult = goAsync()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    if (hasActiveWidgets(context)) {
+                        updateAllWidgets(context)
+                        scheduleMinuteTick(context)
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error in minute tick execution", e)
+                } finally {
+                    pendingResult.finish()
+                }
+            }
+            return
+        }
+
+        val prayerTimeId = intent.getStringExtra(INPUT_PRAYER_TIME_ID) ?: return
         val prayerTime = PrayerTime.fromStringId(prayerTimeId) ?: return
-        doNotify(context!!, prayerTime)
+        val isExact = intent.getBooleanExtra(INPUT_IS_EXACT, false)
+
+        val pendingResult = goAsync()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Always update all widgets on any alarm trigger
+                updateAllWidgets(context)
+
+                // Show notification if enabled and city matches
+                doNotify(context, prayerTime, isExact)
+            } finally {
+                pendingResult.finish()
+            }
+        }
     }
 
-    /**
-     * Create a timer notification for a specific prayer time
-     */
-    private fun doNotify(context: Context, prayerTime: PrayerTime) {
+    private fun doNotify(context: Context, prayerTime: PrayerTime, isExact: Boolean) {
+        val manager = context.getSystemService(NotificationManager::class.java) ?: return
+
+        // If sunrise is reached, cancel any active prayer notification (e.g. Fajr)
+        if (prayerTime.type == PrayerTimeType.shuruk) {
+            Log.i(TAG, "Sunrise reached ($prayerTime), cancelling active prayer notification")
+            manager.cancel(PRAYER_NOTIFICATION_ID)
+            return
+        }
+
         if (!NotificationOffset.isEnabled(context)) {
             Log.i(TAG, "Notifications are disabled")
             return
@@ -44,70 +84,116 @@ class NotificationWorker : BroadcastReceiver() {
             Log.i(TAG, "Notifications are for a different city")
             return
         }
-        Log.i(TAG, "Creating notification for prayer time: $prayerTime")
-        val manager = context.getSystemService(NotificationManager::class.java)
-        val notificationId = prayerTime.getEpochSeconds()
+
+        Log.i(TAG, "Creating notification (isExact=$isExact) for prayer time: $prayerTime")
         val notificationExpiresIn = getNotificationExpireTime(prayerTime)
-        if (notificationExpiresIn <= 0.toLong()) {
+
+        if (!isExact && notificationExpiresIn <= 0L) {
             Log.i(TAG, "Notification already expired. Ignoring it.")
             return
         }
-        val notificationBuilder = NotificationCompat.Builder(context, CH_ID)
-            .setUsesChronometer(true)
+
+        val contentText = if (isExact) {
+            context.getString(R.string.notification_on_time_body, prayerTime.type.getLabel(context))
+        } else {
+            context.getString(R.string.notification_body, prayerTime.type.getLabel(context), prayerTime.getTimeString(context))
+        }
+
+        val builder = NotificationCompat.Builder(context, CH_ID)
             .setShowWhen(true)
-            .setWhen(prayerTime.getEpochMilli())
-            .setTimeoutAfter(notificationExpiresIn)
             .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             .setContentTitle(context.getString(R.string.notification_title, prayerTime.type.getLabel(context)))
-            .setContentText(context.getString(R.string.notification_body, prayerTime.type.getLabel(context), prayerTime.getTimeString(context)))
+            .setContentText(contentText)
 
-        manager.notify(notificationId, notificationBuilder.build())
+        if (!isExact) {
+            builder.setUsesChronometer(true)
+                .setWhen(prayerTime.getEpochMilli())
+                .setTimeoutAfter(notificationExpiresIn)
+        }
+
+        // Using constant PRAYER_NOTIFICATION_ID ensures new notifications (e.g. Maghrib) replace old ones (e.g. Asr)
+        manager.notify(PRAYER_NOTIFICATION_ID, builder.build())
     }
 
     companion object {
         private const val TAG = "NotificationWorker"
         private const val ACTION = "me.thanish.prayers.se.NOTIFY"
+        private const val ACTION_MINUTE_TICK = "me.thanish.prayers.se.MINUTE_TICK"
         private const val CH_ID = "prayer_time"
+        private const val PRAYER_NOTIFICATION_ID = 1001
         private const val INPUT_PRAYER_TIME_ID = "prayerTimeId"
+        private const val INPUT_IS_EXACT = "isExact"
+        private const val MINUTE_TICK_REQUEST_CODE = 99999
 
-
-        /**
-         * Initialize the notification channel for prayer time notifications.
-         */
         fun initialize(context: Context) {
-            // Create the notification channel
             val manager = context.getSystemService(NotificationManager::class.java)
             val channelName = context.getString(R.string.notification_channel_title)
             val channelPrio = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CH_ID, channelName, channelPrio).apply {
                 description = context.getString(R.string.notification_channel_description)
             }
-            // Create the notification channel
             manager.createNotificationChannel(channel)
+
+            // Start minute-by-minute widget update loop
+            scheduleMinuteTick(context)
         }
 
         /**
-         * Schedule a notification for a specific prayer time.
+         * Schedule a ticker alarm for the top of the next minute to update widgets.
+         */
+        fun scheduleMinuteTick(context: Context) {
+            val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
+            val nextMinute = ((System.currentTimeMillis() / 60000) + 1) * 60000
+            val intent = Intent(context, NotificationWorker::class.java).apply {
+                action = ACTION_MINUTE_TICK
+            }
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                MINUTE_TICK_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            try {
+                alarmManager.setAndAllowWhileIdle(
+                    AlarmManager.RTC,
+                    nextMinute,
+                    pendingIntent
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to schedule minute tick alarm", e)
+            }
+        }
+
+        /**
+         * Schedule exact alarm ON prayer time (always scheduled for widget updates & on-time notifications).
+         */
+        fun scheduleExact(context: Context, prayerTime: PrayerTime) {
+            scheduleAlarm(context, prayerTime, timestamp = prayerTime.getEpochMilli(), isExact = true)
+        }
+
+        /**
+         * Schedule pre-Adhan alarm before prayer time (e.g. 10m before).
+         */
+        fun schedulePreAdhan(context: Context, prayerTime: PrayerTime) {
+            val offsetMilli = NotificationOffset.get(context).getMilli()
+            if (offsetMilli <= 0) return
+            val targetTime = prayerTime.getEpochMilli() - offsetMilli
+            if (targetTime <= System.currentTimeMillis()) return
+            scheduleAlarm(context, prayerTime, timestamp = targetTime, isExact = false)
+        }
+
+        /**
+         * Unified schedule helper to schedule exact and pre-Adhan alarms.
          */
         fun schedule(context: Context, prayerTime: PrayerTime) {
-            Log.i(TAG, "Scheduling notification for prayer time: $prayerTime")
-            val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
-            val alarmIntent = buildIntent(context, prayerTime)
-            if (!AlarmManagerCompat.canScheduleExactAlarms(alarmManager)) {
-                Log.w(TAG, "Cannot schedule exact alarms")
-                return
+            scheduleExact(context, prayerTime)
+            if (prayerTime.type.shouldNotify() && NotificationOffset.isEnabled(context)) {
+                schedulePreAdhan(context, prayerTime)
             }
-            AlarmManagerCompat.setAlarmClock(
-                alarmManager,
-                getNotificationTime(context, prayerTime),
-                alarmIntent,
-                alarmIntent
-            )
         }
 
         /**
          * Schedule a test notification for a testing prayer time.
-         * Only used for testing scheduling notifications.
          */
         fun scheduleTestNotification(context: Context, delay: Long) {
             Log.i(TAG, "Scheduling test notification with a $delay minutes delay")
@@ -120,37 +206,39 @@ class NotificationWorker : BroadcastReceiver() {
             schedule(context, testPrayerTime)
         }
 
-        /**
-         * Helper function to build a notification worker for a specific prayer time.
-         */
-        private fun buildIntent(context: Context, prayerTime: PrayerTime): PendingIntent {
+        private fun scheduleAlarm(context: Context, prayerTime: PrayerTime, timestamp: Long, isExact: Boolean) {
+            if (timestamp <= System.currentTimeMillis()) return
+
+            val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return
+            if (!AlarmManagerCompat.canScheduleExactAlarms(alarmManager)) {
+                Log.w(TAG, "Cannot schedule exact alarms")
+                return
+            }
+
+            val alarmIntent = buildIntent(context, prayerTime, isExact)
+            AlarmManagerCompat.setAlarmClock(
+                alarmManager,
+                timestamp,
+                alarmIntent,
+                alarmIntent
+            )
+        }
+
+        private fun buildIntent(context: Context, prayerTime: PrayerTime, isExact: Boolean): PendingIntent {
             val intent = Intent(context, NotificationWorker::class.java).apply {
                 action = ACTION
                 putExtra(INPUT_PRAYER_TIME_ID, prayerTime.getStringId())
+                putExtra(INPUT_IS_EXACT, isExact)
             }
+            val requestCode = if (isExact) prayerTime.getIntId() * 2 + 1 else prayerTime.getIntId() * 2
             return PendingIntent.getBroadcast(
                 context,
-                prayerTime.getIntId(),
+                requestCode,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
 
-        /**
-         * Helper function to get the timeout for the notification worker.
-         */
-        private fun getNotificationTime(context: Context, prayerTime: PrayerTime): Long {
-            val timestamp = prayerTime.getEpochMilli() - NotificationOffset.get(context).getMilli()
-            if (timestamp < System.currentTimeMillis()) {
-                return System.currentTimeMillis() + 1000 * 5
-            }
-            return timestamp
-        }
-
-        /**
-         * Helper function to get the expire time for the notification worker.
-         * Returns the duration until the notification expires in milliseconds.
-         */
         private fun getNotificationExpireTime(prayerTime: PrayerTime): Long {
             val prayerTimestamp = prayerTime.getEpochMilli()
             val currentTimestamp = System.currentTimeMillis()

@@ -54,4 +54,5 @@
     <string name="route_settings_section_corrections">Rättelser</string>
     <string name="route_settings_open_website">https://bönetider.nu</string>
     <string name="notification_body">%1$s bön börjar kl. %2$s</string>
+    <string name="notification_on_time_body">Det är nu dags för %1$s-bönen</string>
 </resources>

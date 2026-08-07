@@ -2,7 +2,6 @@ package me.thanish.prayers.se.widget.nextprayer.store
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import me.thanish.prayers.se.domain.PrayerTime
@@ -11,21 +10,16 @@ import me.thanish.prayers.se.domain.PrayerTimeMethod
 
 /**
  * NextPrayerTimeStore is a data store for getting next prayer time from system time.
- * This will emit the next prayer time every minute.
  */
 class NextPrayerTimeStore(
-    private val context: Context,
-    private val interval: Long = 1_000
+    private val context: Context
 ) : DataStore<PrayerTime> {
     override val data: Flow<PrayerTime>
         get() {
             return flow {
-                while (true) {
-                    val method = PrayerTimeMethod.get(context)
-                    val city = PrayerTimeCity.get(context)
-                    emit(PrayerTime.getNextPrayer(context, method, city))
-                    delay(interval)
-                }
+                val method = PrayerTimeMethod.get(context)
+                val city = PrayerTimeCity.get(context)
+                emit(PrayerTime.getNextPrayer(context, method, city))
             }
         }
 
