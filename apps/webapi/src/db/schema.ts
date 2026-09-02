@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text, primaryKey } from 'drizzle-orm/sqlite-core';
+import { integer, sqliteTable, text, primaryKey, index } from 'drizzle-orm/sqlite-core';
 
 export const prayerTimes = sqliteTable(
 	'prayer_times',
@@ -15,6 +15,7 @@ export const prayerTimes = sqliteTable(
 	},
 	(table) => ({
 		pk: primaryKey({ columns: [table.month, table.day, table.city] }),
+		cityIndex: index('idx_prayer_times_city').on(table.city),
 	})
 );
 
