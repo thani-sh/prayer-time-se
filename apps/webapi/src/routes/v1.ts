@@ -2,6 +2,7 @@ import { CITIES, METHODS } from '@thani-sh/prayer-time-se';
 import { and, eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import { Hono } from 'hono';
+import { cache } from 'hono/cache';
 import { Env } from '../../cf-types';
 import { metadata, prayerTimes } from '../db/schema';
 
@@ -36,7 +37,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	/**
 	 * Middleware to check if the method is valid
 	 */
-	app.get('/v1/method/:method', async (c, next) => {
+	app.use('/v1/method/:method/*', async (c, next) => {
 		const method = c.req.param('method');
 		if (METHODS.indexOf(method as any) === -1) {
 			c.status(404);
@@ -55,7 +56,7 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 	/**
 	 * Middleware to check if the city is valid
 	 */
-	app.get('/v1/method/:method/city/:city', async (c, next) => {
+	app.use('/v1/method/:method/city/:city/*', async (c, next) => {
 		const city = c.req.param('city');
 		if (CITIES.indexOf(city as any) === -1) {
 			c.status(404);
@@ -66,7 +67,44 @@ export function registerV1(app: Hono<{ Bindings: Env }>) {
 
 	/**
 	 * API endpoint to get prayer times for a year
+	 *
+	 * The full-year dataset is immutable for the year, so responses are cached
+	 * at the edge with the Cloudflare Cache API. Repeat requests (e.g. the
+	 * mobile apps re-syncing after a version bump) never hit D1.
+	 *
+	 * The cache key is scoped to the data version (last_updated): a mid-year
+	 * data correction bumps it, so the next request misses and refetches from
+	 * D1 instead of serving the previous payload for up to 24h. The version
+	 * read is a single-key metadata lookup, far cheaper than the 366-row
+	 * times query it gates. `wait: true` stores the response before the first
+	 * client returns, so a burst of concurrent misses right after a version
+	 * bump can't stampede D1.
 	 */
+	app.use(
+		'/v1/method/*/city/*/times',
+		cache({
+			cacheName: 'prayer-times-full-year',
+			cacheControl: 'public, max-age=86400',
+			keyGenerator: async (c) => {
+				const db = drizzle(c.env.db);
+				const row = await db
+					.select()
+					.from(metadata)
+					.where(eq(metadata.key, 'last_updated'))
+					.get();
+				const version = row?.value || 'unknown';
+				// Cache API keys must be fully-qualified URLs, so scope by
+				// path + data version via a query param. Client query strings
+				// are dropped so cache-busting params and method-case variants
+				// share one entry per city.
+				const url = new URL(c.req.url);
+				url.search = '';
+				url.searchParams.set('v', version);
+				return url.toString();
+			},
+			wait: true
+		})
+	);
 	app.get('/v1/method/:method/city/:city/times', async (c) => {
 		const city = c.req.param('city');
 		const db = drizzle(c.env.db);
