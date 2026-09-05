@@ -4,6 +4,11 @@
 	/**
 	 * Compass page — points the way to the Qibla (Makkah).
 	 *
+	 * Design mirrors the native Android compass (QiblaCompass.kt): a dashed
+	 * tick ring with a single N that rotates to track true north, plus a thin
+	 * arrow with an arrowhead fixed on the dial at the Qibla bearing — when
+	 * the arrow points straight up, the phone faces Makkah.
+	 *
 	 * Sources:
 	 * - Location: Geolocation API. Falls back to Stockholm coordinates
 	 *   (same default as the native iOS app) when the user declines.
@@ -171,9 +176,22 @@
 		resolveLocation();
 		return () => cancelAnimationFrame(rafId);
 	});
+
+	// --- Compass dial geometry (SVG) ---
+	const SIZE = 340;
+	const C = SIZE / 2; // center
+	const R = 108; // ring radius
+	const CIRC = 2 * Math.PI * R;
+	const SEG = CIRC / 60;
+	const DASH = 4;
+	// Colors pulled from the native app's Material theme on dark.
+	const RING_COLOR = '#3c4353'; // outlineVariant-ish
+	const ACCENT = '#ffb4ab'; // M3 primary (the native needle color)
+	const dialRotation = $derived(heading === null ? 0 : -heading);
+	const arrowRotation = $derived(qibla === null ? 0 : qibla);
 </script>
 
-<div class="flex flex-col items-center justify-center min-h-svh gap-6 px-6 pb-28">
+<div class="flex flex-col items-center justify-center min-h-svh gap-5 px-6 pb-28">
 	{#if pageState === 'permission'}
 		<div class="flex flex-col items-center gap-4 text-center max-w-xs">
 			<p class="text-lg font-medium">Kompassen behöver åtkomst till telefonens sensorer</p>
@@ -181,47 +199,55 @@
 			<button class="btn btn-primary btn-lg" onclick={enableCompass}>Aktivera kompass</button>
 		</div>
 	{:else}
-		<!-- Compass dial: rotates so North aligns with the device heading.
-		     The Qibla marker is fixed on the dial, so when it points to the top
-		     (12 o'clock), the phone is facing the Qibla. -->
-		<div class="relative w-72 h-72" style="transform: rotate({-(heading ?? 0)}deg); transition: transform 0.15s linear">
-			<!-- outer ring + cardinal ticks -->
-			<div class="absolute inset-0 rounded-full border-2 border-sky-400/40 bg-slate-900/60"></div>
-			<div class="absolute inset-3 rounded-full border border-slate-600/60"></div>
-			{#each [0, 45, 90, 135, 180, 225, 270, 315] as deg}
-				<div
-					class="absolute left-1/2 top-1/2 w-px h-3 bg-slate-500/70"
-					style="transform: translate(-50%, -100%) rotate({deg}deg) translateY(-118px)"
-				></div>
-			{/each}
-			<span class="absolute left-1/2 top-3 -translate-x-1/2 text-lg font-bold text-sky-300">N</span>
-			<span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">Ö</span>
-			<span class="absolute bottom-3 left-1/2 -translate-x-1/2 text-sm font-semibold text-slate-500">S</span>
-			<span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">V</span>
-			<!-- Qibla marker on the dial -->
-			{#if qibla !== null}
-				<div
-					class="absolute left-1/2 top-1/2 w-1 h-24 rounded-full bg-emerald-400"
-					style="transform: translate(-50%, -100%) rotate({qibla}deg) translateY(-84px)"
-				></div>
-			{/if}
-		</div>
-
-		<!-- fixed lubber line (where the phone points) -->
-		<div class="w-0 h-0 -mt-2 border-l-8 border-r-8 border-t-[10px] border-l-transparent border-r-transparent border-t-sky-300"></div>
+		<!-- Rotating frame: dashed ring + N track true north; the Qibla arrow
+		     sits on the dial at its bearing, so it points straight up when the
+		     phone faces Makkah. -->
+		<svg width={SIZE} height={SIZE} viewBox="0 0 {SIZE} {SIZE}">
+			<g
+				style="transform-origin: {C}px {C}px"
+				style:transform="rotate({dialRotation}deg)"
+			>
+				<!-- dashed tick ring (60 segments, like the native app) -->
+				<circle
+					cx={C}
+					cy={C}
+					r={R}
+					fill="none"
+					stroke={RING_COLOR}
+					stroke-width="15"
+					stroke-dasharray="{DASH} {SEG - DASH}"
+				/>
+				<!-- north letter, just outside the ring -->
+				<text
+					x={C}
+					y={C - R - 26}
+					text-anchor="middle"
+					fill={RING_COLOR}
+					font-size="15"
+					font-weight="600"
+					font-family="Inter, sans-serif"
+				>N</text>
+				<!-- qibla arrow, fixed on the dial at the qibla bearing -->
+				<g style:transform="rotate({arrowRotation}deg)" style="transform-origin: {C}px {C}px">
+					<line x1={C} y1={C} x2={C} y2={C - R - 8} stroke={ACCENT} stroke-width="3" />
+					<path d={`M ${C} ${C - R - 8} l -9 20 h 18 Z`} fill={ACCENT} />
+				</g>
+			</g>
+			<!-- center pivot dot -->
+			<circle cx={C} cy={C} r="4.5" fill="#0d1117" stroke={RING_COLOR} stroke-width="1.5" />
+		</svg>
 
 		<div class="text-center">
 			{#if heading !== null}
-				<p class="font-mono text-4xl font-bold tabular-nums">{heading}°</p>
-				<p class="text-sm opacity-60">Riktning</p>
+				<p class="font-mono text-lg font-semibold tabular-nums" style="color: {ACCENT}">{heading}°</p>
 			{:else if pageState === 'no-compass'}
 				<p class="text-sm opacity-70 max-w-xs">
 					Ingen kompass hittades på den här enheten — öppna sidan på en mobiltelefon för live-riktning.
 				</p>
 			{/if}
 			{#if qibla !== null}
-				<p class="mt-3 font-mono text-2xl font-semibold tabular-nums text-emerald-300">Qibla {qibla}°</p>
-				<p class="text-xs opacity-50 mt-1">Vrid tills den gröna linjen pekar rakt upp</p>
+				<p class="mt-1 font-mono text-sm tabular-nums opacity-80">Qibla {Math.round(qibla)}°</p>
+				<p class="text-xs opacity-50 mt-1">Vrid tills pilen pekar rakt upp</p>
 			{/if}
 			{#if locationNote}
 				<p class="text-xs opacity-50 mt-3 max-w-xs mx-auto">{locationNote}</p>
