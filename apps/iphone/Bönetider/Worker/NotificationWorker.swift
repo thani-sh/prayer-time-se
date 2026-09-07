@@ -22,7 +22,6 @@ struct NotificationWorker {
         options: .customDismissAction
       )
     ])
-    NotificationWorker.scheduleTestNotification()
   }
   
   // Schedule notifications (exact and pre-Adhan) for given prayer
@@ -89,16 +88,5 @@ struct NotificationWorker {
         print(">> NotificationWorker: error scheduling notification [\(identifier)]: \(error.localizedDescription)")
       }
     }
-  }
-  
-  // Schedule a test notification for debugging purposes.
-  static func scheduleTestNotification(delay: TimeInterval = 120) {
-    print(">> NotificationWorker: scheduling test notification")
-    schedule(prayer: PrayerTime(
-      method: PrayerTimeMethod.current,
-      city: PrayerTimeCity.current,
-      type: .asr,
-      time: Date().addingTimeInterval(delay)
-    ))
   }
 }
