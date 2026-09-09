@@ -16,14 +16,17 @@ struct NotificationOffsetSlider: View {
     List {
       Text(String(localized: "notification_before_adhan_offset"))
         .badge(offset.label)
-      Slider(
-        value: Binding(
-          get: { Double(exactly: offset.minutes)! },
-          set: { offset = .init(Int($0)) }
-        ),
-        in: Double(NotificationOffset.min)...Double(NotificationOffset.max),
-        step: 1
-      )
+      if offset.enabled {
+        Slider(
+          value: Binding(
+            get: { Double(exactly: offset.minutes)! },
+            set: { offset = .init(Int($0)) }
+          ),
+          in: Double(NotificationOffset.min + 1)...Double(NotificationOffset.max),
+          step: 1
+        )
+        .onChange(of: offset) { _, _ in SchedulerWorker.scheduleNotifications() }
+      }
     }
   }
 }

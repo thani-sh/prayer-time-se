@@ -42,11 +42,18 @@ struct SchedulerWorker {
     try? BGTaskScheduler.shared.submit(task)
   }
   
-  // The main function of the worker.
+  // The main function of the worker. Clears any previously scheduled requests
+  // and schedules notifications for the next N prayers - unless notifications
+  // are disabled by the user, in which case the queue is left empty.
   static func scheduleNotifications() {
     print(">> SchedulerWorker: started")
     Task { await SchedulerWorker.scheduleNextTask() }
     WidgetCenter.shared.reloadAllTimelines()
+    NotificationWorker.cancelPending()
+    guard NotificationOffset.current.enabled else {
+      print(">> SchedulerWorker: notifications disabled")
+      return
+    }
     PrayerTime
       .getNextPrayers(method: PrayerTimeMethod.current, city: PrayerTimeCity.current, count: toSchedule)
       .forEach { prayer in
