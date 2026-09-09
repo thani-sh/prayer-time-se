@@ -77,5 +77,7 @@ struct SettingsRoute: View {
       header: { Text(String(localized: "route_settings_section_development")) }
       footer: { Text(String(localized: "route_settings_section_development_details")) }
     }
+    .onChange(of: city) { _, _ in SchedulerWorker.scheduleNotifications() }
+    .onChange(of: method) { _, _ in SchedulerWorker.scheduleNotifications() }
   }
 }
