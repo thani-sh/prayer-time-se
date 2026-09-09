@@ -32,7 +32,7 @@ struct Bo_netiderApp: App {
       }
     }
     .backgroundTask(.appRefresh(SchedulerWorker.identifier)) {
-      SchedulerWorker.scheduleNotifications()
+      await SchedulerWorker.runBackgroundRefresh()
     }
   }
 }
