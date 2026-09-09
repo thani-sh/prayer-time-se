@@ -48,6 +48,22 @@ struct SchedulerWorker {
   static func scheduleNotifications() {
     print(">> SchedulerWorker: started")
     Task { await SchedulerWorker.scheduleNextTask() }
+    scheduleUpcomingPrayers()
+  }
+
+  // Entry point for the background refresh task. It runs inside the task's
+  // execution window, so the next refresh is re-armed before the system suspends
+  // the app — a detached re-arm can be frozen mid-flight and the chain then dies.
+  static func runBackgroundRefresh() async {
+    print(">> SchedulerWorker: background refresh started")
+    await SchedulerWorker.scheduleNextTask()
+    scheduleUpcomingPrayers()
+  }
+
+  // Schedules the notifications for the next prayers. This is the half shared by
+  // the foreground and background paths, so stale requests must be purged here
+  // for both to inherit it.
+  static func scheduleUpcomingPrayers() {
     WidgetCenter.shared.reloadAllTimelines()
     NotificationWorker.cancelPending()
     guard NotificationOffset.current.enabled else {
