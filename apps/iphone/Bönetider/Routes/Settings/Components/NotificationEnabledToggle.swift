@@ -12,15 +12,20 @@ struct NotificationEnabledToggle: View {
   @Binding
   var offset: NotificationOffset
   
-  // Request notification permissions
-  func requestNotificationPermission() {
-    Permissions.requestNotificationPermission({ success in
-      if success {
-        SchedulerWorker.scheduleNotifications()
-      } else {
-        offset = NotificationOffset.disabled
-      }
-    })
+  // Handles the master notifications toggle. Enabling requests permission
+  // and reschedules; disabling purges the pending queue via the scheduler.
+  func handleToggleChange(enabled: Bool) {
+    if enabled {
+      Permissions.requestNotificationPermission({ success in
+        if success {
+          SchedulerWorker.scheduleNotifications()
+        } else {
+          offset = NotificationOffset.disabled
+        }
+      })
+    } else {
+      SchedulerWorker.scheduleNotifications()
+    }
   }
   
   var body: some View {
@@ -32,6 +37,6 @@ struct NotificationEnabledToggle: View {
         Text(String(localized: "notification_before_adhan_enabled"))
       }
     }
-    .onChange(of: offset) { requestNotificationPermission() }
+    .onChange(of: offset.enabled) { _, enabled in handleToggleChange(enabled: enabled) }
   }
 }

@@ -30,6 +30,14 @@ struct NotificationWorker {
       print(">> NotificationWorker: prayer time has a different city \(prayer.city)")
       return
     }
+    guard prayer.type.notifiable else {
+      print(">> NotificationWorker: prayer type \(prayer.type) is not notifiable")
+      return
+    }
+    guard NotificationOffset.current.enabled else {
+      print(">> NotificationWorker: notifications are disabled")
+      return
+    }
     
     // 1. Schedule Exact On-Time Notification
     scheduleNotification(
@@ -39,8 +47,8 @@ struct NotificationWorker {
       body: String(localized: "notification_on_time_body \(prayer.type.label)")
     )
     
-    // 2. Schedule Pre-Adhan Notification (if enabled and offset > 0)
-    if NotificationOffset.current.enabled && prayer.notifyTime < prayer.time {
+    // 2. Schedule Pre-Adhan Notification (if the offset takes it before adhan)
+    if prayer.notifyTime < prayer.time {
       scheduleNotification(
         prayer: prayer,
         triggerDate: prayer.notifyTime,
@@ -48,6 +56,12 @@ struct NotificationWorker {
         body: String(localized: "notification_body \(prayer.type.label) \(prayer.timeString)")
       )
     }
+  }
+  
+  // Cancel all pending notification requests. Called before rescheduling so
+  // requests from a previous city, method, offset or toggle state never linger.
+  static func cancelPending() {
+    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
   }
 
   private static func scheduleNotification(
