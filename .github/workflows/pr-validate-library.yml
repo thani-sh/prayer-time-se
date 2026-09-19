@@ -17,26 +17,26 @@ jobs:
 
     steps:
       - name: checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: setup node
-        uses: actions/setup-node@v4
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '24'
+          bun-version: 1.4.2
 
       - name: install dependencies
-        run: npm install
+        run: bun install --frozen-lockfile
 
       - name: build the package
-        run: npm run build
+        run: bun run build
         working-directory: libs/prayer-time-se
 
       - name: run linter
-        run: npm run lint
+        run: bun run lint
         working-directory: libs/prayer-time-se
 
       - name: run tests
-        run: npm run test
+        run: bun run test
         working-directory: libs/prayer-time-se
 
       - name: validate version matches root package.json
