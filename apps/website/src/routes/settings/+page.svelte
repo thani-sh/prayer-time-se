@@ -13,7 +13,7 @@
 	options: readonly string[],
 	selected: string,
 	onSelect: (value: string) => void,
-	format: (value: string) => string = capitalize,
+	format: (value: string) => string = capitalize
 )}
 	<fieldset class="fieldset my-2">
 		<legend class="fieldset-legend">{label}</legend>

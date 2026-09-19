@@ -14,8 +14,8 @@
     "build": "tsc",
     "build:index": "node .scripts/build-index.js",
     "test": "vitest",
-    "lint": "prettier --write \"src/**/*.{ts}\"",
-    "prepublishOnly": "npm run build"
+    "lint": "prettier --check src",
+    "prepublishOnly": "bun run build"
   },
   "devDependencies": {
     "prettier": "^3.4.2",

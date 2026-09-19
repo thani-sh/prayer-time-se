@@ -27,7 +27,9 @@
 		webkitCompassHeading?: number;
 		webkitCompassAccuracy?: number;
 	}
-	const OrientationEvent = (typeof DeviceOrientationEvent !== 'undefined' ? DeviceOrientationEvent : null) as
+	const OrientationEvent = (
+		typeof DeviceOrientationEvent !== 'undefined' ? DeviceOrientationEvent : null
+	) as
 		| (typeof DeviceOrientationEvent & { requestPermission?: () => Promise<'granted' | 'denied'> })
 		| null;
 
@@ -49,7 +51,8 @@
 		const lat2 = toRad(MAKKAH.lat);
 		const lon2 = toRad(MAKKAH.lon);
 		const y = Math.sin(lon2 - lon1) * Math.cos(lat2);
-		const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
+		const x =
+			Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
 		return wrap360(toDeg(Math.atan2(y, x)));
 	}
 
@@ -203,10 +206,7 @@
 		     sits on the dial at its bearing, so it points straight up when the
 		     phone faces Makkah. -->
 		<svg width={SIZE} height={SIZE} viewBox="0 0 {SIZE} {SIZE}">
-			<g
-				style="transform-origin: {C}px {C}px"
-				style:transform="rotate({dialRotation}deg)"
-			>
+			<g style="transform-origin: {C}px {C}px" style:transform="rotate({dialRotation}deg)">
 				<!-- dashed tick ring (60 segments, like the native app) -->
 				<circle
 					cx={C}
@@ -225,8 +225,8 @@
 					fill={RING_COLOR}
 					font-size="15"
 					font-weight="600"
-					font-family="Inter, sans-serif"
-				>N</text>
+					font-family="Inter, sans-serif">N</text
+				>
 				<!-- qibla arrow, fixed on the dial at the qibla bearing -->
 				<g style:transform="rotate({arrowRotation}deg)" style="transform-origin: {C}px {C}px">
 					<line x1={C} y1={C} x2={C} y2={C - R - 8} stroke={ACCENT} stroke-width="3" />
@@ -239,10 +239,13 @@
 
 		<div class="text-center">
 			{#if heading !== null}
-				<p class="font-mono text-lg font-semibold tabular-nums" style="color: {ACCENT}">{heading}°</p>
+				<p class="font-mono text-lg font-semibold tabular-nums" style="color: {ACCENT}">
+					{heading}°
+				</p>
 			{:else if pageState === 'no-compass'}
 				<p class="text-sm opacity-70 max-w-xs">
-					Ingen kompass hittades på den här enheten — öppna sidan på en mobiltelefon för live-riktning.
+					Ingen kompass hittades på den här enheten — öppna sidan på en mobiltelefon för
+					live-riktning.
 				</p>
 			{/if}
 			{#if qibla !== null}

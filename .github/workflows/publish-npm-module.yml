@@ -21,22 +21,26 @@ jobs:
 
     steps:
       - name: checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
+      - name: setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
       - name: setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
       - name: install dependencies
-        run: npm install
+        run: bun install --frozen-lockfile
 
       - name: build the package
-        run: npm run build
+        run: bun run build
 
       - name: run tests
-        run: npm run test
+        run: bun run test
 
       - name: check if version exists on npm
         id: check-version

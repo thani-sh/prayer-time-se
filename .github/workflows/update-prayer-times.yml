@@ -12,27 +12,31 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "23"
+          bun-version: 1.4.2
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Fetch latest prayer times
-        run: npm run sync --prefix libs/update-times
+        run: bun run sync
+        working-directory: libs/update-times
 
       - name: Verify synced data
-        run: npm run verify-sync --prefix libs/update-times
+        run: bun run verify-sync
+        working-directory: libs/update-times
 
       - name: Copy data to destinations
-        run: npm run copy --prefix libs/update-times
+        run: bun run copy
+        working-directory: libs/update-times
 
       - name: Verify all destinations
-        run: npm run verify-copy --prefix libs/update-times
+        run: bun run verify-copy
+        working-directory: libs/update-times
 
       - name: Check for changes
         id: git-check
