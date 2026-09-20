@@ -30,7 +30,7 @@ fun SelectOffsetSlider(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(R.string.notification_before_adhan_enabled_before_adhan),
+                text = stringResource(R.string.notification_before_adhan_offset),
                 fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.weight(2f)
