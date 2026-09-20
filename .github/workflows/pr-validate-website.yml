@@ -19,7 +19,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v7
 
-      - name: setup node
+      - name: setup bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.2

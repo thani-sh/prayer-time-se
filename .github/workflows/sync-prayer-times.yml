@@ -1,4 +1,4 @@
-name: update prayer times
+name: Sync Prayer Times
 
 on:
   workflow_dispatch:
