@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "me.thanish.prayers.se"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "me.thanish.prayers.se"
