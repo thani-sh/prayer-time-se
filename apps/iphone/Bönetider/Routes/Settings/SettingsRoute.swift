@@ -68,8 +68,8 @@ struct SettingsRoute: View {
       Section {
         HijriCalendarOffsetSlider(offset: $calendarOffset)
       }
-      header: { Text(String(localized: "route_settings_section_adjustments")) }
-      footer: { Text(String(localized: "route_settings_section_adjustments_details")) }
+      header: { Text(String(localized: "route_settings_section_corrections")) }
+      footer: { Text(String(localized: "route_settings_section_corrections_details")) }
 
       Section {
         RelatedLinksList()

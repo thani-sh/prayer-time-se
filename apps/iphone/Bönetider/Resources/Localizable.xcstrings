@@ -2206,7 +2206,7 @@
         }
       }
     },
-    "route_settings_open_privacy" : {
+    "route_settings_read_privacy" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2255,7 +2255,7 @@
         }
       }
     },
-    "route_settings_section_adjustments" : {
+    "route_settings_section_corrections" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2271,7 +2271,7 @@
         }
       }
     },
-    "route_settings_section_adjustments_details" : {
+    "route_settings_section_corrections_details" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {

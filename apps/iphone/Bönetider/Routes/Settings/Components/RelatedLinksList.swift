@@ -24,7 +24,7 @@ struct RelatedLinksList: View {
       Link(destination: URL(string: "https://xn--bnetider-n4a.nu/docs/privacy")!) {
         HStack {
           Image (systemName: "link")
-          Text(String(localized: "route_settings_open_privacy"))
+          Text(String(localized: "route_settings_read_privacy"))
         }
       }
     }

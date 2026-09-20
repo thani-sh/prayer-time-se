@@ -14,7 +14,7 @@
 
 	function getHijriCalendarOffsetLabel(offset: number) {
 		if (offset === 0) {
-			return t('hijri_calendar_offset_disabled');
+			return t('route_settings_hijri_calendar_offset_disabled');
 		}
 		return t('hijri_calendar_offset_template', { days: offset });
 	}
@@ -86,7 +86,7 @@
 
 			<a href="mailto:contact@bönetider.nu" class="btn btn-ghost justify-start mt-2">
 				<MailIcon class="w-4 h-4 mr-2" />
-				{t('route_settings_report_errors')}
+				{t('route_settings_report_feedback')}
 			</a>
 
 			<p class="text-sm mt-4">{t('route_settings_privacy_notice')}</p>

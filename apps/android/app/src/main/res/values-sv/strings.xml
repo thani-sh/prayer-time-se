@@ -14,9 +14,9 @@
     <string name="route_settings_city">Stad</string>
     <string name="route_settings_method">Metod</string>
     <string name="route_settings_time_format">Använd 24-timmarsformat</string>
-    <string name="route_settings_notifications">Aviseringar</string>
-    <string name="route_settings_notifications_before_adhan">Minuter före adhan</string>
-    <string name="route_settings_hijri_calendar_offset_days">Hijri-kalenderoffset</string>
+    <string name="notification_before_adhan_enabled">Aviseringar</string>
+    <string name="notification_before_adhan_offset">Minuter före adhan</string>
+    <string name="hijri_calendar_offset_label">Hijri-kalenderoffset</string>
     <string name="route_settings_test_notification">Testa meddelar</string>
     <string name="route_settings_sync_data">Uppdatera data</string>
     <string name="route_settings_sync_data_progress">Uppdaterar data (%1$d/%2$d)</string>
