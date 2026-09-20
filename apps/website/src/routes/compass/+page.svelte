@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { t } from '$lib/i18n';
 
 	/**
 	 * Compass page — points the way to the Qibla (Makkah).
@@ -38,7 +39,7 @@
 	let pageState = $state<PageState>('starting');
 	let heading = $state<number | null>(null); // smoothed, degrees
 	let qibla = $state<number | null>(null); // bearing from user location, degrees
-	let locationNote = $state('');
+	let locationFallback = $state(false);
 
 	const toRad = (d: number) => (d * Math.PI) / 180;
 	const toDeg = (r: number) => (r * 180) / Math.PI;
@@ -142,7 +143,7 @@
 		navigator.geolocation.getCurrentPosition(
 			(pos) => {
 				qibla = qiblaBearing(pos.coords.latitude, pos.coords.longitude);
-				locationNote = '';
+				locationFallback = false;
 			},
 			() => useFallback(),
 			{ timeout: 8000, maximumAge: 60000 }
@@ -151,7 +152,7 @@
 
 	function useFallback() {
 		qibla = qiblaBearing(FALLBACK.lat, FALLBACK.lon);
-		locationNote = `Ungefärlig riktning från ${FALLBACK.name}. Aktivera platstjänster för bättre noggrannhet.`;
+		locationFallback = true;
 	}
 
 	async function enableCompass() {
@@ -197,9 +198,11 @@
 <div class="flex flex-col items-center justify-center min-h-svh gap-5 px-6 pb-28">
 	{#if pageState === 'permission'}
 		<div class="flex flex-col items-center gap-4 text-center max-w-xs">
-			<p class="text-lg font-medium">Kompassen behöver åtkomst till telefonens sensorer</p>
-			<p class="text-sm opacity-60">Tryck på knappen och vrid sedan telefonen mot Qibla.</p>
-			<button class="btn btn-primary btn-lg" onclick={enableCompass}>Aktivera kompass</button>
+			<p class="text-lg font-medium">{t('route_compass_permission_message')}</p>
+			<p class="text-sm opacity-60">{t('route_compass_permission_hint')}</p>
+			<button class="btn btn-primary btn-lg" onclick={enableCompass}>
+				{t('route_compass_enable')}
+			</button>
 		</div>
 	{:else}
 		<!-- Rotating frame: dashed ring + N track true north; the Qibla arrow
@@ -225,7 +228,7 @@
 					fill={RING_COLOR}
 					font-size="15"
 					font-weight="600"
-					font-family="Inter, sans-serif">N</text
+					font-family="Inter, sans-serif">{t('route_compass_north_abbreviation')}</text
 				>
 				<!-- qibla arrow, fixed on the dial at the qibla bearing -->
 				<g style:transform="rotate({arrowRotation}deg)" style="transform-origin: {C}px {C}px">
@@ -243,17 +246,18 @@
 					{heading}°
 				</p>
 			{:else if pageState === 'no-compass'}
-				<p class="text-sm opacity-70 max-w-xs">
-					Ingen kompass hittades på den här enheten — öppna sidan på en mobiltelefon för
-					live-riktning.
-				</p>
+				<p class="text-sm opacity-70 max-w-xs">{t('route_compass_no_compass')}</p>
 			{/if}
 			{#if qibla !== null}
-				<p class="mt-1 font-mono text-sm tabular-nums opacity-80">Qibla {Math.round(qibla)}°</p>
-				<p class="text-xs opacity-50 mt-1">Vrid tills pilen pekar rakt upp</p>
+				<p class="mt-1 font-mono text-sm tabular-nums opacity-80">
+					{t('route_compass_qibla', { degrees: Math.round(qibla) })}
+				</p>
+				<p class="text-xs opacity-50 mt-1">{t('route_compass_rotate_hint')}</p>
 			{/if}
-			{#if locationNote}
-				<p class="text-xs opacity-50 mt-3 max-w-xs mx-auto">{locationNote}</p>
+			{#if locationFallback}
+				<p class="text-xs opacity-50 mt-3 max-w-xs mx-auto">
+					{t('route_compass_location_approximate', { city: FALLBACK.name })}
+				</p>
 			{/if}
 		</div>
 	{/if}
