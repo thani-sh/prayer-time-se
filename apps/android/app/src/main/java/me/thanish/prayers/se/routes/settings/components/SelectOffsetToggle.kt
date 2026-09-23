@@ -24,7 +24,7 @@ fun SelectOffsetToggle(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(R.string.route_settings_notifications),
+                text = stringResource(R.string.notification_before_adhan_enabled),
                 fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.weight(2f)

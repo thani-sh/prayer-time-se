@@ -30,7 +30,7 @@ fun HijriCalendarOffsetSlider(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(R.string.route_settings_hijri_calendar_offset_days),
+                text = stringResource(R.string.hijri_calendar_offset_label),
                 fontSize = 12.sp,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.weight(2f)

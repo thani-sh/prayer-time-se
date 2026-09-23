@@ -14,9 +14,9 @@
     <string name="route_settings_city">City</string>
     <string name="route_settings_method">Method</string>
     <string name="route_settings_time_format">Use 24-hour format</string>
-    <string name="route_settings_notifications">Notify before adhan</string>
-    <string name="route_settings_notifications_before_adhan">Minutes before adhan</string>
-    <string name="route_settings_hijri_calendar_offset_days">Hijri calendar offset</string>
+    <string name="notification_before_adhan_enabled">Notify before adhan</string>
+    <string name="notification_before_adhan_offset">Minutes before adhan</string>
+    <string name="hijri_calendar_offset_label">Hijri calendar offset</string>
     <string name="route_settings_test_notification">Test Notification</string>
     <string name="route_settings_sync_data">Refresh data</string>
     <string name="route_settings_sync_data_progress">Refreshing data (%1$d/%2$d)</string>

@@ -42,7 +42,7 @@ export const sv = {
 
 	// Settings — corrections
 	hijri_calendar_offset_label: 'Hijri-kalenderoffset',
-	hijri_calendar_offset_disabled: 'Av',
+	route_settings_hijri_calendar_offset_disabled: 'Av',
 	hijri_calendar_offset_template: '{days} dagar',
 
 	// Settings — about this website
@@ -50,7 +50,7 @@ export const sv = {
 	route_settings_about_details:
 		'Appen är öppen källkod och gratis att använda under MIT-licensen, och uppmuntrar alla att bidra eller dela feedback för att hjälpa till att förbättra den. Du kan utforska källkoden eller bidra via dess GitHub-arkivet.',
 	route_settings_open_github: 'Öppna GitHub-arkivet',
-	route_settings_report_errors: 'Rapportera fel och feedback',
+	route_settings_report_feedback: 'Rapportera fel och feedback',
 	route_settings_privacy_notice:
 		'Din integritet är viktig för oss! Genom att använda den här appen godkänner du vår Integritetspolicy — du är välkommen att läsa den.',
 	route_settings_read_privacy: 'Öppna integritetspolicyn',
